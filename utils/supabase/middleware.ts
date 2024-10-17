@@ -44,8 +44,9 @@ export const updateSession = async (request: NextRequest) => {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
-    if (request.nextUrl.pathname === "/" && !user.error) {
-      return NextResponse.redirect(new URL("/protected", request.url));
+    // Require login for the home page and redirect to sign-in if not logged in
+    if (request.nextUrl.pathname === "/" && user.error) {
+      return NextResponse.redirect("/sign-in");
     }
 
     return response;
