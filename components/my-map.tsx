@@ -1,7 +1,10 @@
 import React from "react";
-import {Map, MapProps} from '@vis.gl/react-google-maps';
+import {AdvancedMarker, Map, MapProps, Pin} from '@vis.gl/react-google-maps';
+import useGeolocation from "react-hook-geolocation";
+
 
 interface MyMapProps extends MapProps {
+    children: React.ReactNode;
 }
 
 const initial = {
@@ -9,13 +12,23 @@ const initial = {
     "lng": 34.783993916688004,
     "zoom": 14
 }
-export const MyMap: React.FC<MyMapProps> = (props) => {
+export const MyMap: React.FC<MyMapProps> = ({children, ...props}) => {
+    const geolocation = useGeolocation();
     return <Map
         style={{width: '100vw', height: '100vh'}}
-        defaultCenter={{lat: initial.lat, lng: initial.lng}}
+        mapId="my-map"
+        defaultCenter={{lat: geolocation.latitude || initial.lat, lng: geolocation.longitude || initial.lng}}
         defaultZoom={initial.zoom}
         gestureHandling={'greedy'}
         disableDefaultUI={true}
+        colorScheme="FOLLOW_SYSTEM"
         {...props}
-    />
+    >
+        {geolocation.latitude && geolocation.longitude && (
+            <AdvancedMarker position={{lat: geolocation.latitude, lng: geolocation.longitude}}>
+                <Pin />
+            </AdvancedMarker>
+        )}
+        {children}
+    </Map>
 }
