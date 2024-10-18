@@ -6,7 +6,7 @@ export type FooterState = "collapsed" | "open" | "full"
 const initialHeight = {
     collapsed: "auto",
     open: "60vh",
-    full: "90vh",
+    full: "100vh",
 }
 
 interface Created {
@@ -43,13 +43,14 @@ export const Footer: React.FC<Created> = ({children, header, state: externalStat
         }
     }
 
-    return <div ref={constraintsRef} className="fixed bottom-0 w-full m-3">
+    return <div ref={constraintsRef} className="fixed bottom-0 w-full p-3 my-3">
         <motion.div
             drag="y"
             dragConstraints={constraintsRef}
             onDragEnd={handleDragEnd}
             transition={{type: 'spring', stiffness: 200, damping: 20}} // Smooth animation
             className="bg-background min-h-12 rounded-3xl flex flex-col items-center justify-start overflow-hidden"
+            style={{ maxHeight: "calc(100vh - 7rem)" }}
             animate={{height: initialHeight[state]}}
         >
             <div
