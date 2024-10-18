@@ -17,7 +17,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, ...props}) => {
     const geolocation = useGeolocation();
     const theme = useTheme()
     return <Map
-        style={{ width: '100vw', height: '100vh', zIndex: 0 }}
+        style={{ width: '100vw', height: '100vh', zIndex: 0  }}
         mapId="my-map"
         defaultCenter={{lat: geolocation.latitude || initial.lat, lng: geolocation.longitude || initial.lng}}
         defaultZoom={initial.zoom}
