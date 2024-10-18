@@ -1,6 +1,7 @@
 import React from "react";
-import {AdvancedMarker, Map, MapProps, Pin} from '@vis.gl/react-google-maps';
+import {AdvancedMarker, ControlPosition, Map, MapControl, MapProps, Pin} from '@vis.gl/react-google-maps';
 import useGeolocation from "react-hook-geolocation";
+import {useTheme} from "next-themes";
 
 
 interface MyMapProps extends MapProps {
@@ -14,14 +15,14 @@ const initial = {
 }
 export const MyMap: React.FC<MyMapProps> = ({children, ...props}) => {
     const geolocation = useGeolocation();
+    const theme = useTheme()
     return <Map
-        style={{width: '100vw', height: '100vh'}}
+        style={{ width: '100vw', height: '100vh', zIndex: 0 }}
         mapId="my-map"
         defaultCenter={{lat: geolocation.latitude || initial.lat, lng: geolocation.longitude || initial.lng}}
         defaultZoom={initial.zoom}
-        gestureHandling={'greedy'}
-        disableDefaultUI={true}
-        colorScheme="FOLLOW_SYSTEM"
+        disableDefaultUI={false}
+        colorScheme={theme.theme?.toUpperCase()}
         {...props}
     >
         {geolocation.latitude && geolocation.longitude && (
