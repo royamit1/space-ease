@@ -22,7 +22,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, ...props}) => {
         defaultCenter={{lat: geolocation.latitude || initial.lat, lng: geolocation.longitude || initial.lng}}
         defaultZoom={initial.zoom}
         disableDefaultUI={false}
-        colorScheme={theme.theme?.toUpperCase()}
+        colorScheme={theme.resolvedTheme?.toUpperCase()}
         {...props}
     >
         {geolocation.latitude && geolocation.longitude && (
