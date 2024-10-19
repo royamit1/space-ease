@@ -1,9 +1,11 @@
+'use client';
 import { signInAction } from "@/app/actions";
 import { FormMessage, Message } from "@/components/form-message";
 import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import GoogleSignInButton from "@/components/ui/google_btn";
 
 export default function Login({ searchParams }: { searchParams: Message }) {
   return (
@@ -36,6 +38,7 @@ export default function Login({ searchParams }: { searchParams: Message }) {
         <SubmitButton pendingText="Signing In..." formAction={signInAction}>
           Sign in
         </SubmitButton>
+        <GoogleSignInButton />
         <FormMessage message={searchParams} />
       </div>
     </form>
