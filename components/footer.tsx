@@ -43,7 +43,7 @@ export const Footer: React.FC<Created> = ({children, header, state: externalStat
         }
     }
 
-    return <div ref={constraintsRef} className="fixed bottom-0 w-full p-3 my-3">
+    return <div ref={constraintsRef} className="fixed bottom-0 w-full p-3 my-3 z-10">
         <motion.div
             drag="y"
             dragConstraints={constraintsRef}
