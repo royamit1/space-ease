@@ -9,40 +9,53 @@ const initialHeight = {
     full: "100vh",
 }
 
+// Motion component for the footer.
 interface Created {
     header?: React.ReactNode;
     children?: React.ReactNode;
     state?: FooterState;
+    onStateChange?: (newState: FooterState) => void;
 }
 
-export const Footer: React.FC<Created> = ({children, header, state: externalState}) => {
+export const Footer: React.FC<Created> = ({children, header, state: externalState, onStateChange}) => {
     const [state, setState] = useState<FooterState>(externalState || 'collapsed')
     const constraintsRef = useRef(null)
 
+    // Update state when external state is provided.
     useEffect(() => {
         if (externalState) {
             setState(externalState)
         }
     }, [externalState])
 
+    // Create a drag constraints object to limit the drag area.
+    const handleStateChange = (newState: FooterState) => {
+        setState(newState)
+        if (onStateChange) {
+            onStateChange(newState)
+        }
+    }
+
+    // Handle drag event and change state when drag ends.
     const handleDragEnd = (_: any, info: PanInfo) => {
         const yOffset = info.offset.y
         const isUp = yOffset < -50;
         const isDown = yOffset > 50;
 
         if (state === 'collapsed' && isUp) {
-            setState('open')
+            handleStateChange('open')
         } else if (state === 'open') {
             if (isUp) {
-                setState('full')
+                handleStateChange('full')
             } else if (isDown) {
-                setState('collapsed')
+                handleStateChange('collapsed')
             }
         } else if (state === 'full' && isDown) {
-            setState('collapsed')
+            handleStateChange('collapsed')
         }
     }
 
+    // Render the footer component with header, children, and state.
     return <div ref={constraintsRef} className="fixed bottom-0 w-full p-3 my-3 z-10">
         <motion.div
             drag="y"
