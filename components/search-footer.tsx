@@ -16,10 +16,11 @@ export function SearchFooter() {
     ];
 
     const addresses = [
-        { id: 1, name: 'Dizengoff Street 101, Tel Aviv', price: '$10', contact: '123-456-7890', image: 'url_to_image_1' },
-        { id: 2, name: 'Rothschild Boulevard 20, Tel Aviv', price: '$15', contact: '987-654-3210', image: 'url_to_image_2' },
-        { id: 3, name: 'Florentin Street 12, Tel Aviv', price: '$12', contact: '555-123-4567', image: 'url_to_image_3' },
+        { id: 1, name: 'Dizengoff Street 101, Tel Aviv', price: '$10', availability: 'Available: 9:00 - 16:00' },
+        { id: 2, name: 'Rothschild Boulevard 20, Tel Aviv', price: '$15', availability: 'Available: 12:00 - 15:30' },
+        { id: 3, name: 'Florentin Street 12, Tel Aviv', price: '$12', availability: 'Available: 10:00 - 20:00' },
     ];
+
     // Handle sorting option selection
     const handleSortingOptionChange = (filter: FilterOption, event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedSortingOption((prev) => ({
@@ -63,13 +64,14 @@ export function SearchFooter() {
                     {addresses.map((address) => (
                         <li key={address.id} className="bg-white shadow-md p-4 rounded-lg flex items-center gap-4">
                             <div className="flex-1">
-                                <h3 className="text-sm font-semibold">{address.name}</h3> {/* Reduced text size */}
-                                <p className="text-gray-600 text-xs">Price: {address.price}</p> {/* Reduced text size */}
+                                <h3 className="text-sm font-semibold">{address.name}</h3>
+                                <p className="text-gray-600 text-xs">{address.availability}</p>
+                                <p className="text-gray-600 text-xs">Price: {address.price}</p>
                             </div>
                             <div className="flex flex-col items-end">
                                 <Button
-                                    className="mb-1 w-20 text-xs">Navigation</Button> {/* Set width and reduced text size */}
-                                <Button className="w-20 text-xs">Rent</Button> {/* Set width and reduced text size */}
+                                    className="mb-2 w-full h-8 text-xs">Navigation</Button>
+                                <Button className="h-8 w-full text-xs">Book Now</Button>
                             </div>
                         </li>
                     ))}
