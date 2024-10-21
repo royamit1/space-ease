@@ -1,7 +1,7 @@
 import {GeistSans} from "geist/font/sans";
 import {ThemeProvider} from "next-themes";
 import "./globals.css";
-import {APIProvider} from "@vis.gl/react-google-maps";
+import OneTapComponent from "@/components/google-onetap";
 
 const defaultUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
@@ -21,6 +21,7 @@ export default function RootLayout({
     return (
         <html lang="en" className={GeistSans.className} suppressHydrationWarning>
         <body className="bg-background text-foreground">
+        <OneTapComponent />
         <ThemeProvider
             attribute="class"
             defaultTheme="system"
