@@ -2,6 +2,7 @@ import {GeistSans} from "geist/font/sans";
 import {ThemeProvider} from "next-themes";
 import "./globals.css";
 import OneTapComponent from "@/components/google-onetap";
+import { Analytics } from '@vercel/analytics/react';
 
 const defaultUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
@@ -33,6 +34,7 @@ export default function RootLayout({
                 {children}
             </main>
         </ThemeProvider>
+        <Analytics />
         </body>
         </html>
     );
