@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-checkbox": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.2",
@@ -30,7 +31,9 @@
     "prettier": "^3.3.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-geolocation": "^1.1.0"
+    "react-hook-form": "^7.53.1",
+    "react-hook-geolocation": "^1.1.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/google-one-tap": "^1.2.6",

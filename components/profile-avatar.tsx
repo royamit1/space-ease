@@ -1,9 +1,4 @@
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {ThemeSwitcher} from "@/components/theme-switcher";
 import React from "react";
@@ -18,6 +13,8 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import {CreateParkingForm} from "@/components/create-parking-form";
+
 
 export function ProfileAvatar() {
     const router = useRouter()
@@ -73,6 +70,7 @@ export function ProfileAvatar() {
                         Add your vehicle details, location, and payment method.
                     </DialogDescription>
                 </DialogHeader>
+                <CreateParkingForm />
             </DialogContent>
         </Dialog>
     );
