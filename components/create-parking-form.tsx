@@ -1,45 +1,29 @@
-import {z} from "zod";
 import React from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
+import {createParkingSpot} from "@/app/actions";
+import {parkingFormSchema, ParkingFormSchema} from "@/schemas/parking-form-schema";
 
-const parkingFormSchema = z.object({
-    address: z.string().min(1).max(256),
-    longitude: z.number(),
-    latitude: z.number(),
-    availableFrom: z.coerce.date(),
-    availableUntil: z.coerce.date(),
-    price: z.coerce.number().positive(),
-    description: z.string().max(256),
-}).refine(data => data.availableFrom <= data.availableUntil, {
-    message: "Available until must be after available from",
-    path: ["availableFrom", "availableUntil"],
-});
-type ParkingFromSchema = z.infer<typeof parkingFormSchema>;
 export const CreateParkingForm: React.FC = () => {
-    const form = useForm<ParkingFromSchema>({
+    const form = useForm<ParkingFormSchema>({
         resolver: zodResolver(parkingFormSchema),
         defaultValues: {
             longitude: 0,
             latitude: 0,
-            availableFrom: new Date(),
-            availableUntil: new Date(),
+            availableFrom: new Date().toISOString(),
+            availableUntil: new Date().toISOString(),
             price: 10,
             description: "",
         },
     })
 
-    const onSubmit = (data: ParkingFromSchema) => console.log(data)
+    const onSubmit = (data: ParkingFormSchema) => createParkingSpot(data)
 
-    // @ts-ignore
-    // @ts-ignore
     return <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="flex flex-col gap-4">
-
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
             <FormField
                 control={form.control}
                 name="address"
@@ -99,9 +83,9 @@ export const CreateParkingForm: React.FC = () => {
                             <FormLabel>Available From</FormLabel>
                             <FormControl>
                                 {/* @ts-ignore */}
-                                <Input {...field} type="date"/>
+                                <Input {...field}/>
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage/>
                         </FormItem>
                     )}/>
                 <FormField
@@ -112,9 +96,9 @@ export const CreateParkingForm: React.FC = () => {
                             <FormLabel>Available Until</FormLabel>
                             <FormControl>
                                 {/* @ts-ignore */}
-                                <Input {...field} type="date"/>
+                                <Input {...field}/>
                             </FormControl>
-                            <FormMessage />
+                            <FormMessage/>
                         </FormItem>
                     )}/>
             </div>
@@ -128,7 +112,7 @@ export const CreateParkingForm: React.FC = () => {
                         <FormControl>
                             <Input {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage/>
                     </FormItem>
                 )}/>
             <FormField
@@ -140,11 +124,10 @@ export const CreateParkingForm: React.FC = () => {
                         <FormControl>
                             <Input {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage/>
                     </FormItem>
-                    )} />
+                )}/>
             <Button type="submit" className="w-full">Create Parking Spot</Button>
-            </div>
         </form>
     </Form>
 }
