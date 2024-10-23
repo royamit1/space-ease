@@ -73,7 +73,7 @@ export default function SlidingButton({ onComplete, buttonText = "Book Now" }: S
     return (
         <div
             ref={trackRef}
-            className="relative w-full h-14 bg-gray-200 rounded-full overflow-hidden"
+            className="relative w-full h-12 bg-gray-200 rounded-full overflow-hidden"
             role="slider"
             aria-valuemin={0}
             aria-valuemax={100}
