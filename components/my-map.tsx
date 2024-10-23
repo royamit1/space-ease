@@ -1,5 +1,13 @@
-import React, { useState, useEffect } from "react";
-import {AdvancedMarker, ControlPosition, Map, MapControl, MapProps, Pin} from '@vis.gl/react-google-maps';
+import React, { useState, useEffect, useRef } from "react";
+import {
+    AdvancedMarker,
+    ControlPosition,
+    Map,
+    MapCameraChangedEvent,
+    MapControl,
+    MapProps,
+    Pin
+} from '@vis.gl/react-google-maps';
 import useGeolocation from "react-hook-geolocation";
 import {useTheme} from "next-themes";
 
@@ -23,12 +31,22 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
         lng: geolocation.longitude || initial.lng,
     });
 
+    const mapRef = useRef<google.maps.Map | null>(null);
+
     // Update the map center when new search coordinates are provided
     useEffect(() => {
         if (searchCoordinates) {
             setCenter(searchCoordinates);
         }
     }, [searchCoordinates]);
+
+    // Handle center change to allow user interaction
+    const handleBoundsChanged = (event: MapCameraChangedEvent) => {
+        const newCenter = event.detail.center; // Use the center property from the event
+        if (newCenter) {
+            setCenter({ lat: newCenter.lat, lng: newCenter.lng }); // Access lat and lng from the center
+        }
+    };
 
     return <Map
         style={{ width: '100vw', height: '100vh', zIndex: 0  }}
@@ -37,6 +55,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
         defaultZoom={initial.zoom}
         disableDefaultUI={false}
         colorScheme={theme.resolvedTheme?.toUpperCase()}
+        onBoundsChanged={handleBoundsChanged}
         {...props}
     >
         {geolocation.latitude && geolocation.longitude && (
