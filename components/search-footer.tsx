@@ -1,7 +1,6 @@
 'use client'
 import React, {useState} from "react";
 import {Footer, FooterState} from "@/components/footer";
-import {Button} from "@/components/ui/button"
 import SlidingButton from "@/components/sliding-button";
 
 export type FilterOption = 'availability' | 'price' | 'nearby'
@@ -86,10 +85,9 @@ export function SearchFooter() {
             onStateChange={handleFooterStateChange}
         >
             {selectedParking ? ( // Display the selected parking details if available
-                <div className="ps-4 pe-4  w-full">
+                <div className="ps-4 pe-4 w-full">
                     <div className="w-full h-40 bg-gray-300 rounded-lg mb-4">
-                        <img src={selectedParking.imageUrl} alt="Parking Spot"
-                             className="w-full h-full object-cover rounded-lg"/>
+                        <img src={selectedParking.imageUrl} alt="Parking Spot" className="w-full h-full object-cover rounded-lg"/>
                     </div>
                     <h3 className="text-lg font-semibold mb-1">{selectedParking.name}</h3>
                     <p className="text-gray-600 mb-1">{selectedParking.availability}</p>
@@ -100,11 +98,11 @@ export function SearchFooter() {
                         rows={3}
                     />
                     <div className="flex justify-between">
-                        <SlidingButton onComplete={handleSubmit} buttonText="Book Now" />
+                        <SlidingButton onComplete={handleSubmit} buttonText="Book Now"/>
                     </div>
-                    <p className="text-center text-sm m-4 cursor-pointer" onClick={() => {
+                    <p className="text-center text-sm m-6 cursor-pointer" onClick={() => {
                         setSelectedParking(null); // Reset selected parking to go back to the list
-                        setFooterState("open");
+                        setFooterState("open"); // Keep the footer open
                     }}>
                         &times; Close
                     </p>
@@ -116,7 +114,10 @@ export function SearchFooter() {
                             <li
                                 key={address.id}
                                 className="bg-white shadow-md p-4 rounded-lg flex items-center gap-4 cursor-pointer hover:bg-gray-200"
-                                onClick={() => handleParkingClick(address)} // Handle item click
+                                onClick={() => {
+                                    handleParkingClick(address); // Handle item click
+                                    // Do not change footer state here
+                                }}
                             >
                                 <div className="flex-1">
                                     <h3 className="text-sm font-semibold">{address.name}</h3>
@@ -128,29 +129,14 @@ export function SearchFooter() {
                     </ul>
                 </div>
             )}
+            {/* Conditionally render the copyright text based on selectedParking state */}
+            {!selectedParking && (
+                <p className="text-center text-sm m-3" onClick={() => setFooterState("collapsed")}>
+                    &copy; 2024 Space-Ease. All rights reserved.
+                </p>
+            )}
         </Footer>
     );
+
+
 }
-
-
-// <div className="flex-grow bg-gray-100 w-full p-3 overflow-y-auto h-60">
-//     <ul className="space-y-2">
-//         {addresses.map((address) => (
-//             <li key={address.id} className="bg-white shadow-md p-4 rounded-lg flex items-center gap-4">
-//                 <div className="flex-1">
-//                     <h3 className="text-sm font-semibold">{address.name}</h3>
-//                     <p className="text-gray-600 text-xs">{address.availability}</p>
-//                     <p className="text-gray-600 text-xs">Price: {address.price}</p>
-//                 </div>
-//                 <div className="flex flex-col items-end">
-//                     <Button
-//                         className="mb-2 w-full h-8 text-xs">Navigation</Button>
-//                     <Button className="h-8 w-full text-xs">Book Now</Button>
-//                 </div>
-//             </li>
-//         ))}
-//     </ul>
-// </div>
-// <p className="text-center text-sm m-3" onClick={() => setFooterState("collapsed")}>
-//     &copy; 2024 Space-Ease. All rights reserved.
-// </p>
