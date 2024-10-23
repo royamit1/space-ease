@@ -15,7 +15,7 @@ interface Parking {
 export function SearchFooter() {
     const [footerState, setFooterState] = useState<FooterState>("collapsed")
     const [selectedSortingOption, setSelectedSortingOption] = useState<{ [key in FilterOption]?: string }>({});
-    const [selectedParking, setSelectedParking] = useState<any>(null); // State to track the selected parking item
+    const [selectedParking, setSelectedParking] = useState<Parking | null>(null);
 
     const filterOptions: { id: FilterOption; label: string; options: string[] }[] = [
         {id: 'availability', label: 'Availability', options: ['Available Now', 'Available Soon', 'Not Available']},
