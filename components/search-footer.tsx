@@ -2,6 +2,7 @@
 import React, {useState} from "react";
 import {Footer, FooterState} from "@/components/footer";
 import {Button} from "@/components/ui/button"
+import SlidingButton from "@/components/sliding-button";
 
 export type FilterOption = 'availability' | 'price' | 'nearby'
 
@@ -48,6 +49,11 @@ export function SearchFooter() {
         setFooterState("open"); // Change state to full to show details
     };
 
+    const handleSubmit = () => {
+        console.log('Form submitted')
+        // Here you would typically send the data to your server
+    }
+
     // Render the search footer component with select boxes for filter options and footer state.
     return (
         <Footer
@@ -80,15 +86,23 @@ export function SearchFooter() {
             onStateChange={handleFooterStateChange}
         >
             {selectedParking ? ( // Display the selected parking details if available
-                <div className="p-4">
-                    <h3 className="text-lg font-semibold">{selectedParking.name}</h3>
-                    <p className="text-gray-600">Price: {selectedParking.price}</p>
-                    <p className="text-gray-600">{selectedParking.availability}</p>
-                    <div className="flex justify-end">
-                        <Button className="mr-2">Navigation</Button>
-                        <Button>Book Now</Button>
+                <div className="ps-4 pe-4  w-full">
+                    <div className="w-full h-40 bg-gray-300 rounded-lg mb-4">
+                        <img src={selectedParking.imageUrl} alt="Parking Spot"
+                             className="w-full h-full object-cover rounded-lg"/>
                     </div>
-                    <p className="text-center text-sm m-3 cursor-pointer" onClick={() => {
+                    <h3 className="text-lg font-semibold mb-1">{selectedParking.name}</h3>
+                    <p className="text-gray-600 mb-1">{selectedParking.availability}</p>
+                    <p className="text-gray-600 mb-2">Price: {selectedParking.price}</p>
+                    <textarea
+                        placeholder="Add a description here..."
+                        className="w-full p-2 border border-gray-300 rounded-md resize-none mb-4"
+                        rows={3}
+                    />
+                    <div className="flex justify-between">
+                        <SlidingButton onComplete={handleSubmit} buttonText="Book Now" />
+                    </div>
+                    <p className="text-center text-sm m-4 cursor-pointer" onClick={() => {
                         setSelectedParking(null); // Reset selected parking to go back to the list
                         setFooterState("open");
                     }}>
