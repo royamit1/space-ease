@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
@@ -20,6 +20,32 @@ export const CreateParkingForm: React.FC = () => {
         },
     })
 
+    const addressInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if (typeof window !== "undefined" && window.google) {
+            const autocomplete = new window.google.maps.places.Autocomplete(
+                addressInputRef.current as HTMLInputElement,
+                { types: ["address"] }
+            );
+
+            autocomplete.addListener("place_changed", () => {
+                const place = autocomplete.getPlace();
+
+                // Ensure place and geometry are defined
+                if (place.geometry && place.geometry.location) {
+                    const latitude = place.geometry.location.lat();
+                    const longitude = place.geometry.location.lng();
+                    form.setValue("latitude", latitude);
+                    form.setValue("longitude", longitude);
+                }
+
+                // Always set the address, even if geometry is missing
+                form.setValue("address", place.formatted_address || "");
+            });
+        }
+    }, [form]);
+
     const onSubmit = (data: ParkingFormSchema) => createParkingSpot(data)
 
     return <Form {...form}>
@@ -31,7 +57,7 @@ export const CreateParkingForm: React.FC = () => {
                     <FormItem>
                         <FormLabel>Address</FormLabel>
                         <FormControl>
-                            <Input {...field} />
+                            <Input {...field} ref={addressInputRef} placeholder="Search for an address" />
                         </FormControl>
                         <FormDescription>
                             The parking spot closest address
