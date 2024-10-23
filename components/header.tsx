@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {cn} from "@/utils/cn";
 import {SquareParking} from "lucide-react";
 import SearchBar from "@/components/search-bar";

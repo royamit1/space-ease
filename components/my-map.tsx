@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
     AdvancedMarker,
-    ControlPosition,
     Map,
     MapCameraChangedEvent,
-    MapControl,
     MapProps,
     Pin
 } from '@vis.gl/react-google-maps';
@@ -30,8 +28,6 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
         lat: geolocation.latitude || initial.lat,
         lng: geolocation.longitude || initial.lng,
     });
-
-    const mapRef = useRef<google.maps.Map | null>(null);
 
     // Update the map center when new search coordinates are provided
     useEffect(() => {
