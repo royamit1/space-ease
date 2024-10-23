@@ -16,7 +16,10 @@ export const Header: React.FC<HeaderProps> = ({ className, onSearch }) => {
             <h1 className="hidden lg:block">SpaceEase</h1>
         </div>
         <div className="flex-grow">
-            <SearchBar onSearch={onSearch}/>
+            <SearchBar onSearch={(lat, lng) => {
+                console.log("Header received search:", lat, lng);
+                onSearch(lat, lng);
+            }} />
         </div>
         <ProfileAvatar/>
     </div>;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
     AdvancedMarker,
     Map,
@@ -9,10 +9,9 @@ import {
 import useGeolocation from "react-hook-geolocation";
 import {useTheme} from "next-themes";
 
-
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
-    searchCoordinates?: { lat: number; lng: number };
+    searchCoordinates?: { lat: number; lng: number } | null; // Allow null
 }
 
 const initial = {
@@ -20,6 +19,8 @@ const initial = {
     "lng": 34.783993916688004,
     "zoom": 14
 }
+
+// This component uses react-hook-geolocation to get the user's current location and provides a map with the current location centered'
 export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...props}) => {
     const geolocation = useGeolocation();
     const theme = useTheme()
@@ -32,22 +33,23 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
     // Update the map center when new search coordinates are provided
     useEffect(() => {
         if (searchCoordinates) {
+            console.log("Centering map to:", searchCoordinates); // Debugging line
             setCenter(searchCoordinates);
         }
     }, [searchCoordinates]);
 
     // Handle center change to allow user interaction
     const handleBoundsChanged = (event: MapCameraChangedEvent) => {
-        const newCenter = event.detail.center; // Use the center property from the event
+        const newCenter = event.detail.center;
         if (newCenter) {
-            setCenter({ lat: newCenter.lat, lng: newCenter.lng }); // Access lat and lng from the center
+            setCenter({ lat: newCenter.lat, lng: newCenter.lng });
         }
     };
 
     return <Map
         style={{ width: '100vw', height: '100vh', zIndex: 0  }}
         mapId="my-map"
-        defaultCenter={{lat: geolocation.latitude || initial.lat, lng: geolocation.longitude || initial.lng}}
+        center={center}
         defaultZoom={initial.zoom}
         disableDefaultUI={false}
         colorScheme={theme.resolvedTheme?.toUpperCase()}
