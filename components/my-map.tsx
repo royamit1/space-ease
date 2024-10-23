@@ -40,7 +40,12 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
         {...props}
     >
         {geolocation.latitude && geolocation.longitude && (
-            <AdvancedMarker position={{lat: geolocation.latitude, lng: geolocation.longitude}}>
+            <AdvancedMarker position={{ lat: geolocation.latitude, lng: geolocation.longitude }}>
+                <Pin />
+            </AdvancedMarker>
+        )}
+        {searchCoordinates && (
+            <AdvancedMarker position={searchCoordinates}>
                 <Pin />
             </AdvancedMarker>
         )}
