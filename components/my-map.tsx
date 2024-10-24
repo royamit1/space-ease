@@ -9,9 +9,18 @@ import {
 import useGeolocation from "react-hook-geolocation";
 import {useTheme} from "next-themes";
 
+// Parking interface
+interface Parking {
+    id: number;
+    name: string;
+    lat: number;
+    lng: number;
+}
+
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
-    searchCoordinates?: { lat: number; lng: number } | null; // Allow null
+    searchCoordinates?: { lat: number; lng: number } | null;
+    parkingSpots: Parking[];
 }
 
 const initial = {
@@ -21,7 +30,7 @@ const initial = {
 }
 
 // This component uses react-hook-geolocation to get the user's current location and provides a map with the current location centered'
-export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...props}) => {
+export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, parkingSpots, ...props}) => {
     const geolocation = useGeolocation();
     const theme = useTheme()
 
@@ -33,7 +42,6 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
     // Update the map center when new search coordinates are provided
     useEffect(() => {
         if (searchCoordinates) {
-            console.log("Centering map to:", searchCoordinates); // Debugging line
             setCenter(searchCoordinates);
         }
     }, [searchCoordinates]);
@@ -56,6 +64,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
         onBoundsChanged={handleBoundsChanged}
         {...props}
     >
+        {/* User location marker */}
         {geolocation.latitude && geolocation.longitude && (
             <AdvancedMarker position={{ lat: geolocation.latitude, lng: geolocation.longitude }}>
                 <Pin />
@@ -66,6 +75,15 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
                 <Pin />
             </AdvancedMarker>
         )}
+        {/* Render markers for each parking spot */}
+        {parkingSpots.map(parking => (
+            <AdvancedMarker
+                key={parking.id}
+                position={{ lat: parking.lat, lng: parking.lng }}
+            >
+                <Pin />
+            </AdvancedMarker>
+        ))}
         {children}
     </Map>
 }
