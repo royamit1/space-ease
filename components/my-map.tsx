@@ -38,6 +38,10 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
         }
     }, [searchCoordinates]);
 
+    useEffect(() => {
+
+    }, [])
+
     // Handle center change to allow user interaction
     const handleBoundsChanged = (event: MapCameraChangedEvent) => {
         const newCenter = event.detail.center;
