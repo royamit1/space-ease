@@ -1,7 +1,7 @@
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {ThemeSwitcher} from "@/components/theme-switcher";
-import React from "react";
+import React from "react"
 import {Button} from "./ui/button";
 import {createClient} from "@/utils/supabase/client";
 import {useRouter} from 'next/navigation'

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "ParkingSpot" ALTER COLUMN "createdAt" SET DEFAULT CURRENT_TIMESTAMP;
