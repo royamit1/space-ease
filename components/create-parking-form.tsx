@@ -6,6 +6,7 @@ import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {createParkingSpot} from "@/app/actions";
 import {parkingFormSchema, ParkingFormSchema} from "@/schemas/parking-form-schema";
+import { redirect } from "next/navigation";
 
 export const CreateParkingForm: React.FC = () => {
     const form = useForm<ParkingFormSchema>({
@@ -17,6 +18,7 @@ export const CreateParkingForm: React.FC = () => {
             availableUntil: new Date().toISOString(),
             price: 10,
             description: "",
+            address: "",
         },
     })
 
@@ -46,7 +48,10 @@ export const CreateParkingForm: React.FC = () => {
         }
     }, [form]);
 
-    const onSubmit = (data: ParkingFormSchema) => createParkingSpot(data)
+    const onSubmit = async (data: ParkingFormSchema) => {
+        await createParkingSpot(data);
+        // close
+    }
 
     return <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
