@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import {
     AdvancedMarker,
     Map,
@@ -8,6 +8,7 @@ import {
 } from '@vis.gl/react-google-maps';
 import useGeolocation from "react-hook-geolocation";
 import {useTheme} from "next-themes";
+import {useParkingSpots} from "@/hooks/useParkingSpots";
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
@@ -24,6 +25,7 @@ const initial = {
 export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...props}) => {
     const geolocation = useGeolocation();
     const theme = useTheme()
+    const parkingSpots = useParkingSpots();
 
     const [center, setCenter] = useState<{ lat: number; lng: number }>({
         lat: geolocation.latitude || initial.lat,
@@ -42,12 +44,12 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
     const handleBoundsChanged = (event: MapCameraChangedEvent) => {
         const newCenter = event.detail.center;
         if (newCenter) {
-            setCenter({ lat: newCenter.lat, lng: newCenter.lng });
+            setCenter({lat: newCenter.lat, lng: newCenter.lng});
         }
     };
 
     return <Map
-        style={{ width: '100vw', height: '100vh', zIndex: 0  }}
+        style={{width: '100vw', height: '100vh', zIndex: 0}}
         mapId="my-map"
         center={center}
         defaultZoom={initial.zoom}
@@ -56,16 +58,26 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
         onBoundsChanged={handleBoundsChanged}
         {...props}
     >
+        {/* User location marker */}
         {geolocation.latitude && geolocation.longitude && (
-            <AdvancedMarker position={{ lat: geolocation.latitude, lng: geolocation.longitude }}>
-                <Pin />
+            <AdvancedMarker position={{lat: geolocation.latitude, lng: geolocation.longitude}}>
+                <Pin/>
             </AdvancedMarker>
         )}
         {searchCoordinates && (
             <AdvancedMarker position={searchCoordinates}>
-                <Pin />
+                <Pin/>
             </AdvancedMarker>
         )}
+        {/* Render markers for each parking spot */}
+        {parkingSpots.map(parking => (
+            <AdvancedMarker
+                key={parking.id}
+                position={{lat: parking.lat, lng: parking.lng}}
+            >
+                <Pin/>
+            </AdvancedMarker>
+        ))}
         {children}
     </Map>
 }
