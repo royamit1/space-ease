@@ -2,6 +2,7 @@
 import React, {useState} from "react";
 import {Footer, FooterState} from "@/components/footer";
 import SlidingButton from "@/components/sliding-button";
+import {ParkingList} from "@/components/parking-list";
 
 export type FilterOption = 'availability' | 'price' | 'nearby'
 
@@ -87,7 +88,8 @@ export function SearchFooter() {
             {selectedParking ? ( // Display the selected parking details if available
                 <div className="ps-4 pe-4 w-full">
                     <div className="w-full h-40 bg-gray-300 rounded-lg mb-4">
-                        <img src={selectedParking.imageUrl} alt="Parking Spot" className="w-full h-full object-cover rounded-lg"/>
+                        <img src={selectedParking.imageUrl} alt="Parking Spot"
+                             className="w-full h-full object-cover rounded-lg"/>
                     </div>
                     <h3 className="text-lg font-semibold mb-1">{selectedParking.name}</h3>
                     <p className="text-gray-600 mb-1">{selectedParking.availability}</p>
@@ -108,26 +110,7 @@ export function SearchFooter() {
                     </p>
                 </div>
             ) : (
-                <div className="flex-grow bg-gray-100 w-full p-3 overflow-y-auto h-60">
-                    <ul className="space-y-2">
-                        {addresses.map((address) => (
-                            <li
-                                key={address.id}
-                                className="bg-white shadow-md p-4 rounded-lg flex items-center gap-4 cursor-pointer hover:bg-gray-200"
-                                onClick={() => {
-                                    handleParkingClick(address); // Handle item click
-                                    // Do not change footer state here
-                                }}
-                            >
-                                <div className="flex-1">
-                                    <h3 className="text-sm font-semibold">{address.name}</h3>
-                                    <p className="text-gray-600 text-xs">{address.availability}</p>
-                                    <p className="text-gray-600 text-xs">Price: {address.price}</p>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                <ParkingList addresses={addresses} setSelectedParking={setSelectedParking}/>
             )}
             {/* Conditionally render the copyright text based on selectedParking state */}
             {!selectedParking && (
