@@ -6,6 +6,7 @@ import {APIProvider} from "@vis.gl/react-google-maps";
 import {Header} from "@/components/header";
 import {SearchFooter} from "@/components/search-footer";
 import Script from "next/script";
+import './styles/styles.css';
 
 
 const parkingSpots = [

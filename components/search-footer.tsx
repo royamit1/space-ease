@@ -1,59 +1,16 @@
-'use client';
+'use client'
 import React, {useState} from "react";
 import {Footer, FooterState} from "@/components/footer";
-import {FilterSelection} from "@/components/filter-selection";
-import {ParkingDetails} from "@/components/parking-details";
 import {ParkingList} from "@/components/parking-list";
+import FilterSelection, {FilterOption} from "@/components/filter-selection";
+import ParkingDetails from "@/components/parking-details";
+import {Parking, useParkingSpots} from "@/hooks/useParkingSpots"; // Import your custom hook
 
-export type FilterOption = 'availability' | 'price' | 'nearby'
-
-export interface Parking {
-    id: number;
-    name: string;
-    price: string;
-    availability: string;
-    imageUrl?: string;
-    lat: number;
-    lng: number;
-}
-
-const addresses: Parking[] = [
-    {
-        id: 1,
-        name: 'Dizengoff Street 101, Tel Aviv',
-        price: '$10',
-        availability: 'Available: 9:00 - 16:00',
-        lat: 32.080480,
-        lng: 34.780527
-    },
-    {
-        id: 2,
-        name: 'Rothschild Boulevard 20, Tel Aviv',
-        price: '$15',
-        availability: 'Available: 12:00 - 15:30',
-        lat: 32.065556,
-        lng: 34.775361
-    },
-    {
-        id: 3,
-        name: 'Florentin Street 12, Tel Aviv',
-        price: '$12',
-        availability: 'Available: 10:00 - 20:00',
-        lat: 32.056210,
-        lng: 34.769918
-    },
-];
-
-
-export const SearchFooter: React.FC = () => {
-    const [footerState, setFooterState] = useState<FooterState>("collapsed");
-    const [selectedSortingOption, setSelectedSortingOption] = useState<{ [key in FilterOption]?: string; }>({});
+export function SearchFooter() {
+    const parkingSpots = useParkingSpots(); // Get parking spots from the hook
+    const [footerState, setFooterState] = useState<FooterState>("collapsed")
+    const [selectedSortingOption, setSelectedSortingOption] = useState<{ [key in FilterOption]?: string }>({});
     const [selectedParking, setSelectedParking] = useState<Parking | null>(null);
-
-    // Handle footer state change and update selected filter if necessary.
-    const handleFooterStateChange = (newState: FooterState) => {
-        setFooterState(newState);
-    };
 
     // Handle sorting option selection
     const handleSortingOptionChange = (filter: FilterOption, event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -63,15 +20,14 @@ export const SearchFooter: React.FC = () => {
         }));
     };
 
-    // Handle clicking on a parking item to show details
-    const handleParkingClick = (parking: any) => {
-        setSelectedParking(parking);
-        setFooterState("open"); // Change state to full to show details
+    const handleCloseParkingDetails = () => {
+        setSelectedParking(null); // Reset selected parking
+        setFooterState("open"); // Open the footer
     };
 
-    const handleClose = () => {
-        setSelectedParking(null);
-        setFooterState("open");
+    // Handle footer state change and update selected filter if necessary.
+    const handleFooterStateChange = (newState: FooterState) => {
+        setFooterState(newState);
     };
 
     const handleSubmit = () => {
@@ -83,16 +39,26 @@ export const SearchFooter: React.FC = () => {
     return (
         <Footer
             header={
-                selectedParking ? null : <FilterSelection selectedSortingOption={selectedSortingOption}
-                                                          handleSortingOptionChange={handleSortingOptionChange}/>
+                selectedParking ? null : (
+                    <FilterSelection
+                        selectedSortingOption={selectedSortingOption}
+                        handleSortingOptionChange={handleSortingOptionChange}
+                    />
+                )
             }
             state={footerState}
             onStateChange={handleFooterStateChange}
         >
-            {selectedParking ? (
-                <ParkingDetails selectedParking={selectedParking} handleSubmit={handleSubmit} onClose={handleClose}/>
+            {selectedParking ? ( // Display the selected parking details if available
+                <ParkingDetails
+                    parking={selectedParking}
+                    onClose={handleCloseParkingDetails}
+                    onSubmit={handleSubmit}
+                />
             ) : (
-                <ParkingList addresses={addresses} onParkingClick={handleParkingClick}/>
+                <ParkingList
+                    addresses={parkingSpots}
+                    setSelectedParking={setSelectedParking}/>
             )}
             {/* Conditionally render the copyright text based on selectedParking state */}
             {!selectedParking && (
@@ -102,4 +68,6 @@ export const SearchFooter: React.FC = () => {
             )}
         </Footer>
     );
+
+
 }
