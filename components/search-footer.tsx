@@ -1,15 +1,16 @@
 'use client'
 import React, {useState} from "react";
 import {Footer, FooterState} from "@/components/footer";
-import SlidingButton from "@/components/sliding-button";
 import {ParkingList} from "@/components/parking-list";
 import FilterSelection, {FilterOption} from "@/components/filter-selection";
+import ParkingDetails from "@/components/parking-details"; // Import your ParkingDetails component
 
-interface Parking {
+export interface Parking {
     id: number;
     name: string;
     price: string;
     availability: string;
+    imageUrl?: string;
 }
 
 export function SearchFooter() {
@@ -29,6 +30,11 @@ export function SearchFooter() {
             ...prev,
             [filter]: event.target.value,
         }));
+    };
+
+    const handleCloseParkingDetails = () => {
+        setSelectedParking(null); // Reset selected parking
+        setFooterState("open"); // Open the footer
     };
 
     // Handle footer state change and update selected filter if necessary.
@@ -56,29 +62,11 @@ export function SearchFooter() {
             onStateChange={handleFooterStateChange}
         >
             {selectedParking ? ( // Display the selected parking details if available
-                <div className="ps-4 pe-4 w-full">
-                    <div className="w-full h-40 bg-gray-300 rounded-lg mb-4">
-                        <img src={selectedParking.imageUrl} alt="Parking Spot"
-                             className="w-full h-full object-cover rounded-lg"/>
-                    </div>
-                    <h3 className="text-lg font-semibold mb-1">{selectedParking.name}</h3>
-                    <p className="text-gray-600 mb-1">{selectedParking.availability}</p>
-                    <p className="text-gray-600 mb-2">Price: {selectedParking.price}</p>
-                    <textarea
-                        placeholder="Add a description here..."
-                        className="w-full p-2 border border-gray-300 rounded-md resize-none mb-4"
-                        rows={3}
-                    />
-                    <div className="flex justify-between">
-                        <SlidingButton onComplete={handleSubmit} buttonText="Book Now"/>
-                    </div>
-                    <p className="text-center text-sm m-6 cursor-pointer" onClick={() => {
-                        setSelectedParking(null); // Reset selected parking to go back to the list
-                        setFooterState("open"); // Keep the footer open
-                    }}>
-                        &times; Close
-                    </p>
-                </div>
+                <ParkingDetails
+                    parking={selectedParking}
+                    onClose={handleCloseParkingDetails}
+                    onSubmit={handleSubmit}
+                />
             ) : (
                 <ParkingList addresses={addresses} setSelectedParking={setSelectedParking}/>
             )}

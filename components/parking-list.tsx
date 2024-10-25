@@ -1,18 +1,12 @@
 import React from "react";
-
-interface Parking {
-    id: number;
-    name: string;
-    price: string;
-    availability: string;
-}
+import {Parking} from "@/components/search-footer";
 
 interface ParkingListProps {
     addresses: Parking[];
     setSelectedParking: React.Dispatch<React.SetStateAction<Parking | null>>;
 }
 
-export function ParkingList({ addresses, setSelectedParking }: ParkingListProps) {
+export function ParkingList({addresses, setSelectedParking}: ParkingListProps) {
     return (
         <div className="flex-grow bg-gray-100 w-full p-3 overflow-y-auto h-60">
             <ul className="space-y-2">
