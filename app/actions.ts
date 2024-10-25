@@ -34,10 +34,15 @@ const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
     }
 }
 
-const fetchParkingSpots = async () => {
-    const parkingSpots = await db.parkingSpot.findMany();
-    console.log(parkingSpots)
+const fetchAvailableParkingSpots = async () => {
+    const now = new Date();
+    const parkingSpots = await db.parkingSpot.findMany({
+        where: {
+            startTime: { lte: now },
+            endTime: { gte: now },
+        },
+    });
     return parkingSpots;
 }
 
-export { createParkingSpot, fetchParkingSpots }
+export { createParkingSpot, fetchAvailableParkingSpots }

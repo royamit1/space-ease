@@ -8,7 +8,7 @@ import {
 } from '@vis.gl/react-google-maps';
 import useGeolocation from "react-hook-geolocation";
 import { useTheme } from "next-themes";
-import { fetchParkingSpots } from "@/app/actions";
+import { fetchAvailableParkingSpots } from "@/app/actions";
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
@@ -56,7 +56,7 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
     // Fetch parking spots and set in state
     useEffect(() => {
         const getAllParkingSpots = async () => {
-            const spots : parkingSpot[] = await fetchParkingSpots();
+            const spots : parkingSpot[] = await fetchAvailableParkingSpots();
             setParkingSpots(spots);
         };
         getAllParkingSpots();
