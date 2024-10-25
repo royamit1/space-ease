@@ -6,6 +6,8 @@ export interface Parking {
     price: string;
     availability: string;
     imageUrl?: string; // Optional if not needed for every use case
+    lat: number;
+    lng: number;
 }
 
 export function useParkingSpots() {
@@ -13,9 +15,46 @@ export function useParkingSpots() {
 
     // Sample data to simulate fetching from a database
     const sampleAddresses: Parking[] = [
-        {id: 1, name: 'Dizengoff Street 101, Tel Aviv', price: '$10', availability: 'Available: 9:00 - 16:00'},
-        {id: 2, name: 'Rothschild Boulevard 20, Tel Aviv', price: '$15', availability: 'Available: 12:00 - 15:30'},
-        {id: 3, name: 'Florentin Street 12, Tel Aviv', price: '$12', availability: 'Available: 10:00 - 20:00'},
+        {
+            id: 1,
+            name: 'Allenby Street 45, Tel Aviv',
+            price: '$8',
+            availability: 'Available: 8:00 - 18:00',
+            lat: 32.063568,
+            lng: 34.770569,
+        },
+        {
+            id: 2,
+            name: 'King George Street 65, Tel Aviv',
+            price: '$12',
+            availability: 'Available: 10:00 - 22:00',
+            lat: 32.072423,
+            lng: 34.774787,
+        },
+        {
+            id: 3,
+            name: 'Bograshov Street 33, Tel Aviv',
+            price: '$10',
+            availability: 'Available: 9:00 - 20:00',
+            lat: 32.080835,
+            lng: 34.768512,
+        },
+        {
+            id: 4,
+            name: 'Yigal Alon Street 159, Tel Aviv',
+            price: '$14',
+            availability: 'Available: 24 hours',
+            lat: 32.072559,
+            lng: 34.794019,
+        },
+        {
+            id: 5,
+            name: 'Hahashmonaim Street 96, Tel Aviv',
+            price: '$9',
+            availability: 'Available: 7:00 - 19:00',
+            lat: 32.068951,
+            lng: 34.784724,
+        },
     ];
 
     useEffect(() => {

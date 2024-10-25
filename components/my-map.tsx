@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import {
     AdvancedMarker,
     Map,
@@ -8,19 +8,11 @@ import {
 } from '@vis.gl/react-google-maps';
 import useGeolocation from "react-hook-geolocation";
 import {useTheme} from "next-themes";
-
-// Parking interface
-interface Parking {
-    id: number;
-    name: string;
-    lat: number;
-    lng: number;
-}
+import {useParkingSpots} from "@/hooks/useParkingSpots";
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
-    searchCoordinates?: { lat: number; lng: number } | null;
-    parkingSpots: Parking[];
+    searchCoordinates?: { lat: number; lng: number } | null; // Allow null
 }
 
 const initial = {
@@ -30,9 +22,10 @@ const initial = {
 }
 
 // This component uses react-hook-geolocation to get the user's current location and provides a map with the current location centered'
-export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, parkingSpots, ...props}) => {
+export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...props}) => {
     const geolocation = useGeolocation();
     const theme = useTheme()
+    const parkingSpots = useParkingSpots();
 
     const [center, setCenter] = useState<{ lat: number; lng: number }>({
         lat: geolocation.latitude || initial.lat,
@@ -42,6 +35,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, parkin
     // Update the map center when new search coordinates are provided
     useEffect(() => {
         if (searchCoordinates) {
+            console.log("Centering map to:", searchCoordinates); // Debugging line
             setCenter(searchCoordinates);
         }
     }, [searchCoordinates]);
@@ -50,12 +44,12 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, parkin
     const handleBoundsChanged = (event: MapCameraChangedEvent) => {
         const newCenter = event.detail.center;
         if (newCenter) {
-            setCenter({ lat: newCenter.lat, lng: newCenter.lng });
+            setCenter({lat: newCenter.lat, lng: newCenter.lng});
         }
     };
 
     return <Map
-        style={{ width: '100vw', height: '100vh', zIndex: 0  }}
+        style={{width: '100vw', height: '100vh', zIndex: 0}}
         mapId="my-map"
         center={center}
         defaultZoom={initial.zoom}
@@ -66,22 +60,22 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, parkin
     >
         {/* User location marker */}
         {geolocation.latitude && geolocation.longitude && (
-            <AdvancedMarker position={{ lat: geolocation.latitude, lng: geolocation.longitude }}>
-                <Pin />
+            <AdvancedMarker position={{lat: geolocation.latitude, lng: geolocation.longitude}}>
+                <Pin/>
             </AdvancedMarker>
         )}
         {searchCoordinates && (
             <AdvancedMarker position={searchCoordinates}>
-                <Pin />
+                <Pin/>
             </AdvancedMarker>
         )}
         {/* Render markers for each parking spot */}
         {parkingSpots.map(parking => (
             <AdvancedMarker
                 key={parking.id}
-                position={{ lat: parking.lat, lng: parking.lng }}
+                position={{lat: parking.lat, lng: parking.lng}}
             >
-                <Pin />
+                <Pin/>
             </AdvancedMarker>
         ))}
         {children}
