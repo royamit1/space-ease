@@ -1,5 +1,5 @@
 import React from "react";
-import {Parking} from "@/components/search-footer";
+import {Parking} from "@/hooks/useParkingSpots";
 
 interface ParkingListProps {
     addresses: Parking[];

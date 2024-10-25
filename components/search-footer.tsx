@@ -3,26 +3,14 @@ import React, {useState} from "react";
 import {Footer, FooterState} from "@/components/footer";
 import {ParkingList} from "@/components/parking-list";
 import FilterSelection, {FilterOption} from "@/components/filter-selection";
-import ParkingDetails from "@/components/parking-details"; // Import your ParkingDetails component
-
-export interface Parking {
-    id: number;
-    name: string;
-    price: string;
-    availability: string;
-    imageUrl?: string;
-}
+import ParkingDetails from "@/components/parking-details";
+import {Parking, useParkingSpots} from "@/hooks/useParkingSpots"; // Import your custom hook
 
 export function SearchFooter() {
+    const parkingSpots = useParkingSpots(); // Get parking spots from the hook
     const [footerState, setFooterState] = useState<FooterState>("collapsed")
     const [selectedSortingOption, setSelectedSortingOption] = useState<{ [key in FilterOption]?: string }>({});
     const [selectedParking, setSelectedParking] = useState<Parking | null>(null);
-
-    const addresses = [
-        {id: 1, name: 'Dizengoff Street 101, Tel Aviv', price: '$10', availability: 'Available: 9:00 - 16:00'},
-        {id: 2, name: 'Rothschild Boulevard 20, Tel Aviv', price: '$15', availability: 'Available: 12:00 - 15:30'},
-        {id: 3, name: 'Florentin Street 12, Tel Aviv', price: '$12', availability: 'Available: 10:00 - 20:00'},
-    ];
 
     // Handle sorting option selection
     const handleSortingOptionChange = (filter: FilterOption, event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -68,7 +56,9 @@ export function SearchFooter() {
                     onSubmit={handleSubmit}
                 />
             ) : (
-                <ParkingList addresses={addresses} setSelectedParking={setSelectedParking}/>
+                <ParkingList
+                    addresses={parkingSpots}
+                    setSelectedParking={setSelectedParking}/>
             )}
             {/* Conditionally render the copyright text based on selectedParking state */}
             {!selectedParking && (

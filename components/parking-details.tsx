@@ -1,6 +1,6 @@
 import React from 'react';
 import SlidingButton from "@/components/sliding-button";
-import {Parking} from "@/components/search-footer";
+import {Parking} from "@/hooks/useParkingSpots";
 
 interface ParkingDetailsProps {
     parking: Parking;
