@@ -3,8 +3,7 @@ import React, {useState} from "react";
 import {Footer, FooterState} from "@/components/footer";
 import SlidingButton from "@/components/sliding-button";
 import {ParkingList} from "@/components/parking-list";
-
-export type FilterOption = 'availability' | 'price' | 'nearby'
+import FilterSelection, {FilterOption} from "@/components/filter-selection";
 
 interface Parking {
     id: number;
@@ -17,12 +16,6 @@ export function SearchFooter() {
     const [footerState, setFooterState] = useState<FooterState>("collapsed")
     const [selectedSortingOption, setSelectedSortingOption] = useState<{ [key in FilterOption]?: string }>({});
     const [selectedParking, setSelectedParking] = useState<Parking | null>(null);
-
-    const filterOptions: { id: FilterOption; label: string; options: string[] }[] = [
-        {id: 'availability', label: 'Availability', options: ['Available Now', 'Available Soon', 'Not Available']},
-        {id: 'price', label: 'Price', options: ['$', '$-$$', '$-$$-$$$']},
-        {id: 'nearby', label: 'Nearby', options: ['< 1 minute', '< 5 minutes', '< 10 minutes']},
-    ];
 
     const addresses = [
         {id: 1, name: 'Dizengoff Street 101, Tel Aviv', price: '$10', availability: 'Available: 9:00 - 16:00'},
@@ -43,12 +36,6 @@ export function SearchFooter() {
         setFooterState(newState);
     };
 
-    // Handle clicking on a parking item to show details
-    const handleParkingClick = (parking: any) => {
-        setSelectedParking(parking);
-        setFooterState("open"); // Change state to full to show details
-    };
-
     const handleSubmit = () => {
         console.log('Form submitted')
         // Here you would typically send the data to your server
@@ -59,27 +46,10 @@ export function SearchFooter() {
         <Footer
             header={
                 selectedParking ? null : (
-                    <div className="flex gap-2 justify-between w-full px-4 mb-3">
-                        {filterOptions.map((option) => (
-                            <div key={option.id} className="flex-1">
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    {option.label}
-                                </label>
-                                <select
-                                    className="w-full p-2 border border-gray-300 rounded-md"
-                                    onChange={(event) => handleSortingOptionChange(option.id, event)}
-                                    value={selectedSortingOption[option.id] || ""}
-                                >
-                                    <option value="" disabled>Select {option.label}</option>
-                                    {option.options.map((sortOption) => (
-                                        <option key={sortOption} value={sortOption}>
-                                            {sortOption}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        ))}
-                    </div>
+                    <FilterSelection
+                        selectedSortingOption={selectedSortingOption}
+                        handleSortingOptionChange={handleSortingOptionChange}
+                    />
                 )
             }
             state={footerState}
