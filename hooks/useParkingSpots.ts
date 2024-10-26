@@ -14,7 +14,7 @@ export function useParkingSpots() {
     const [parkingSpots, setParkingSpots] = useState<Parking[]>([]);
 
     // Sample data to simulate fetching from a database
-    const sampleAddresses: Parking[] = [
+    const sampleParkingSpots: Parking[] = [
         {
             id: 1,
             name: 'Allenby Street 45, Tel Aviv',
@@ -63,7 +63,7 @@ export function useParkingSpots() {
             // Replace this with your actual fetch logic
             // const response = await fetch('/api/parking-spots');
             // const data = await response.json();
-            setParkingSpots(sampleAddresses); // For now, set the sample data
+            setParkingSpots(sampleParkingSpots); // For now, set the sample data
         };
 
         fetchParkingSpots();
