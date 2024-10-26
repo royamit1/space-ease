@@ -9,6 +9,7 @@ import {
 import useGeolocation from "react-hook-geolocation";
 import {useTheme} from "next-themes";
 import {useParkingSpots} from "@/hooks/useParkingSpots";
+import {useFooterState, useFooterStore} from "@/hooks/useFooterState";
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
@@ -26,6 +27,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
     const geolocation = useGeolocation();
     const theme = useTheme()
     const parkingSpots = useParkingSpots();
+    const [, setFooterState] = useFooterState();  // Zustand setter for FooterState
 
     const [center, setCenter] = useState<{ lat: number; lng: number }>({
         lat: geolocation.latitude || initial.lat,
@@ -46,6 +48,14 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
         if (newCenter) {
             setCenter({lat: newCenter.lat, lng: newCenter.lng});
         }
+    };
+
+    // Function to handle pin click and open DetailFooter
+    const handlePinClick = (parkingId: number) => {
+        setFooterState({
+            mode: {mode: "detail", id: parkingId},
+            size: "open"
+        });
     };
 
     return <Map
@@ -73,7 +83,8 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
         {parkingSpots.map(parking => (
             <AdvancedMarker
                 key={parking.id}
-                position={{lat: parking.lat, lng: parking.lng}}
+                position={{ lat: parking.lat, lng: parking.lng }}
+                onClick={() => handlePinClick(parking.id)}  // Trigger detail mode on pin click
             >
                 <Pin/>
             </AdvancedMarker>
