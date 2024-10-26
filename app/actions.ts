@@ -3,6 +3,7 @@ import { getSession } from "@/hooks/useSupabase";
 import db from "@/lib/db";
 import { ParkingFormSchema } from "@/schemas/parking-form-schema";
 import { createClient } from "@/utils/supabase/server";
+import { ParkingSpot } from "@prisma/client";
 
 const supabase = createClient();
 
@@ -36,7 +37,7 @@ const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
 
 const fetchAvailableParkingSpots = async () => {
     const now = new Date();
-    const parkingSpots = await db.parkingSpot.findMany({
+    const parkingSpots : ParkingSpot[] = await db.parkingSpot.findMany({
         where: {
             startTime: { lte: now },
             endTime: { gte: now },

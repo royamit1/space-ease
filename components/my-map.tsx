@@ -5,10 +5,12 @@ import {
     MapCameraChangedEvent,
     MapProps,
     Pin
-} from '@vis.gl/react-google-maps';
+} from "@vis.gl/react-google-maps";
 import useGeolocation from "react-hook-geolocation";
 import { useTheme } from "next-themes";
 import { fetchAvailableParkingSpots } from "@/app/actions";
+import { createClient } from "@/utils/supabase/client";
+import { ParkingSpot } from "@prisma/client";
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
@@ -16,14 +18,15 @@ interface MyMapProps extends MapProps {
 }
 
 const initial = {
-    "lat": 32.07656832175795,
-    "lng": 34.783993916688004,
-    "zoom": 14
-}
+    lat: 32.07656832175795,
+    lng: 34.783993916688004,
+    zoom: 14
+};
 
 export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...props }) => {
     const geolocation = useGeolocation();
-    const theme = useTheme();
+    const { resolvedTheme } = useTheme();
+    const supabase = createClient();
 
     const [center, setCenter] = useState<{ lat: number; lng: number }>({
         lat: geolocation.latitude || initial.lat,
@@ -31,7 +34,45 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
     });
 
     // State to store parking spots
-    const [parkingSpots, setParkingSpots] = useState<Array<parkingSpot>>([]);
+    const [parkingSpots, setParkingSpots] = useState<ParkingSpot[]>([]);
+
+    // Fetch initial parking spots and set up Supabase subscription
+    useEffect(() => {
+
+        const fetchSpots = async () => {
+            const spots = await fetchAvailableParkingSpots();
+            setParkingSpots(spots);
+        };
+
+        fetchSpots();
+
+        const subscription = supabase
+            .channel("parkingSpot-changes")
+            .on(
+                "postgres_changes",
+                {
+                    event: "INSERT",
+                    schema: "public",
+                    table: "ParkingSpot",
+                },
+                (payload) => {
+                    const newSpot = payload.new as ParkingSpot;
+                    console.log("New spot:", newSpot);
+
+                    if (isValidParkingSpot(newSpot)) {
+                        setParkingSpots((prevSpots) => [...prevSpots, newSpot]);
+                    } else {
+                        console.error("Invalid parking spot data:", newSpot);
+                    }
+                }
+            )
+            .subscribe();
+
+        // Cleanup function to unsubscribe
+        return () => {
+            supabase.removeChannel(subscription);
+        };
+    }, [supabase]);
 
     // Update the map center when new search coordinates are provided
     useEffect(() => {
@@ -39,28 +80,6 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
             setCenter(searchCoordinates);
         }
     }, [searchCoordinates]);
-
-    type parkingSpot = {
-        id: number;
-        userId: String;
-        latitude: number;
-        longitude: number;
-        description: String;
-        hourlyRate: number;
-        startTime: Date;
-        endTime: Date;
-        createdAt: Date;
-        updatedAt: Date;
-    }
-
-    // Fetch parking spots and set in state
-    useEffect(() => {
-        const getAllParkingSpots = async () => {
-            const spots : parkingSpot[] = await fetchAvailableParkingSpots();
-            setParkingSpots(spots);
-        };
-        getAllParkingSpots();
-    }, []);
 
     // Handle center change to allow user interaction
     const handleBoundsChanged = (event: MapCameraChangedEvent) => {
@@ -70,14 +89,24 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
         }
     };
 
+    // Function to validate parking spot data
+    const isValidParkingSpot = (spot: ParkingSpot): boolean => {
+        return (
+            typeof spot.latitude === "number" &&
+            typeof spot.longitude === "number" &&
+            !isNaN(spot.latitude) &&
+            !isNaN(spot.longitude)
+        );
+    };
+
     return (
         <Map
-            style={{ width: '100vw', height: '100vh', zIndex: 0 }}
+            style={{ width: "100vw", height: "100vh", zIndex: 0 }}
             mapId="my-map"
             center={center}
             defaultZoom={initial.zoom}
             disableDefaultUI={false}
-            colorScheme={theme.resolvedTheme?.toUpperCase()}
+            colorScheme={resolvedTheme?.toUpperCase()}
             onBoundsChanged={handleBoundsChanged}
             {...props}
         >
@@ -93,8 +122,11 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
             )}
 
             {/* Render a marker for each parking spot */}
-            {parkingSpots.map((spot, index) => (
-                <AdvancedMarker key={index} position={{ lat: spot.latitude, lng: spot.longitude }}>
+            {parkingSpots.map((spot) => (
+                <AdvancedMarker
+                    key={spot.id}
+                    position={{ lat: spot.latitude, lng: spot.longitude }}
+                >
                     <Pin />
                 </AdvancedMarker>
             ))}
