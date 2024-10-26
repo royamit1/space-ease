@@ -11,7 +11,6 @@ import { useTheme } from "next-themes";
 import { fetchAvailableParkingSpots } from "@/app/actions";
 import { createClient } from "@/utils/supabase/client";
 import { ParkingSpot } from "@prisma/client";
-import {useParkingSpots} from "@/hooks/useParkingSpots";
 import {useFooterState} from "@/hooks/useFooterState";
 
 interface MyMapProps extends MapProps {
@@ -29,7 +28,7 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
     const geolocation = useGeolocation();
     const supabase = createClient();
     const theme = useTheme()
-    const parkingSpots = useParkingSpots();
+    // const parkingSpots = useParkingSpots();
     const [, setFooterState] = useFooterState();  // Zustand setter for FooterState
 
     const [center, setCenter] = useState<{ lat: number; lng: number }>({
@@ -108,8 +107,8 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
         if (parkingSpot) {
             const constantOffset = 0.008; // Constant value to offset the pin lower
             setCenter({
-                lat: parkingSpot.lat - constantOffset, // Adjust latitude downwards with a constant offset
-                lng: parkingSpot.lng // Keep the longitude the same for horizontal centering
+                lat: parkingSpot.latitude - constantOffset, // Adjust latitude downwards with a constant offset
+                lng: parkingSpot.longitude // Keep the longitude the same for horizontal centering
             });
         }
         setFooterState(prev => ({
@@ -150,7 +149,7 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
         {parkingSpots.map(parking => (
             <AdvancedMarker
                 key={parking.id}
-                position={{lat: parking.lat, lng: parking.lng}}
+                position={{lat: parking.latitude, lng: parking.longitude}}
                 onClick={() => handlePinClick(parking.id)}  // Trigger detail mode on pin click
             >
                 <Pin/>
