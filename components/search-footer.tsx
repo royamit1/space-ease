@@ -1,16 +1,12 @@
-'use client'
-
-import React, {useState} from "react";
 import {ParkingList} from "@/components/parking-list";
 import {Parking, useParkingSpots} from "@/hooks/useParkingSpots";
-import {useFooterState} from "@/hooks/useFooterState";
+import {useState} from "react";
 import FilterSelection, {FilterOption} from "@/components/filter-selection";
 
 export function SearchFooter() {
     const parkingSpots = useParkingSpots(); // Get parking spots from the hook
-    const [selectedSortingOption, setSelectedSortingOption] = useState<{ [key in FilterOption]?: string }>({});
-    const [, setFooterState] = useFooterState(); // Zustand state setter
     const [selectedParking, setSelectedParking] = useState<Parking | null>(null);
+    const [selectedSortingOption, setSelectedSortingOption] = useState<{ [key in FilterOption]?: string }>({});
 
     // Handle sorting option selection
     const handleSortingOptionChange = (filter: FilterOption, event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -23,20 +19,17 @@ export function SearchFooter() {
     return (
         <div className="flex flex-col w-full h-full overflow-hidden">
             {/* Filter Selection fixed at the top */}
-            <div>
+            <div className="shadow-md">
                 <FilterSelection
                     selectedSortingOption={selectedSortingOption}
                     handleSortingOptionChange={handleSortingOptionChange}
                 />
             </div>
-
-            {/* TODO: there is a problem when im in "Search" mode and i drag the footer up to "open" size. */}
             <div className="flex-grow overflow-y-auto bg-gray-100">
                 <ParkingList
-                    parkingSpots={parkingSpots}  // Updated prop name
-                />
+                    addresses={parkingSpots}
+                    onParkingSpotClick={setSelectedParking}/>
             </div>
-
             {/* Copyright text fixed at the bottom */}
             <div>
                 <p className="text-center m-3 text-xs">
@@ -44,8 +37,67 @@ export function SearchFooter() {
                 </p>
             </div>
         </div>
-    );
+    )
 }
+
+
+// 'use client'
+//
+// import React, {useState} from "react";
+// import {ParkingList} from "@/components/parking-list";
+// import {Parking, useParkingSpots} from "@/hooks/useParkingSpots";
+// import {useFooterState} from "@/hooks/useFooterState";
+// import FilterSelection, {FilterOption} from "@/components/filter-selection";
+//
+// export function SearchFooter() {
+//     const parkingSpots = useParkingSpots(); // Get parking spots from the hook
+//     const [selectedSortingOption, setSelectedSortingOption] = useState<{ [key in FilterOption]?: string }>({});
+//     const [, setFooterState] = useFooterState(); // Zustand state setter
+//
+//     // Handle sorting option selection
+//     const handleSortingOptionChange = (filter: FilterOption, event: React.ChangeEvent<HTMLSelectElement>) => {
+//         setSelectedSortingOption((prev) => ({
+//             ...prev,
+//             [filter]: event.target.value,
+//         }));
+//     };
+//
+//     // Handle parking spot selection
+//     const handleParkingSpotClick = (parking: Parking) => {
+//         setFooterState(prev => ({
+//             mode: { mode: "detail", id: parking.id },
+//             size: prev.size === "collapsed" ? "open" : prev.size, // Open only if it was collapsed
+//             selectedParking: parking, // Set the selected parking
+//         }));
+//     };
+//
+//     return (
+//         <div className="flex flex-col w-full h-full overflow-hidden">
+//             {/* Filter Selection fixed at the top */}
+//             <div>
+//                 <FilterSelection
+//                     selectedSortingOption={selectedSortingOption}
+//                     handleSortingOptionChange={handleSortingOptionChange}
+//                 />
+//             </div>
+//
+//             {/* TODO: there is a problem when im in "Search" mode and i drag the footer up to "open" size. */}
+//             <div className="flex-grow overflow-y-auto bg-gray-100">
+//                 <ParkingList
+//                     parkingSpots={parkingSpots}  // Updated prop name
+//                     onParkingSpotClick={handleParkingSpotClick} // Pass click handler
+//                 />
+//             </div>
+//
+//             {/* Copyright text fixed at the bottom */}
+//             <div>
+//                 <p className="text-center m-3 text-xs">
+//                     &copy; 2024 Space-Ease. All rights reserved.
+//                 </p>
+//             </div>
+//         </div>
+//     );
+// }
 
 
 // import {Footer, FooterState} from "@/components/footer";
@@ -58,20 +110,13 @@ export function SearchFooter() {
 //
 
 //
-//     const handleCloseParkingDetails = () => {
-//         setSelectedParking(null); // Reset selected parking
-//         setFooterState("open"); // Open the footer
-//     };
+
 //
 //     // Handle footer state change and update selected filter if necessary.
 //     const handleFooterStateChange = (newState: FooterState) => {
 //         setFooterState(newState);
 //     };
 //
-//     const handleSubmit = () => {
-//         console.log('Form submitted')
-//         // Here you would typically send the data to your server
-//     }
 //
 //     // Render the search footer component with select boxes for filter options and footer state.
 //     return (
