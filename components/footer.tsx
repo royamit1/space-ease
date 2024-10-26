@@ -1,7 +1,9 @@
 import React, {useEffect, useRef, useState} from "react";
 import {motion, PanInfo} from "framer-motion";
-
-export type FooterState = "collapsed" | "open" | "full"
+import {useFooterState} from "@/hooks/useFooterState";
+import {SearchFooter} from "@/components/search-footer";
+import {CreateFooter} from "@/components/create-footer";
+import {DetailFooter} from "@/components/detail-footer";
 
 const initialHeight = {
     collapsed: "auto",
@@ -9,32 +11,9 @@ const initialHeight = {
     full: "100vh",
 }
 
-// Motion component for the footer.
-interface Created {
-    header?: React.ReactNode;
-    children?: React.ReactNode;
-    state?: FooterState;
-    onStateChange?: (newState: FooterState) => void;
-}
-
-export const Footer: React.FC<Created> = ({children, header, state: externalState, onStateChange}) => {
-    const [state, setState] = useState<FooterState>(externalState || 'collapsed')
+export const Footer: React.FC = () => {
+    const [footerState, setFooterState] = useFooterState((state) => state); // Get mode and size from Zustand store
     const constraintsRef = useRef(null)
-
-    // Update state when external state is provided.
-    useEffect(() => {
-        if (externalState) {
-            setState(externalState)
-        }
-    }, [externalState])
-
-    // Create a drag constraints object to limit the drag area.
-    const handleStateChange = (newState: FooterState) => {
-        setState(newState)
-        if (onStateChange) {
-            onStateChange(newState)
-        }
-    }
 
     // Handle drag event and change state when drag ends.
     const handleDragEnd = (_: any, info: PanInfo) => {
@@ -42,18 +21,29 @@ export const Footer: React.FC<Created> = ({children, header, state: externalStat
         const isUp = yOffset < -50;
         const isDown = yOffset > 50;
 
-        if (state === 'collapsed' && isUp) {
-            handleStateChange('open')
-        } else if (state === 'open') {
-            if (isUp) {
-                handleStateChange('full')
-            } else if (isDown) {
-                handleStateChange('collapsed')
-            }
-        } else if (state === 'full' && isDown) {
-            handleStateChange('collapsed')
+        if (footerState.size === "collapsed" && isUp) {
+            setFooterState({...footerState, size: "open"});
+        } else if (footerState.size === "open") {
+            if (isUp) setFooterState({...footerState, size: "full"});
+            else if (isDown) setFooterState({...footerState, size: "collapsed"});
+        } else if (footerState.size === "full" && isDown) {
+            setFooterState({...footerState, size: "collapsed"});
         }
     }
+
+    // Render the footer content based on the current mode
+    const renderFooterContent = () => {
+        switch (footerState.mode.mode) {
+            case "create":
+                return <CreateFooter />;
+            case "detail":
+                return <DetailFooter />;
+            case "search":
+                return <SearchFooter />;
+            default:
+                return null;
+        }
+    };
 
     // Render the footer component with header, children, and state.
     return <div ref={constraintsRef} className="fixed bottom-0 w-full p-3 my-3 z-10">
@@ -63,16 +53,12 @@ export const Footer: React.FC<Created> = ({children, header, state: externalStat
             onDragEnd={handleDragEnd}
             transition={{type: 'spring', stiffness: 200, damping: 20}} // Smooth animation
             className="bg-background min-h-12 rounded-3xl flex flex-col items-center justify-start overflow-hidden"
-            style={{ maxHeight: "calc(100vh - 7rem)" }}
-            animate={{height: initialHeight[state]}}
+            style={{maxHeight: "calc(100vh - 7rem)"}}
+            animate={{height: initialHeight[footerState.size]}}
         >
             <div
-                className="h-1.5 w-24 md:w-48 xl:w-96 m-3 rounded-full cursor-grab active:cursor-grabbing bg-muted"
-                aria-label="Drag handle"
-                role="slider"
-            />
-            {header}
-            {state !== "collapsed" && children}
+                className="h-1.5 w-24 md:w-48 xl:w-96 m-3 rounded-full cursor-grab active:cursor-grabbing bg-muted"/>
+            {footerState.size !== "collapsed" && renderFooterContent()}
         </motion.div>
     </div>;
 }
