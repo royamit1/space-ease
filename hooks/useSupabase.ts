@@ -9,7 +9,7 @@ const getSession = async () => {
     }
         = await supabase.auth.getSession();
 
-    return {session, error}
+    return { session, error }
 }
 
 export { getSession }

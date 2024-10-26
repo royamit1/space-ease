@@ -5,26 +5,29 @@ import {
     MapCameraChangedEvent,
     MapProps,
     Pin
-} from '@vis.gl/react-google-maps';
+} from "@vis.gl/react-google-maps";
 import useGeolocation from "react-hook-geolocation";
-import {useTheme} from "next-themes";
+import { useTheme } from "next-themes";
+import { fetchAvailableParkingSpots } from "@/app/actions";
+import { createClient } from "@/utils/supabase/client";
+import { ParkingSpot } from "@prisma/client";
 import {useParkingSpots} from "@/hooks/useParkingSpots";
 import {useFooterState} from "@/hooks/useFooterState";
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
-    searchCoordinates?: { lat: number; lng: number } | null; // Allow null
+    searchCoordinates?: { lat: number; lng: number } | null;
 }
 
 const initial = {
-    "lat": 32.07656832175795,
-    "lng": 34.783993916688004,
-    "zoom": 14
-}
+    lat: 32.07656832175795,
+    lng: 34.783993916688004,
+    zoom: 14
+};
 
-// This component uses react-hook-geolocation to get the user's current location and provides a map with the current location centered'
-export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...props}) => {
+export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...props }) => {
     const geolocation = useGeolocation();
+    const supabase = createClient();
     const theme = useTheme()
     const parkingSpots = useParkingSpots();
     const [, setFooterState] = useFooterState();  // Zustand setter for FooterState
@@ -34,10 +37,50 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
         lng: geolocation.longitude || initial.lng,
     });
 
+    // State to store parking spots
+    const [parkingSpots, setParkingSpots] = useState<ParkingSpot[]>([]);
+
+    // Fetch initial parking spots and set up Supabase subscription
+    useEffect(() => {
+
+        const fetchSpots = async () => {
+            const spots = await fetchAvailableParkingSpots();
+            setParkingSpots(spots);
+        };
+
+        fetchSpots();
+
+        const subscription = supabase
+            .channel("parkingSpot-changes")
+            .on(
+                "postgres_changes",
+                {
+                    event: "INSERT",
+                    schema: "public",
+                    table: "ParkingSpot",
+                },
+                (payload) => {
+                    const newSpot = payload.new as ParkingSpot;
+                    console.log("New spot:", newSpot);
+
+                    if (isValidParkingSpot(newSpot)) {
+                        setParkingSpots((prevSpots) => [...prevSpots, newSpot]);
+                    } else {
+                        console.error("Invalid parking spot data:", newSpot);
+                    }
+                }
+            )
+            .subscribe();
+
+        // Cleanup function to unsubscribe
+        return () => {
+            supabase.removeChannel(subscription);
+        };
+    }, [supabase]);
+
     // Update the map center when new search coordinates are provided
     useEffect(() => {
         if (searchCoordinates) {
-            console.log("Centering map to:", searchCoordinates); // Debugging line
             setCenter(searchCoordinates);
         }
     }, [searchCoordinates]);
@@ -49,7 +92,16 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
             setCenter({lat: newCenter.lat, lng: newCenter.lng});
         }
     };
-
+  
+    // Function to validate parking spot data
+    const isValidParkingSpot = (spot: ParkingSpot): boolean => {
+        return (
+            typeof spot.latitude === "number" &&
+            typeof spot.longitude === "number" &&
+            !isNaN(spot.latitude) &&
+            !isNaN(spot.longitude)
+        );
+    };
     // Function to handle pin click and open DetailFooter
     const handlePinClick = (parkingId: number) => {
         const parkingSpot = parkingSpots.find(spot => spot.id === parkingId);

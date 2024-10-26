@@ -3,8 +3,11 @@ import { getSession } from "@/hooks/useSupabase";
 import db from "@/lib/db";
 import { ParkingFormSchema } from "@/schemas/parking-form-schema";
 import { createClient } from "@/utils/supabase/server";
-export async function createParkingSpot(parkingFormData: ParkingFormSchema) {
-    const supabase = createClient();
+import { ParkingSpot } from "@prisma/client";
+
+const supabase = createClient();
+
+const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
     const { data, error } = await supabase.auth.getUser();
     if (error) {
         console.error(error)
@@ -16,8 +19,10 @@ export async function createParkingSpot(parkingFormData: ParkingFormSchema) {
                     userId: data.user.id,
                     latitude: parkingFormData.latitude,
                     longitude: parkingFormData.longitude,
-                    hourlyRate: parkingFormData.price,
                     description: parkingFormData.description,
+                    hourlyRate: parkingFormData.price,
+                    startTime: parkingFormData.availableFrom,
+                    endTime: parkingFormData.availableUntil,
                 },
             });
             //     // Return the parking spot data to the front-end
@@ -29,3 +34,16 @@ export async function createParkingSpot(parkingFormData: ParkingFormSchema) {
         }
     }
 }
+
+const fetchAvailableParkingSpots = async () => {
+    const now = new Date();
+    const parkingSpots : ParkingSpot[] = await db.parkingSpot.findMany({
+        where: {
+            startTime: { lte: now },
+            endTime: { gte: now },
+        },
+    });
+    return parkingSpots;
+}
+
+export { createParkingSpot, fetchAvailableParkingSpots }

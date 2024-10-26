@@ -15,12 +15,14 @@ generator client {
 }
 
 model ParkingSpot {
-  id          String   @id @default(uuid())
-  userId      String   // insert the userId with supabase.auth
+  id          Int      @id @default(autoincrement())
+  userId      String // insert the userId with supabase.auth
   latitude    Float
   longitude   Float
   description String
   hourlyRate  Int
+  startTime   DateTime
+  endTime     DateTime
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
