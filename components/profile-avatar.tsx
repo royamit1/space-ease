@@ -14,10 +14,11 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import {CreateParkingForm} from "@/components/create-parking-form";
-
+import {useFooterState} from "@/hooks/useFooterState";
 
 export function ProfileAvatar() {
     const router = useRouter()
+    const [, setFooterState] = useFooterState();
 
     const handleSignOut = async () => {
         const supabase = createClient()
@@ -29,8 +30,15 @@ export function ProfileAvatar() {
         }
     };
 
-    return (
+    // Function to set footer to "create" mode and "open" size
+    const handleCreateParking = () => {
+        setFooterState({
+            mode: {mode: "create"},
+            size: "open",
+        });
+    };
 
+    return (
         <Dialog>
             <DropdownMenu>
                 <DropdownMenuTrigger>
@@ -45,7 +53,7 @@ export function ProfileAvatar() {
                     </DropdownMenuItem>
                     <DialogTrigger asChild>
                         <DropdownMenuItem className="flex justify-center">
-                            <Button className="w-full">
+                            <Button className="w-full" onClick={handleCreateParking}>
                                 Create Parking Spot
                             </Button>
                         </DropdownMenuItem>
@@ -63,15 +71,15 @@ export function ProfileAvatar() {
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Create a new Parking Spot</DialogTitle>
-                    <DialogDescription>
-                        Add your vehicle details, location, and payment method.
-                    </DialogDescription>
-                </DialogHeader>
-                <CreateParkingForm />
-            </DialogContent>
+            {/*<DialogContent>*/}
+            {/*    <DialogHeader>*/}
+            {/*        <DialogTitle>Create a new Parking Spot</DialogTitle>*/}
+            {/*        <DialogDescription>*/}
+            {/*            Add your vehicle details, location, and payment method.*/}
+            {/*        </DialogDescription>*/}
+            {/*    </DialogHeader>*/}
+            {/*    <CreateParkingForm/>*/}
+            {/*</DialogContent>*/}
         </Dialog>
     );
 }
