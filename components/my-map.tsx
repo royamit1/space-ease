@@ -9,7 +9,7 @@ import {
 import useGeolocation from "react-hook-geolocation";
 import {useTheme} from "next-themes";
 import {useParkingSpots} from "@/hooks/useParkingSpots";
-import {useFooterState, useFooterStore} from "@/hooks/useFooterState";
+import {useFooterState} from "@/hooks/useFooterState";
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
@@ -52,10 +52,23 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
 
     // Function to handle pin click and open DetailFooter
     const handlePinClick = (parkingId: number) => {
-        setFooterState({
-            mode: {mode: "detail", id: parkingId},
-            size: "open"
-        });
+        const parkingSpot = parkingSpots.find(spot => spot.id === parkingId);
+        if (parkingSpot) {
+            const constantOffset = 0.008; // Constant value to offset the pin lower
+            setCenter({
+                lat: parkingSpot.lat - constantOffset, // Adjust latitude downwards with a constant offset
+                lng: parkingSpot.lng // Keep the longitude the same for horizontal centering
+            });
+        }
+        setFooterState(prev => ({
+            mode: { mode: "detail", id: parkingId },
+            size: prev.size === "collapsed" ? "open" : prev.size // Open only if it was collapsed
+        }));
+    };
+
+    // Collapse the footer when the user interacts with the map
+    const handleMapInteraction = () => {
+        setFooterState(prev => ({...prev, size: "collapsed"}));
     };
 
     return <Map
@@ -66,6 +79,8 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
         disableDefaultUI={false}
         colorScheme={theme.resolvedTheme?.toUpperCase()}
         onBoundsChanged={handleBoundsChanged}
+        onDragstart={handleMapInteraction}  // Collapse footer when user interacts with the map
+        onClick={handleMapInteraction}
         {...props}
     >
         {/* User location marker */}
@@ -83,7 +98,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
         {parkingSpots.map(parking => (
             <AdvancedMarker
                 key={parking.id}
-                position={{ lat: parking.lat, lng: parking.lng }}
+                position={{lat: parking.lat, lng: parking.lng}}
                 onClick={() => handlePinClick(parking.id)}  // Trigger detail mode on pin click
             >
                 <Pin/>

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef} from "react";
 import {motion, PanInfo} from "framer-motion";
 import {useFooterState} from "@/hooks/useFooterState";
 import {SearchFooter} from "@/components/search-footer";
@@ -7,7 +7,7 @@ import {DetailFooter} from "@/components/detail-footer";
 
 const initialHeight = {
     collapsed: "auto",
-    open: "60vh",
+    open: "40vh",
     full: "100vh",
 }
 
