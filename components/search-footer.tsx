@@ -1,12 +1,16 @@
+'use client'
+
 import {ParkingList} from "@/components/parking-list";
 import {Parking, useParkingSpots} from "@/hooks/useParkingSpots";
-import {useState} from "react";
+import React, {useState} from "react";
 import FilterSelection, {FilterOption} from "@/components/filter-selection";
+import {useFooterState} from "@/hooks/useFooterState";
 
 export function SearchFooter() {
     const parkingSpots = useParkingSpots(); // Get parking spots from the hook
     const [selectedParking, setSelectedParking] = useState<Parking | null>(null);
     const [selectedSortingOption, setSelectedSortingOption] = useState<{ [key in FilterOption]?: string }>({});
+    const [, setFooterState] = useFooterState(); // Zustand state setter
 
     // Handle sorting option selection
     const handleSortingOptionChange = (filter: FilterOption, event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -14,6 +18,12 @@ export function SearchFooter() {
             ...prev,
             [filter]: event.target.value,
         }));
+    };
+
+    // Handle parking spot click
+    const handleParkingSpotClick = (parkingSpot: Parking) => {
+        setSelectedParking(parkingSpot);
+        setFooterState({ mode: { mode: "detail", id: parkingSpot.id }, size: "open" }); // Update footer state
     };
 
     return (
@@ -27,8 +37,8 @@ export function SearchFooter() {
             </div>
             <div className="flex-grow overflow-y-auto bg-gray-100">
                 <ParkingList
-                    addresses={parkingSpots}
-                    onParkingSpotClick={setSelectedParking}/>
+                    parkingSpots={parkingSpots}
+                    onParkingSpotClick={handleParkingSpotClick}/>
             </div>
             {/* Copyright text fixed at the bottom */}
             <div>
