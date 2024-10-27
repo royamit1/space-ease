@@ -19,6 +19,7 @@ const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
                     userId: data.user.id,
                     latitude: parkingFormData.latitude,
                     longitude: parkingFormData.longitude,
+                    address: parkingFormData.address,
                     description: parkingFormData.description,
                     hourlyRate: parkingFormData.price,
                     startTime: parkingFormData.availableFrom,
