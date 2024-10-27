@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
@@ -31,7 +31,7 @@ export const CreateParkingForm: React.FC = () => {
         if (typeof window !== "undefined" && window.google) {
             const autocomplete = new window.google.maps.places.Autocomplete(
                 addressInputRef.current as HTMLInputElement,
-                { types: ["address"] }
+                {types: ["address"]}
             );
 
             autocomplete.addListener("place_changed", () => {
@@ -72,7 +72,7 @@ export const CreateParkingForm: React.FC = () => {
                         <FormField
                             control={form.control}
                             name="address"
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <FormItem>
                                     <FormLabel>Address</FormLabel>
                                     <FormControl>
@@ -85,7 +85,7 @@ export const CreateParkingForm: React.FC = () => {
                                     <FormDescription>
                                         The parking spot closest address
                                     </FormDescription>
-                                    <FormMessage />
+                                    <FormMessage/>
                                 </FormItem>
                             )}
                         />
@@ -93,32 +93,32 @@ export const CreateParkingForm: React.FC = () => {
                             <FormField
                                 control={form.control}
                                 name="longitude"
-                                render={({ field }) => (
+                                render={({field}) => (
                                     <FormItem>
                                         <FormLabel>Longitude</FormLabel>
                                         <FormControl>
-                                            <Input {...field} type="number" />
+                                            <Input {...field} type="number"/>
                                         </FormControl>
                                         <FormDescription>
                                             (will be selected from the map)
                                         </FormDescription>
-                                        <FormMessage />
+                                        <FormMessage/>
                                     </FormItem>
                                 )}
                             />
                             <FormField
                                 control={form.control}
                                 name="latitude"
-                                render={({ field }) => (
+                                render={({field}) => (
                                     <FormItem>
                                         <FormLabel>Latitude</FormLabel>
                                         <FormControl>
-                                            <Input {...field} type="number" />
+                                            <Input {...field} type="number"/>
                                         </FormControl>
                                         <FormDescription>
                                             (will be selected from the map)
                                         </FormDescription>
-                                        <FormMessage />
+                                        <FormMessage/>
                                     </FormItem>
                                 )}
                             />
@@ -131,28 +131,28 @@ export const CreateParkingForm: React.FC = () => {
                         <FormField
                             control={form.control}
                             name="availableFrom"
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <FormItem>
                                     <FormLabel>Available From</FormLabel>
                                     <FormControl>
                                         {/* @ts-ignore */}
                                         <Input {...field} />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage/>
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="availableUntil"
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <FormItem>
                                     <FormLabel>Available Until</FormLabel>
                                     <FormControl>
                                         {/* @ts-ignore */}
                                         <Input {...field} />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage/>
                                 </FormItem>
                             )}
                         />
@@ -164,26 +164,26 @@ export const CreateParkingForm: React.FC = () => {
                         <FormField
                             control={form.control}
                             name="price"
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <FormItem>
                                     <FormLabel>Price</FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage/>
                                 </FormItem>
                             )}
                         />
                         <FormField
                             control={form.control}
                             name="description"
-                            render={({ field }) => (
+                            render={({field}) => (
                                 <FormItem>
                                     <FormLabel>Description</FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage/>
                                 </FormItem>
                             )}
                         />

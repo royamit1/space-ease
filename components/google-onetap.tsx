@@ -1,10 +1,9 @@
 'use client'
 
 import Script from 'next/script'
-import { createClient } from '@/utils/supabase/client'
-import { CredentialResponse } from 'google-one-tap'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import {createClient} from '@/utils/supabase/client'
+import {CredentialResponse} from 'google-one-tap'
+import {useRouter} from 'next/navigation'
 
 const OneTapComponent = () => {
     const supabase = createClient()
@@ -72,14 +71,10 @@ const OneTapComponent = () => {
         google.accounts.id.prompt() // Display the One Tap UI
     }
 
-    // useEffect(() => {
-    //     initializeGoogleOneTap();
-    // }, [])
-
     return (
         <>
-            <Script src="https://accounts.google.com/gsi/client" async defer onLoad={() => initializeGoogleOneTap()} />
-            <div id="oneTap" className="fixed top-0 right-0 z-[100]" />
+            <Script src="https://accounts.google.com/gsi/client" async defer onLoad={() => initializeGoogleOneTap()}/>
+            <div id="oneTap" className="fixed top-0 right-0 z-[100]"/>
         </>
     )
 }

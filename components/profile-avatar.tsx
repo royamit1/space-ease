@@ -7,13 +7,8 @@ import {createClient} from "@/utils/supabase/client";
 import {useRouter} from 'next/navigation'
 import {
     Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import {CreateParkingForm} from "@/components/create-parking-form";
 import {useFooterState} from "@/hooks/useFooterState";
 
 export function ProfileAvatar() {

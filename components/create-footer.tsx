@@ -1,12 +1,10 @@
-// CreateFooter.tsx
-import React, { useState } from "react";
-import { CreateParkingForm } from "@/components/create-parking-form"; // Import your form component
-import { Button } from "@/components/ui/button";
+import React from "react";
+import {CreateParkingForm} from "@/components/create-parking-form";
 
 export const CreateFooter: React.FC = () => {
     return (
         <div className="create-footer">
-            <CreateParkingForm />
+            <CreateParkingForm/>
         </div>
     );
 };

@@ -13,7 +13,8 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({parkingSpot, onClose, on
         <div className="ps-4 pe-4 w-full">
             <div className="w-full h-40 bg-gray-300 rounded-lg mb-4">
                 {parkingSpot.imageUrl && (  // Only render image if available
-                    <img src={parkingSpot.imageUrl} alt="Parking Spot" className="w-full h-full object-cover rounded-lg"/>
+                    <img src={parkingSpot.imageUrl} alt="Parking Spot"
+                         className="w-full h-full object-cover rounded-lg"/>
                 )}
             </div>
             <h3 className="text-lg font-semibold mb-1">{parkingSpot.address}</h3>
