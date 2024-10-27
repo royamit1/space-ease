@@ -71,15 +71,6 @@ export function ProfileAvatar() {
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-            <DialogContent>
-               <DialogHeader>
-                   <DialogTitle>Create a new Parking Spot</DialogTitle>
-                   <DialogDescription>
-                       Add your vehicle details, location, and payment method.
-                   </DialogDescription>
-               </DialogHeader>
-               <CreateParkingForm/>
-            </DialogContent>
         </Dialog>
     );
 }
