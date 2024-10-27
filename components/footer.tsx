@@ -35,11 +35,11 @@ export const Footer: React.FC = () => {
     const renderFooterContent = () => {
         switch (footerState.mode.mode) {
             case "create":
-                return <CreateFooter />;
+                return <CreateFooter/>;
             case "detail":
-                return <DetailFooter />;
+                return <DetailFooter/>;
             case "search":
-                return <SearchFooter />;
+                return <SearchFooter/>;
             default:
                 return null;
         }

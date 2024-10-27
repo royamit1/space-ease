@@ -7,10 +7,10 @@ import {
     Pin
 } from "@vis.gl/react-google-maps";
 import useGeolocation from "react-hook-geolocation";
-import { useTheme } from "next-themes";
-import { fetchAvailableParkingSpots } from "@/app/actions";
-import { createClient } from "@/utils/supabase/client";
-import { ParkingSpot } from "@prisma/client";
+import {useTheme} from "next-themes";
+import {fetchAvailableParkingSpots} from "@/app/actions";
+import {createClient} from "@/utils/supabase/client";
+import {ParkingSpot} from "@prisma/client";
 import {useFooterState} from "@/hooks/useFooterState";
 
 interface MyMapProps extends MapProps {
@@ -24,7 +24,7 @@ const initial = {
     zoom: 14
 };
 
-export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...props }) => {
+export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...props}) => {
     const geolocation = useGeolocation();
     const supabase = createClient();
     const theme = useTheme()
@@ -91,7 +91,7 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
             setCenter({lat: newCenter.lat, lng: newCenter.lng});
         }
     };
-  
+
     // Function to validate parking spot data
     const isValidParkingSpot = (spot: ParkingSpot): boolean => {
         return (
@@ -112,7 +112,7 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
             });
         }
         setFooterState(prev => ({
-            mode: { mode: "detail", id: parkingId },
+            mode: {mode: "detail", id: parkingId},
             size: prev.size === "collapsed" ? "open" : prev.size // Open only if it was collapsed
         }));
     };

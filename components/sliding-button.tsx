@@ -1,15 +1,15 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
+import {useState, useRef, useEffect} from 'react'
+import {Button} from "@/components/ui/button"
+import {ArrowRight} from "lucide-react"
 
 interface SlidingButtonProps {
     onComplete: () => void
     buttonText?: string
 }
 
-export default function SlidingButton({ onComplete, buttonText = "Book Now" }: SlidingButtonProps) {
+export default function SlidingButton({onComplete, buttonText = "Book Now"}: SlidingButtonProps) {
     const [sliding, setSliding] = useState(false)
     const [progress, setProgress] = useState(0)
     const trackRef = useRef<HTMLDivElement>(null)
@@ -81,12 +81,12 @@ export default function SlidingButton({ onComplete, buttonText = "Book Now" }: S
         >
             <div
                 className="absolute inset-y-0 left-0 bg-primary transition-all duration-300 ease-out"
-                style={{ width: `${progress}%` }}
+                style={{width: `${progress}%`}}
             />
             <Button
                 ref={buttonRef}
                 className="absolute inset-y-0 left-0 h-full px-4 rounded-full transition-all duration-300 ease-out flex items-center justify-between"
-                style={{ transform: `translateX(${progress}%)` }}
+                style={{transform: `translateX(${progress}%)`}}
                 onMouseDown={handleMouseDown}
                 onTouchStart={handleMouseDown}
                 onKeyDown={handleKeyDown}
@@ -94,10 +94,10 @@ export default function SlidingButton({ onComplete, buttonText = "Book Now" }: S
             >
                 <div
                     className="flex items-center space-x-2 transition-transform duration-300"
-                    style={{ transform: `translateX(${Math.max(0, progress - 10)}%)` }}
+                    style={{transform: `translateX(${Math.max(0, progress - 10)}%)`}}
                 >
                     <span>{buttonText}</span>
-                    <ArrowRight />
+                    <ArrowRight/>
                 </div>
             </Button>
         </div>
