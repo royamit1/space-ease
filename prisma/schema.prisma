@@ -19,6 +19,7 @@ model ParkingSpot {
   userId      String // insert the userId with supabase.auth
   latitude    Float
   longitude   Float
+  address     String
   description String
   hourlyRate  Int
   startTime   DateTime
