@@ -4,7 +4,7 @@ import {ParkingSpotItem} from "@/components/parking-item";
 
 interface ParkingListProps {
     parkingSpots: ParkingSpot[];
-    setSelectedParking: React.Dispatch<React.SetStateAction<ParkingSpot | null>>;
+    setSelectedParking: (spot: ParkingSpot) => void;
 }
 
 export function ParkingList({parkingSpots, setSelectedParking}: ParkingListProps) {
