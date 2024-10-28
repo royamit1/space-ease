@@ -7,7 +7,7 @@ import {DetailFooter} from "@/components/detail-footer";
 
 const initialHeight = {
     collapsed: "auto",
-    open: "40vh",
+    open: "45vh",
     full: "100vh",
 }
 
