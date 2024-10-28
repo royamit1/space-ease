@@ -119,7 +119,10 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
 
     // Collapse the footer when the user interacts with the map
     const handleMapInteraction = () => {
-        setFooterState(prev => ({...prev, size: "collapsed"}));
+        setFooterState({
+            mode: {mode: "search"},
+            size: "collapsed",
+        });
     };
 
     return <Map
