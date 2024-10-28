@@ -54,11 +54,13 @@ export function SearchFooter() {
                     handleSortingOptionChange={handleSortingOptionChange}
                 />
             </div>
-            <div className="flex-grow overflow-y-auto bg-gray-100">
+            <div className="flex-grow overflow-y-auto bg-gray-100 flex items-center justify-center">
                 {loading ? (
-                    <p>Loading parking spots...</p>
+                    <p className="text-lg font-semibold animate-pulse">Loading parking spots...</p>
                 ) : error ? (
                     <p className="text-red-500">{error}</p>
+                ) : parkingSpots.length === 0 ? (
+                    <p className="text-gray-600">No parking spots available at the moment.</p>
                 ) : (
                     <ParkingList
                         parkingSpots={parkingSpots}
@@ -66,6 +68,7 @@ export function SearchFooter() {
                     />
                 )}
             </div>
+
             {/* Copyright text fixed at the bottom */}
             <div>
                 <p className="text-center m-3 text-xs">
