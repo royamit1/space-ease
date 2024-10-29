@@ -6,7 +6,6 @@ import {CredentialResponse} from 'google-one-tap'
 import {useRouter} from 'next/navigation'
 
 const OneTapComponent = () => {
-    const supabase = createClient()
     const router = useRouter()
 
     // generate nonce to use for google id token sign-in
@@ -23,6 +22,8 @@ const OneTapComponent = () => {
 
 
     async function initializeGoogleOneTap() {
+        const supabase = createClient()
+
         console.log('Initializing Google One Tap')
         console.log('Google One Tap loaded')
         const [nonce, hashedNonce] = await generateNonce()

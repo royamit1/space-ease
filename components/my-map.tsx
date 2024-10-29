@@ -10,7 +10,7 @@ import useGeolocation from "react-hook-geolocation";
 import {useTheme} from "next-themes";
 import {fetchAvailableParkingSpots} from "@/app/actions";
 import {createClient} from "@/utils/supabase/client";
-import {ParkingSpot} from "@prisma/client";
+import {ParkingSpot} from "@/prisma/generated/client";
 import {useFooterState} from "@/hooks/useFooterState";
 
 interface MyMapProps extends MapProps {
@@ -26,7 +26,6 @@ const initial = {
 
 export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...props}) => {
     const geolocation = useGeolocation();
-    const supabase = createClient();
     const theme = useTheme()
     // const parkingSpots = useParkingSpots();
     const [, setFooterState] = useFooterState();  // Zustand setter for FooterState
@@ -38,44 +37,6 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
 
     // State to store parking spots
     const [parkingSpots, setParkingSpots] = useState<ParkingSpot[]>([]);
-
-    // Fetch initial parking spots and set up Supabase subscription
-    useEffect(() => {
-
-        const fetchSpots = async () => {
-            const spots = await fetchAvailableParkingSpots();
-            setParkingSpots(spots);
-        };
-
-        fetchSpots();
-
-        const subscription = supabase
-            .channel("parkingSpot-changes")
-            .on(
-                "postgres_changes",
-                {
-                    event: "INSERT",
-                    schema: "public",
-                    table: "ParkingSpot",
-                },
-                (payload) => {
-                    const newSpot = payload.new as ParkingSpot;
-                    console.log("New spot:", newSpot);
-
-                    if (isValidParkingSpot(newSpot)) {
-                        setParkingSpots((prevSpots) => [...prevSpots, newSpot]);
-                    } else {
-                        console.error("Invalid parking spot data:", newSpot);
-                    }
-                }
-            )
-            .subscribe();
-
-        // Cleanup function to unsubscribe
-        return () => {
-            supabase.removeChannel(subscription);
-        };
-    }, [supabase]);
 
     // Update the map center when new search coordinates are provided
     useEffect(() => {
