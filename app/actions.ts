@@ -3,7 +3,7 @@ import {getSession} from "@/hooks/useSupabase";
 import db from "@/lib/db";
 import {ParkingFormSchema} from "@/schemas/parking-form-schema";
 import {createClient} from "@/utils/supabase/server";
-import {ParkingSpot} from "@prisma/client";
+import {ParkingSpot} from "@/prisma/generated/client";
 import {date} from "zod";
 
 const supabase = createClient();
