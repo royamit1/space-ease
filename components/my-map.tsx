@@ -26,7 +26,6 @@ const initial = {
 
 export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...props}) => {
     const geolocation = useGeolocation();
-    const supabase = createClient();
     const theme = useTheme()
     // const parkingSpots = useParkingSpots();
     const [, setFooterState] = useFooterState();  // Zustand setter for FooterState
@@ -41,6 +40,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
 
     // Fetch initial parking spots and set up Supabase subscription
     useEffect(() => {
+        const supabase = createClient();
 
         const fetchSpots = async () => {
             const spots = await fetchAvailableParkingSpots();
@@ -75,7 +75,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
         return () => {
             supabase.removeChannel(subscription);
         };
-    }, [supabase]);
+    }, []);
 
     // Update the map center when new search coordinates are provided
     useEffect(() => {
