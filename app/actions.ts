@@ -1,5 +1,4 @@
 'use server';
-import {getSession} from "@/hooks/useSupabase";
 import db from "@/lib/db";
 import {ParkingFormSchema} from "@/schemas/parking-form-schema";
 import {createClient} from "@/utils/supabase/server";
