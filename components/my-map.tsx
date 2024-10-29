@@ -38,45 +38,6 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
     // State to store parking spots
     const [parkingSpots, setParkingSpots] = useState<ParkingSpot[]>([]);
 
-    // Fetch initial parking spots and set up Supabase subscription
-    // useEffect(() => {
-    //     const supabase = createClient();
-    //
-    //     const fetchSpots = async () => {
-    //         const spots = await fetchAvailableParkingSpots();
-    //         setParkingSpots(spots);
-    //     };
-    //
-    //     fetchSpots();
-    //
-    //     const subscription = supabase
-    //         .channel("parkingSpot-changes")
-    //         .on(
-    //             "postgres_changes",
-    //             {
-    //                 event: "INSERT",
-    //                 schema: "public",
-    //                 table: "ParkingSpot",
-    //             },
-    //             (payload) => {
-    //                 const newSpot = payload.new as ParkingSpot;
-    //                 console.log("New spot:", newSpot);
-    //
-    //                 if (isValidParkingSpot(newSpot)) {
-    //                     setParkingSpots((prevSpots) => [...prevSpots, newSpot]);
-    //                 } else {
-    //                     console.error("Invalid parking spot data:", newSpot);
-    //                 }
-    //             }
-    //         )
-    //         .subscribe();
-    //
-    //     // Cleanup function to unsubscribe
-    //     return () => {
-    //         supabase.removeChannel(subscription);
-    //     };
-    // }, []);
-
     // Update the map center when new search coordinates are provided
     useEffect(() => {
         if (searchCoordinates) {
