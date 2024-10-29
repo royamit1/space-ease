@@ -5,9 +5,9 @@ import {createClient} from "@/utils/supabase/server";
 import {ParkingSpot} from "@/prisma/generated/client";
 import {date} from "zod";
 
-const supabase = createClient();
 
 const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
+    const supabase = createClient();
     const {data, error} = await supabase.auth.getUser();
     if (error) {
         console.error(error)
