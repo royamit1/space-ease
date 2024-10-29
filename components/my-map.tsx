@@ -10,7 +10,7 @@ import useGeolocation from "react-hook-geolocation";
 import {useTheme} from "next-themes";
 import {fetchAvailableParkingSpots} from "@/app/actions";
 import {createClient} from "@/utils/supabase/client";
-import {ParkingSpot} from "@prisma/client";
+import {ParkingSpot} from "@/prisma/generated/client";
 import {useFooterState} from "@/hooks/useFooterState";
 
 interface MyMapProps extends MapProps {

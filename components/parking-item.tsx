@@ -1,5 +1,5 @@
 import React from "react";
-import {ParkingSpot} from "@prisma/client";
+import {ParkingSpot} from "@/prisma/generated/client";
 
 interface ParkingSpotItemProps {
     spot: ParkingSpot;

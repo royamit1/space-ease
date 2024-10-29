@@ -1,7 +1,7 @@
 'use client'
 
 import {ParkingList} from "@/components/parking-list";
-import {ParkingSpot} from "@prisma/client";
+import {ParkingSpot} from "@/prisma/generated/client";
 import React, {useState, useEffect} from "react";
 import FilterSelection, {FilterOption} from "@/components/filter-selection";
 import {useFooterState} from "@/hooks/useFooterState";

@@ -1,6 +1,6 @@
 import React from 'react';
 import SlidingButton from "@/components/sliding-button";
-import {ParkingSpot} from "@prisma/client";
+import {ParkingSpot} from "@/prisma/generated/client";
 
 interface ParkingDetailsProps {
     parkingSpot: ParkingSpot;
