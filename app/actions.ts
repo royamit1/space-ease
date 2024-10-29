@@ -4,6 +4,7 @@ import db from "@/lib/db";
 import {ParkingFormSchema} from "@/schemas/parking-form-schema";
 import {createClient} from "@/utils/supabase/server";
 import {ParkingSpot} from "@prisma/client";
+import {date} from "zod";
 
 const supabase = createClient();
 
@@ -22,8 +23,8 @@ const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
                     address: parkingFormData.address,
                     description: parkingFormData.description,
                     hourlyRate: parkingFormData.price,
-                    startTime: parkingFormData.availableFrom,
-                    endTime: parkingFormData.availableUntil,
+                    startTime: new Date(parkingFormData.availableFrom),
+                    endTime: new Date(parkingFormData.availableUntil),
                 },
             });
             //     // Return the parking spot data to the front-end
