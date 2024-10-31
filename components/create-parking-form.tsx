@@ -5,6 +5,7 @@ import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, Form
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {createParkingSpot} from "@/app/actions";
+import { SmartDatetimeInput } from "@/components/smart-date-time";
 import {parkingFormSchema, ParkingFormSchema} from "@/schemas/parking-form-schema";
 
 interface CreateParkingFormProps {
@@ -93,36 +94,46 @@ export const CreateParkingForm: React.FC = () => {
                                 </FormItem>
                             )}
                         />
-                        <div className="flex flex-row gap-4">
                             <FormField
                                 control={form.control}
                                 name="availableFrom"
-                                render={({ field }) => (
+                                render={({field}) => (
                                     <FormItem>
                                         <FormLabel>Available From</FormLabel>
                                         <FormControl>
-                                            {/* @ts-ignore */}
-                                            <Input {...field} />
+                                            <SmartDatetimeInput
+                                                value={new Date(field.value)} // Correctly bind the value
+                                                onValueChange={(date) => field.onChange(date.toISOString())} // Convert Date back to string
+                                                placeholder="Select date and time"
+                                            />
                                         </FormControl>
-                                        <FormMessage />
+                                        <FormMessage/>
                                     </FormItem>
                                 )}
                             />
                             <FormField
                                 control={form.control}
                                 name="availableUntil"
-                                render={({ field }) => (
+                                render={({field}) => (
                                     <FormItem>
                                         <FormLabel>Available Until</FormLabel>
                                         <FormControl>
-                                            {/* @ts-ignore */}
-                                            <Input {...field} />
+                                            <SmartDatetimeInput
+                                                value={new Date(field.value)} // Correctly bind the value
+                                                onValueChange={(date) => field.onChange(date.toISOString())} // Convert Date back to string
+                                                placeholder="Select date and time"
+                                            />
                                         </FormControl>
-                                        <FormMessage />
+                                        <FormMessage/>
                                     </FormItem>
                                 )}
                             />
-                        </div>
+                    </>
+                )}
+
+                {/* Step 2: Description */}
+                {step === 2 && (
+                    <>
                         <FormField
                             control={form.control}
                             name="price"
@@ -136,25 +147,23 @@ export const CreateParkingForm: React.FC = () => {
                                 </FormItem>
                             )}
                         />
+
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Description</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </>
                 )}
 
-                {/* Step 2: Description */}
-                {step === 2 && (
-                    <FormField
-                        control={form.control}
-                        name="description"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Description</FormLabel>
-                                <FormControl>
-                                    <Input {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                )}
 
                 {/* Navigation Buttons */}
                 <div className="flex justify-between mt-4">
