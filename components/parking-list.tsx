@@ -4,10 +4,10 @@ import {ParkingSpotItem} from "@/components/parking-item";
 
 interface ParkingListProps {
     parkingSpots: ParkingSpot[];
-    setSelectedParking: (spot: ParkingSpot) => void;
+    onParkingSelect: (spot: ParkingSpot) => void;
 }
 
-export function ParkingList({parkingSpots, setSelectedParking}: ParkingListProps) {
+export function ParkingList({parkingSpots, onParkingSelect }: ParkingListProps) {
     return (
         <div className="flex-grow bg-gray-100 w-full p-3 overflow-y-auto h-60">
             <ul className="space-y-2">
@@ -15,7 +15,7 @@ export function ParkingList({parkingSpots, setSelectedParking}: ParkingListProps
                     <ParkingSpotItem
                         key={spot.id}
                         spot={spot}
-                        setSelectedParking={setSelectedParking}
+                        onClick={() => onParkingSelect(spot)}
                     />
                 ))}
             </ul>

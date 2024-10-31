@@ -4,14 +4,15 @@ import {ParkingList} from "@/components/parking-list";
 import {ParkingSpot} from "@/prisma/generated/client";
 import React, {useState, useEffect} from "react";
 import FilterSelection, {FilterOption} from "@/components/filter-selection";
-import {useFooterState} from "@/hooks/useFooterState";
 import {fetchAvailableParkingSpots} from "@/app/actions";
 
-export function SearchFooter() {
+interface SearchFooterProps {
+    onParkingSelect: (parking: ParkingSpot) => void; // Change type to accept ParkingSpot
+}
+
+export const SearchFooter: React.FC<SearchFooterProps> = ({onParkingSelect}) => {
     const [parkingSpots, setParkingSpots] = useState<ParkingSpot[]>([]);
-    const [selectedParking, setSelectedParking] = useState<ParkingSpot | null>(null);
     const [selectedSortingOption, setSelectedSortingOption] = useState<{ [key in FilterOption]?: string }>({});
-    const [, setFooterState] = useFooterState(); // Zustand state setter
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -39,15 +40,8 @@ export function SearchFooter() {
         }));
     };
 
-    // Handle parking spot click
-    const handleParkingSpotClick = (parkingSpot: ParkingSpot) => {
-        setSelectedParking(parkingSpot);
-        setFooterState({mode: {mode: "detail", id: parkingSpot.id}, size: "open"}); // Update footer state
-    };
-
     return (
         <div className="flex flex-col w-full h-full overflow-hidden">
-            {/* Filter Selection fixed at the top */}
             <div className="shadow-md">
                 <FilterSelection
                     selectedSortingOption={selectedSortingOption}
@@ -64,12 +58,11 @@ export function SearchFooter() {
                 ) : (
                     <ParkingList
                         parkingSpots={parkingSpots}
-                        setSelectedParking={handleParkingSpotClick}
+                        onParkingSelect={onParkingSelect}
                     />
                 )}
             </div>
 
-            {/* Copyright text fixed at the bottom */}
             <div>
                 <p className="text-center m-3 text-xs">
                     &copy; 2024 Space-Ease. All rights reserved.
