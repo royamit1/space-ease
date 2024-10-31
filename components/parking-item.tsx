@@ -3,14 +3,14 @@ import {ParkingSpot} from "@/prisma/generated/client";
 
 interface ParkingSpotItemProps {
     spot: ParkingSpot;
-    setSelectedParking: (spot: ParkingSpot) => void;
+    onClick: () => void;
 }
 
-export function ParkingSpotItem({spot, setSelectedParking}: ParkingSpotItemProps) {
+export function ParkingSpotItem({spot, onClick}: ParkingSpotItemProps) {
     return (
         <li
             className="bg-white shadow-md p-4 rounded-lg flex items-start gap-4 cursor-pointer hover:bg-gray-200 transition duration-200"
-            onClick={() => setSelectedParking(spot)}
+            onClick={onClick}
         >
             <div className="flex-1">
                 <h3 className="text-md font-semibold ">{spot.address}</h3>
