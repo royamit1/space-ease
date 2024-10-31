@@ -57,8 +57,15 @@ export const CreateParkingForm: React.FC = () => {
     }
 
     const nextStep = () => {
-        setStep((prev) => Math.min(prev + 1, 3)); // Assuming 3 steps
+        // Only proceed to the next step if we're not on the last step
+        if (step < 2) {
+            setStep((prev) => Math.min(prev + 1, 3)); // Assuming 3 steps
+        } else {
+            // If we are on the last step, manually handle submission if needed
+            form.handleSubmit(onSubmit)(); // Call the handleSubmit directly to trigger onSubmit
+        }
     };
+
 
     const prevStep = () => {
         setStep((prev) => Math.max(prev - 1, 1));
@@ -156,16 +163,11 @@ export const CreateParkingForm: React.FC = () => {
                             Previous
                         </Button>
                     )}
-                    {step < 2 ? (
-                        <Button type="button" onClick={nextStep}>
-                            Next
-                        </Button>
-                    ) : (
-                        <Button type="submit" className="w-full">
-                            Create Parking Spot
-                        </Button>
-                    )}
+                    <Button type="button" onClick={nextStep} className={step < 2 ? "" : "w-full"}>
+                        {step < 2 ? "Next" : "Create Parking Spot"}
+                    </Button>
                 </div>
+
             </form>
         </Form>
 
