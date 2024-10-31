@@ -1,5 +1,3 @@
-'use client'
-
 import {ParkingList} from "@/components/parking-list";
 import {ParkingSpot} from "@/prisma/generated/client";
 import React, {useState, useEffect} from "react";
