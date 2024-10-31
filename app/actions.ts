@@ -1,14 +1,14 @@
 'use server';
 import db from "@/lib/db";
-import {ParkingFormSchema} from "@/schemas/parking-form-schema";
-import {createClient} from "@/utils/supabase/server";
-import {ParkingSpot} from "@/prisma/generated/client";
-import {date} from "zod";
+import { ParkingFormSchema } from "@/schemas/parking-form-schema";
+import { createClient } from "@/utils/supabase/server";
+import { ParkingSpot } from "@/prisma/generated/client";
+import { date } from "zod";
 
 
 const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
     const supabase = createClient();
-    const {data, error} = await supabase.auth.getUser();
+    const { data, error } = await supabase.auth.getUser();
     if (error) {
         console.error(error)
     } else {
@@ -28,10 +28,10 @@ const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
             });
             //     // Return the parking spot data to the front-end
             console.log(parkingSpot)
-            return {parkingSpot};
+            return { parkingSpot };
         } catch (err) {
             console.error("Error creating parking spot:", err);
-            return {error: "Failed to create parking spot"};
+            return { error: "Failed to create parking spot" };
         }
     }
 }
@@ -40,11 +40,12 @@ const fetchAvailableParkingSpots = async () => {
     const now = new Date();
     const parkingSpots: ParkingSpot[] = await db.parkingSpot.findMany({
         where: {
-            startTime: {lte: now},
-            endTime: {gte: now},
+            startTime: { lte: now },
+            endTime: { gte: now },
         },
     });
-    return parkingSpots;
+
+    return [...parkingSpots]
 }
 
-export {createParkingSpot, fetchAvailableParkingSpots}
+export { createParkingSpot, fetchAvailableParkingSpots }

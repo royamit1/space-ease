@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from "react";
+'use client';
+import React, { useState, useEffect } from "react";
 import {
     AdvancedMarker,
     Map,
@@ -7,11 +8,9 @@ import {
     Pin
 } from "@vis.gl/react-google-maps";
 import useGeolocation from "react-hook-geolocation";
-import {useTheme} from "next-themes";
-import {fetchAvailableParkingSpots} from "@/app/actions";
-import {createClient} from "@/utils/supabase/client";
-import {ParkingSpot} from "@/prisma/generated/client";
-import {useFooterState} from "@/hooks/useFooterState";
+import { useTheme } from "next-themes";
+import { useFooterState } from "@/hooks/useFooterState";
+import useParkingSpots from "@/hooks/useParkingSpots";
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
@@ -24,19 +23,16 @@ const initial = {
     zoom: 14
 };
 
-export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...props}) => {
+export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...props }) => {
     const geolocation = useGeolocation();
-    const theme = useTheme()
-    // const parkingSpots = useParkingSpots();
-    const [, setFooterState] = useFooterState();  // Zustand setter for FooterState
-
+    const theme = useTheme();
+    const { data: parkingSpots, isLoading, isError, error } = useParkingSpots();  // Call the hook at the top level
+    // const [parkingSpots, setParkingSpots] = useState<Array<ParkingSpot>>([]);
+    const [, setFooterState] = useFooterState();
     const [center, setCenter] = useState<{ lat: number; lng: number }>({
         lat: geolocation.latitude || initial.lat,
         lng: geolocation.longitude || initial.lng,
     });
-
-    // State to store parking spots
-    const [parkingSpots, setParkingSpots] = useState<ParkingSpot[]>([]);
 
     // Update the map center when new search coordinates are provided
     useEffect(() => {
@@ -45,26 +41,23 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
         }
     }, [searchCoordinates]);
 
+    // useEffect(() => {
+    //     fetchAvailableParkingSpots().then((result) => {
+    //         setParkingSpots(result);
+    //     })
+    // }, [])
+
     // Handle center change to allow user interaction
     const handleBoundsChanged = (event: MapCameraChangedEvent) => {
         const newCenter = event.detail.center;
         if (newCenter) {
-            setCenter({lat: newCenter.lat, lng: newCenter.lng});
+            setCenter({ lat: newCenter.lat, lng: newCenter.lng });
         }
     };
 
-    // Function to validate parking spot data
-    const isValidParkingSpot = (spot: ParkingSpot): boolean => {
-        return (
-            typeof spot.latitude === "number" &&
-            typeof spot.longitude === "number" &&
-            !isNaN(spot.latitude) &&
-            !isNaN(spot.longitude)
-        );
-    };
     // Function to handle pin click and open DetailFooter
     const handlePinClick = (parkingId: number) => {
-        const parkingSpot = parkingSpots.find(spot => spot.id === parkingId);
+        const parkingSpot = parkingSpots?.find(spot => spot.id === parkingId);
         if (parkingSpot) {
             const constantOffset = 0.008; // Constant value to offset the pin lower
             setCenter({
@@ -73,7 +66,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
             });
         }
         setFooterState(prev => ({
-            mode: {mode: "detail", id: parkingId},
+            mode: { mode: "detail", id: parkingId },
             size: prev.size === "collapsed" ? "open" : prev.size // Open only if it was collapsed
         }));
     };
@@ -81,44 +74,49 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
     // Collapse the footer when the user interacts with the map
     const handleMapInteraction = () => {
         setFooterState({
-            mode: {mode: "search"},
+            mode: { mode: "search" },
             size: "collapsed",
         });
     };
 
-    return <Map
-        style={{width: '100vw', height: '100vh', zIndex: 0}}
-        mapId="my-map"
-        center={center}
-        defaultZoom={initial.zoom}
-        disableDefaultUI={false}
-        colorScheme={theme.resolvedTheme?.toUpperCase()}
-        onBoundsChanged={handleBoundsChanged}
-        onDragstart={handleMapInteraction}  // Collapse footer when user interacts with the map
-        onClick={handleMapInteraction}
-        {...props}
-    >
-        {/* User location marker */}
-        {geolocation.latitude && geolocation.longitude && (
-            <AdvancedMarker position={{lat: geolocation.latitude, lng: geolocation.longitude}}>
-                <Pin/>
-            </AdvancedMarker>
-        )}
-        {searchCoordinates && (
-            <AdvancedMarker position={searchCoordinates}>
-                <Pin/>
-            </AdvancedMarker>
-        )}
-        {/* Render markers for each parking spot */}
-        {parkingSpots.map(parking => (
-            <AdvancedMarker
-                key={parking.id}
-                position={{lat: parking.latitude, lng: parking.longitude}}
-                onClick={() => handlePinClick(parking.id)}  // Trigger detail mode on pin click
-            >
-                <Pin/>
-            </AdvancedMarker>
-        ))}
-        {children}
-    </Map>
-}
+    if (isLoading) return <div>Loading...</div>;
+    if (isError) return <div>Error: {JSON.stringify(error)}</div>;
+
+    return (
+        <Map
+            style={{ width: '100vw', height: '100vh', zIndex: 0 }}
+            mapId="my-map"
+            center={center}
+            defaultZoom={initial.zoom}
+            disableDefaultUI={false}
+            colorScheme={theme.resolvedTheme?.toUpperCase()}
+            onBoundsChanged={handleBoundsChanged}
+            onDragstart={handleMapInteraction}
+            onClick={handleMapInteraction}
+            {...props}
+        >
+            {/* User location marker */}
+            {geolocation.latitude && geolocation.longitude && (
+                <AdvancedMarker position={{ lat: geolocation.latitude, lng: geolocation.longitude }}>
+                    <Pin />
+                </AdvancedMarker>
+            )}
+            {searchCoordinates && (
+                <AdvancedMarker position={searchCoordinates}>
+                    <Pin />
+                </AdvancedMarker>
+            )}
+            {/* Render markers for each parking spot */}
+            {parkingSpots?.map(parking => (
+                <AdvancedMarker
+                    key={parking.id}
+                    position={{ lat: parking.latitude, lng: parking.longitude }}
+                    onClick={() => handlePinClick(parking.id)}
+                >
+                    <Pin />
+                </AdvancedMarker>
+            ))}
+            {children}
+        </Map>
+    );
+};
