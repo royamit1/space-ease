@@ -69,7 +69,8 @@ export const Footer: React.FC = () => {
             animate={{height: initialHeight[footerState.size]}}
         >
             <div
-                className="h-1.5 w-24 md:w-48 xl:w-96 m-3 rounded-full cursor-grab active:cursor-grabbing bg-muted"/>
+                className="h-2 w-28 md:w-52 xl:w-96 m-3 rounded-full cursor-grab active:cursor-grabbing bg-muted shadow-md hover:shadow-lg transition-shadow duration-300"
+            />
             {footerState.size !== "collapsed" && renderFooterContent()}
         </motion.div>
     </div>;

@@ -8,7 +8,7 @@ interface ParkingDetailsProps {
 
 const ParkingDetails: React.FC<ParkingDetailsProps> = ({parkingSpot}) => {
     return (
-        <div className="ps-4 pe-4 w-full">
+        <div>
             {/*<div className="w-full h-40 bg-gray-300 rounded-lg mb-4">*/}
             {/*    {parkingSpot.imageUrl && (  // Only render image if available*/}
             {/*        <img src={parkingSpot.imageUrl} alt="Parking Spot"*/}

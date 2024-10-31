@@ -38,6 +38,11 @@ export const SearchFooter: React.FC<SearchFooterProps> = ({onParkingSelect}) => 
         }));
     };
 
+    // Handle parking spot selection
+    const handleParkingSelect = (parkingSpot: ParkingSpot) => {
+        onParkingSelect(parkingSpot); // Pass the selected parking spot to the parent
+    };
+
     return (
         <div className="flex flex-col w-full h-full overflow-hidden">
             <div className="shadow-md">
@@ -56,7 +61,7 @@ export const SearchFooter: React.FC<SearchFooterProps> = ({onParkingSelect}) => 
                 ) : (
                     <ParkingList
                         parkingSpots={parkingSpots}
-                        onParkingSelect={onParkingSelect}
+                        onParkingSelect={handleParkingSelect}
                     />
                 )}
             </div>
