@@ -37,15 +37,19 @@ const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
 }
 
 const fetchAvailableParkingSpots = async () => {
-    const now = new Date();
-    const parkingSpots: ParkingSpot[] = await db.parkingSpot.findMany({
-        where: {
-            startTime: { lte: now },
-            endTime: { gte: now },
-        },
-    });
-
-    return [...parkingSpots]
-}
+    try {
+        const now = new Date();
+        const parkingSpots: ParkingSpot[] = await db.parkingSpot.findMany({
+            where: {
+                startTime: { lte: now },
+                endTime: { gte: now },
+            },
+        });
+        return parkingSpots;
+    } catch (error) {
+        console.error("Error fetching parking spots:", error);
+        throw error; // This will allow React Query to handle the error
+    }
+};
 
 export { createParkingSpot, fetchAvailableParkingSpots }

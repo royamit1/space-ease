@@ -4,8 +4,8 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-import {createParkingSpot} from "@/app/actions";
 import {parkingFormSchema, ParkingFormSchema} from "@/schemas/parking-form-schema";
+import { useParkingMutation } from "@/hooks/useParkingSpots";
 
 interface CreateParkingFormProps {
     step: number;
@@ -26,6 +26,8 @@ export const CreateParkingForm: React.FC = () => {
     })
     const [step, setStep] = useState(1);
     const addressInputRef = useRef<HTMLInputElement>(null);
+    const parkingMutation = useParkingMutation();
+
 
     useEffect(() => {
         if (typeof window !== "undefined" && window.google) {
@@ -51,9 +53,8 @@ export const CreateParkingForm: React.FC = () => {
         }
     }, [form]);
 
-    const onSubmit = async (data: ParkingFormSchema) => {
-        await createParkingSpot(data);
-        // close
+    const onSubmit = (data: ParkingFormSchema) => {
+        parkingMutation.mutate(data);
     }
 
     const nextStep = () => {

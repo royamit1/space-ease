@@ -10,7 +10,7 @@ import {
 import useGeolocation from "react-hook-geolocation";
 import { useTheme } from "next-themes";
 import { useFooterState } from "@/hooks/useFooterState";
-import useParkingSpots from "@/hooks/useParkingSpots";
+import { useParkingSpots } from "@/hooks/useParkingSpots";
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
@@ -27,7 +27,6 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
     const geolocation = useGeolocation();
     const theme = useTheme();
     const { data: parkingSpots, isLoading, isError, error } = useParkingSpots();  // Call the hook at the top level
-    // const [parkingSpots, setParkingSpots] = useState<Array<ParkingSpot>>([]);
     const [, setFooterState] = useFooterState();
     const [center, setCenter] = useState<{ lat: number; lng: number }>({
         lat: geolocation.latitude || initial.lat,
@@ -40,12 +39,6 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
             setCenter(searchCoordinates);
         }
     }, [searchCoordinates]);
-
-    // useEffect(() => {
-    //     fetchAvailableParkingSpots().then((result) => {
-    //         setParkingSpots(result);
-    //     })
-    // }, [])
 
     // Handle center change to allow user interaction
     const handleBoundsChanged = (event: MapCameraChangedEvent) => {

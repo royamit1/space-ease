@@ -11,9 +11,10 @@ import './styles/styles.css';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
+const queryClient = new QueryClient();
+
 export default function Index() {
     const [searchCoordinates, setSearchCoordinates] = useState<{ lat: number; lng: number } | undefined>(undefined);
-    const queryClient = new QueryClient();
 
     const handleSearch = (lat: number, lng: number) => {
         console.log("Search coordinates:", { lat, lng });

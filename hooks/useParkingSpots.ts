@@ -1,14 +1,35 @@
 'use client';
-import { fetchAvailableParkingSpots } from "@/app/actions";
-import { useQuery } from "@tanstack/react-query"
+import { createParkingSpot, fetchAvailableParkingSpots } from "@/app/actions";
+import { ParkingFormSchema } from "@/schemas/parking-form-schema";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+
+
 
 const useParkingSpots = () => {
     const result = useQuery({
         queryKey: ['parkingSpots'],
         queryFn: () => fetchAvailableParkingSpots(),
+        refetchOnWindowFocus: false,
     })
-
     return result;
 }
 
-export default useParkingSpots
+const useParkingMutation = () => {
+    const queryClient = useQueryClient();
+    const newParkingMutation = useMutation({
+        mutationFn: (parkingFormData: ParkingFormSchema) => {
+            return createParkingSpot(parkingFormData);
+        },
+        onSuccess: () => {
+            console.log("created parking with react query !");
+            queryClient.invalidateQueries({ queryKey: ["parkingSpots"] });
+        },
+        onError: (error) => {
+            console.error("Error creating parking spot: ", error)
+        }
+    })
+
+    return newParkingMutation;
+}
+
+export { useParkingSpots, useParkingMutation };
