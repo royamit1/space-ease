@@ -66,13 +66,14 @@ export const CreateParkingForm: React.FC = () => {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col px-6 gap-4">
+                {/* Step 1: Address, Availability, Price */}
                 {step === 1 && (
                     <>
                         <FormField
                             control={form.control}
                             name="address"
-                            render={({field}) => (
+                            render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Address</FormLabel>
                                     <FormControl>
@@ -82,121 +83,80 @@ export const CreateParkingForm: React.FC = () => {
                                             placeholder="Search for an address"
                                         />
                                     </FormControl>
-                                    <FormDescription>
-                                        The parking spot closest address
-                                    </FormDescription>
-                                    <FormMessage/>
                                 </FormItem>
                             )}
                         />
                         <div className="flex flex-row gap-4">
                             <FormField
                                 control={form.control}
-                                name="longitude"
-                                render={({field}) => (
+                                name="availableFrom"
+                                render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Longitude</FormLabel>
+                                        <FormLabel>Available From</FormLabel>
                                         <FormControl>
-                                            <Input {...field} type="number"/>
+                                            {/* @ts-ignore */}
+                                            <Input {...field} />
                                         </FormControl>
-                                        <FormDescription>
-                                            (will be selected from the map)
-                                        </FormDescription>
-                                        <FormMessage/>
+                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
                             <FormField
                                 control={form.control}
-                                name="latitude"
-                                render={({field}) => (
+                                name="availableUntil"
+                                render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Latitude</FormLabel>
+                                        <FormLabel>Available Until</FormLabel>
                                         <FormControl>
-                                            <Input {...field} type="number"/>
+                                            {/* @ts-ignore */}
+                                            <Input {...field} />
                                         </FormControl>
-                                        <FormDescription>
-                                            (will be selected from the map)
-                                        </FormDescription>
-                                        <FormMessage/>
+                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
                         </div>
-                    </>
-                )}
-
-                {step === 2 && (
-                    <div className="flex flex-row gap-4">
-                        <FormField
-                            control={form.control}
-                            name="availableFrom"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel>Available From</FormLabel>
-                                    <FormControl>
-                                        {/* @ts-ignore */}
-                                        <Input {...field} />
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="availableUntil"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel>Available Until</FormLabel>
-                                    <FormControl>
-                                        {/* @ts-ignore */}
-                                        <Input {...field} />
-                                    </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                )}
-
-                {step === 3 && (
-                    <>
                         <FormField
                             control={form.control}
                             name="price"
-                            render={({field}) => (
+                            render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Price</FormLabel>
                                     <FormControl>
                                         <Input {...field} />
                                     </FormControl>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="description"
-                            render={({field}) => (
-                                <FormItem>
-                                    <FormLabel>Description</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                    <FormMessage/>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                     </>
                 )}
 
-                <div className="flex justify-between">
+                {/* Step 2: Description */}
+                {step === 2 && (
+                    <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Description</FormLabel>
+                                <FormControl>
+                                    <Input {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                )}
+
+                {/* Navigation Buttons */}
+                <div className="flex justify-between mt-4">
                     {step > 1 && (
                         <Button type="button" onClick={prevStep}>
                             Previous
                         </Button>
                     )}
-                    {step < 3 ? (
+                    {step < 2 ? (
                         <Button type="button" onClick={nextStep}>
                             Next
                         </Button>
@@ -208,5 +168,6 @@ export const CreateParkingForm: React.FC = () => {
                 </div>
             </form>
         </Form>
+
     );
 }
