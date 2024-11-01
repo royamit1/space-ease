@@ -5,7 +5,7 @@ import { useFooterState } from "@/hooks/useFooterState";
 import { SearchFooter } from "@/components/search-footer";
 import { CreateFooter } from "@/components/create-footer";
 import { DetailFooter } from "@/components/detail-footer";
-import { ParkingSpot } from "@/prisma/generated/client";
+import { ParkingSpot } from "@prisma/client";
 import { useParkingSpotById } from "@/hooks/useParkingSpots";
 
 const initialHeight = {
