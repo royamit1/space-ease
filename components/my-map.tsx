@@ -50,18 +50,20 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
 
     // Function to handle pin click and open DetailFooter
     const handlePinClick = (parkingId: number) => {
-        const parkingSpot = parkingSpots?.find(spot => spot.id === parkingId);
-        if (parkingSpot) {
-            console.log(parkingSpot);
-            const constantOffset = 0.008; // Constant value to offset the pin lower
-            setCenter({
-                lat: parkingSpot.latitude - constantOffset, // Adjust latitude downwards with a constant offset
-                lng: parkingSpot.longitude // Keep the longitude the same for horizontal centering
-            });
-            setFooterState(prev => ({
-                mode: { mode: "detail", id: parkingId },
-                size: prev.size === "collapsed" ? "open" : prev.size // Open only if it was collapsed
-            }));
+        if (parkingSpots) {
+            const parkingSpot = parkingSpots.find(spot => spot.id === parkingId);
+            if (parkingSpot) {
+                console.log(parkingSpot);
+                const constantOffset = 0.008; // Constant value to offset the pin lower
+                setCenter({
+                    lat: parkingSpot.latitude - constantOffset, // Adjust latitude downwards with a constant offset
+                    lng: parkingSpot.longitude // Keep the longitude the same for horizontal centering
+                });
+                setFooterState(prev => ({
+                    mode: { mode: "detail", id: parkingId },
+                    size: prev.size === "collapsed" ? "open" : prev.size // Open only if it was collapsed
+                }));
+            }
         }
     };
 
