@@ -52,4 +52,18 @@ const fetchAvailableParkingSpots = async () => {
     }
 };
 
-export { createParkingSpot, fetchAvailableParkingSpots }
+const fetchParkingSpotById = async (id: number) => {
+    try {
+        const singleParking = await db.parkingSpot.findUnique({
+            where: {
+                id: id
+            },
+        })
+        return singleParking;
+    } catch (error) {
+        console.error("Error fetching parking spot by id : ", error);
+        throw error;
+    }
+}
+
+export { createParkingSpot, fetchAvailableParkingSpots, fetchParkingSpotById }

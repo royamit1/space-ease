@@ -1,18 +1,28 @@
 'use client';
-import { createParkingSpot, fetchAvailableParkingSpots } from "@/app/actions";
+import { createParkingSpot, fetchAvailableParkingSpots, fetchParkingSpotById } from "@/app/actions";
 import { ParkingFormSchema } from "@/schemas/parking-form-schema";
+import { ParkingSpot } from "@/prisma/generated/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 
 
 const useParkingSpots = () => {
-    const result = useQuery({
+    const parkingSpotsQuery = useQuery({
         queryKey: ['parkingSpots'],
         queryFn: () => fetchAvailableParkingSpots(),
         refetchOnWindowFocus: false,
     })
-    return result;
+    return parkingSpotsQuery;
 }
+
+const useParkingSpotById = (id: number | null) => {
+    return useQuery({
+        queryKey: ['parkingSpots', id],
+        queryFn: () => fetchParkingSpotById(id!),
+        enabled: !!id,  // Only run if `id` is not null or undefined
+    });
+};
+
 
 const useParkingMutation = () => {
     const queryClient = useQueryClient();
@@ -32,4 +42,4 @@ const useParkingMutation = () => {
     return newParkingMutation;
 }
 
-export { useParkingSpots, useParkingMutation };
+export { useParkingSpots, useParkingMutation, useParkingSpotById };
