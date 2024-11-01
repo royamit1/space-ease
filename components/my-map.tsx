@@ -27,11 +27,21 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
     const geolocation = useGeolocation();
     const theme = useTheme();
     const { data: parkingSpots, isLoading, isError, error } = useParkingSpots();  // Call the hook at the top level
-    const [, setFooterState] = useFooterState();
+    const [selectedParkingId, setFooterState] = useFooterState(state => state.mode.mode === "detail" ? state.mode.id : null);
     const [center, setCenter] = useState<{ lat: number; lng: number }>({
         lat: geolocation.latitude || initial.lat,
         lng: geolocation.longitude || initial.lng,
     });
+
+    useEffect(() => {
+        if (parkingSpots === undefined) return;
+        const parking = parkingSpots.find(parking => parking.id === selectedParkingId);
+        if (parking === undefined) return;
+        setCenter({
+            lat: parking.latitude,
+            lng: parking.longitude,
+        })
+    }, [selectedParkingId]);
 
     // Update the map center when new search coordinates are provided
     useEffect(() => {
@@ -50,23 +60,7 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
 
     // Function to handle pin click and open DetailFooter
     const handlePinClick = (parkingId: number) => {
-        if (!parkingSpots) {
-            return null;
-        }
-        
-        const parkingSpot = parkingSpots.find(spot => spot.id === parkingId);
-        if (parkingSpot) {
-            console.log(parkingSpot);
-            const constantOffset = 0.008; // Constant value to offset the pin lower
-            setCenter({
-                lat: parkingSpot.latitude - constantOffset, // Adjust latitude downwards with a constant offset
-                lng: parkingSpot.longitude // Keep the longitude the same for horizontal centering
-            });
-            setFooterState(prev => ({
-                mode: { mode: "detail", id: parkingId },
-                size: prev.size === "collapsed" ? "open" : prev.size // Open only if it was collapsed
-            }));
-        }
+        setFooterState({mode: {mode: "detail", id: parkingId}, size: "open"})
     };
 
     // Collapse the footer when the user interacts with the map
