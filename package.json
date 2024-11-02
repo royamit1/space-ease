@@ -47,6 +47,7 @@
     "zustand": "^5.0.0"
   },
   "devDependencies": {
+    "@prisma/nextjs-monorepo-workaround-plugin": "^5.21.1",
     "@types/google-one-tap": "^1.2.6",
     "@types/node": "^20.10.6",
     "@types/react": "18.2.46",
