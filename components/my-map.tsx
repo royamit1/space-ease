@@ -7,6 +7,7 @@ import {useTheme} from "next-themes";
 import {useFooterState} from "@/hooks/useFooterState";
 import {useParkingSpots} from "@/hooks/useParkingSpots";
 import {UserMarker} from "@/components/user-marker";
+import { motion } from 'framer-motion'
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
@@ -98,9 +99,27 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
                     position={{ lat: parking.latitude, lng: parking.longitude }}
                     onClick={() => handlePinClick(parking.id)}
                 >
-                    <Pin />
+                    <motion.div
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                    >
+                        <div className="relative">
+                            <div
+                                className="w-11 h-11 bg-white rounded-full border-2 border-blue-800 shadow-lg flex items-center justify-center"
+                            >
+                                <div className="text-black font-bold text-sm">
+                                    ${parking.hourlyRate}
+                                </div>
+                            </div>
+                            <div
+                                className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-blue-800"
+                            />
+                        </div>
+                    </motion.div>
                 </AdvancedMarker>
             ))}
+
             {children}
         </Map>
     );
