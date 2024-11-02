@@ -6,7 +6,7 @@ import useGeolocation from "react-hook-geolocation";
 import {useTheme} from "next-themes";
 import {useFooterState} from "@/hooks/useFooterState";
 import {useParkingSpots} from "@/hooks/useParkingSpots";
-import {UserMaker} from "@/components/user-maker";
+import {UserMarker} from "@/components/user-marker";
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
@@ -85,7 +85,7 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
             onClick={handleMapInteraction}
             {...props}
         >
-            <UserMaker />
+            <UserMarker />
             {searchCoordinates && (
                 <AdvancedMarker position={searchCoordinates}>
                     <Pin />

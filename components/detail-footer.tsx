@@ -21,8 +21,16 @@ export const DetailFooter: React.FC = () => {
     }
 
     return (
-        <ParkingDetails
-            parkingSpot={parkingSpot}
-        />
+        <div className="flex flex-col min-h-screen">
+            <div className="flex-grow overflow-y-auto">
+                <ParkingDetails parkingSpot={parkingSpot}/>
+            </div>
+
+            <div className="sticky bottom-0 p-4">
+                <button className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition">
+                    Rent Now
+                </button>
+            </div>
+        </div>
     );
 };
