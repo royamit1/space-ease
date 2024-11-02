@@ -10,6 +10,7 @@ import Script from "next/script";
 import './styles/styles.css';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import {FooterContent} from "@/components/footer-content";
 
 const queryClient = new QueryClient();
 
@@ -33,7 +34,9 @@ export default function Index() {
                     />
                     <MyMap searchCoordinates={searchCoordinates} disableDefaultUI={true}>
                         <Header className="fixed top-0 px-7 pt-3 " onSearch={handleSearch} />
-                        <Footer />
+                        <Footer>
+                            <FooterContent />
+                        </Footer>
                     </MyMap>
                 </APIProvider>
             </FooterStoreProvider>
