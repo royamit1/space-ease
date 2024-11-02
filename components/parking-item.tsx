@@ -1,16 +1,22 @@
 import React from "react";
 import {ParkingSpot} from "@/prisma/generated/client";
+import {useFooterState} from "@/hooks/useFooterState";
 
 interface ParkingSpotItemProps {
     spot: ParkingSpot;
-    onClick: () => void;
 }
 
-export function ParkingSpotItem({spot, onClick}: ParkingSpotItemProps) {
+export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({spot}) => {
+    const [_, setFooterState] = useFooterState(state => null);
+
+    const handleItemClick = () => {
+        setFooterState({mode: {mode: "detail", id: spot.id}, size: "open"})
+    };
+
     return (
         <li
             className="bg-white shadow-md p-4 rounded-lg flex items-start gap-4 cursor-pointer hover:bg-gray-200 transition duration-200"
-            onClick={onClick}
+            onClick={handleItemClick}
         >
             <div className="flex-1">
                 <h3 className="text-md font-semibold ">{spot.address}</h3>
@@ -29,4 +35,4 @@ export function ParkingSpotItem({spot, onClick}: ParkingSpotItemProps) {
             </div>
         </li>
     );
-}
+};

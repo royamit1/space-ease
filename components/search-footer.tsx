@@ -1,16 +1,11 @@
 'use client'
 
 import { ParkingList } from "@/components/parking-list";
-import { ParkingSpot } from "@/prisma/generated/client";
 import React, { useState } from "react";
 import FilterSelection, { FilterOption } from "@/components/filter-selection";
 import { useParkingSpots } from "@/hooks/useParkingSpots";
 
-interface SearchFooterProps {
-    onParkingSelect: (parking: ParkingSpot) => void;
-}
-
-export const SearchFooter: React.FC<SearchFooterProps> = ({ onParkingSelect }) => {
+export const SearchFooter: React.FC = () => {
     const [selectedSortingOption, setSelectedSortingOption] = useState<{ [key in FilterOption]?: string }>({});
     const { data: parkingSpots, isError, isLoading, error } = useParkingSpots();
 
@@ -40,7 +35,6 @@ export const SearchFooter: React.FC<SearchFooterProps> = ({ onParkingSelect }) =
                 {parkingSpots && (
                     <ParkingList
                         parkingSpots={parkingSpots}
-                        onParkingSelect={onParkingSelect}
                     />
                 )}
             </div>

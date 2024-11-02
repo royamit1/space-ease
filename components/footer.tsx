@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useRef, useState } from "react";
 import { motion, PanInfo } from "framer-motion";
 import { useFooterState } from "@/hooks/useFooterState";
@@ -24,7 +25,6 @@ export const Footer: React.FC = () => {
         footerState.mode.mode === "detail" ? footerState.mode.id : null
     );
 
-
     useEffect(() => {
         if (footerState.mode.mode === "detail" && parkingData) {
             setSelectedParking(parkingData);
@@ -47,10 +47,6 @@ export const Footer: React.FC = () => {
         }
     }
 
-    const handleParkingSelect = (parking: ParkingSpot) => {
-        setFooterState({ mode: { mode: "detail", id: parking.id }, size: "open" });
-    };
-
     const renderFooterContent = () => {
         switch (footerState.mode.mode) {
             case "create":
@@ -64,7 +60,7 @@ export const Footer: React.FC = () => {
                     <div>Error loading parking spot.</div>
                 ) : null;
             case "search":
-                return <SearchFooter onParkingSelect={handleParkingSelect} />;
+                return <SearchFooter />;
             default:
                 return null;
         }
