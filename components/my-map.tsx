@@ -1,17 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
-import {
-    AdvancedMarker,
-    Map,
-    MapCameraChangedEvent,
-    MapProps,
-    Pin
-} from "@vis.gl/react-google-maps";
+import React, {useEffect, useState} from "react";
+import {AdvancedMarker, Map, MapCameraChangedEvent, MapProps, Pin} from "@vis.gl/react-google-maps";
 import useGeolocation from "react-hook-geolocation";
-import { useTheme } from "next-themes";
-import { useFooterState } from "@/hooks/useFooterState";
-import { useParkingSpots } from "@/hooks/useParkingSpots";
+import {useTheme} from "next-themes";
+import {useFooterState} from "@/hooks/useFooterState";
+import {useParkingSpots} from "@/hooks/useParkingSpots";
+import {UserMaker} from "@/components/user-maker";
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
@@ -25,10 +20,11 @@ const initial = {
 };
 
 export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...props }) => {
-    const geolocation = useGeolocation();
     const theme = useTheme();
     const { data: parkingSpots, isLoading, isError, error } = useParkingSpots();  // Call the hook at the top level
     const [selectedParkingId, setFooterState] = useFooterState(state => state.mode.mode === "detail" ? state.mode.id : null);
+
+    const geolocation = useGeolocation();
     const [center, setCenter] = useState<{ lat: number; lng: number }>({
         lat: geolocation.latitude || initial.lat,
         lng: geolocation.longitude || initial.lng,
@@ -89,12 +85,7 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
             onClick={handleMapInteraction}
             {...props}
         >
-            {/* User location marker */}
-            {geolocation.latitude && geolocation.longitude && (
-                <AdvancedMarker position={{ lat: geolocation.latitude, lng: geolocation.longitude }}>
-                    <Pin />
-                </AdvancedMarker>
-            )}
+            <UserMaker />
             {searchCoordinates && (
                 <AdvancedMarker position={searchCoordinates}>
                     <Pin />
