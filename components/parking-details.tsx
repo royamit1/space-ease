@@ -8,52 +8,51 @@ interface ParkingDetailsProps {
 
 const ParkingDetails: React.FC<ParkingDetailsProps> = ({parkingSpot}) => {
     return (
-        <div className="ps-4 pe-4 w-full space-y-5">
-            {/*<div className="w-full h-40 bg-gray-300 rounded-lg mb-4">*/}
-            {/*    {parkingSpot.imageUrl && (  // Only render image if available*/}
-            {/*        <img src={parkingSpot.imageUrl} alt="Parking Spot"*/}
-            {/*             className="w-full h-full object-cover rounded-lg"/>*/}
-            {/*    )}*/}
-            {/*</div>*/}
-            <h3 className="text-xl font-semibold mb-3">{parkingSpot.address}</h3>
-            <div className="flex items-center space-x-4">
-                <div className="bg-blue-100 rounded-full p-2">
-                    <FaClock className="text-blue-600 w-4 h-4"/>
-                </div>
-                <div>
-                    <p className="text-xs text-gray-500 font-medium">Available Time</p>
-                    <p className="text-sm font-semibold text-gray-800">
-                        {new Date(parkingSpot.startTime).toLocaleTimeString([], {
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 ps-4 pe-4 pb-5">
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">{parkingSpot.address}</h3>
+            <div className="bg-blue-50 p-3 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
+                {/*<div className="w-full h-40 bg-gray-300 rounded-lg mb-4">*/}
+                {/*    {parkingSpot.imageUrl && (  // Only render image if available*/}
+                {/*        <img src={parkingSpot.imageUrl} alt="Parking Spot"*/}
+                {/*             className="w-full h-full object-cover rounded-lg"/>*/}
+                {/*    )}*/}
+                {/*</div>*/}
+                <div className="flex items-center space-x-2">
+                    <FaClock className="text-blue-600 w-5 h-5"/>
+                    <div>
+                        <p className="text-xs text-gray-600 font-medium">Available Time</p>
+                        <p className="text-sm font-semibold text-gray-800">
+                            {new Date(parkingSpot.startTime).toLocaleTimeString([], {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                            })} - {new Date(parkingSpot.endTime).toLocaleTimeString([], {
                             hour: '2-digit',
                             minute: '2-digit',
-                        })} - {new Date(parkingSpot.endTime).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                    })}
-                    </p>
+                        })}
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <div className="flex items-center space-x-4">
-                <div className="bg-green-100 rounded-full p-2">
-                    <FaDollarSign className="text-green-600 w-4 h-4"/>
-                </div>
-                <div>
-                    <p className="text-xs text-gray-500 font-medium">Hourly Rate</p>
-                    <p className="text-sm font-semibold text-gray-800">
-                        ${parkingSpot.hourlyRate}
-                    </p>
+            <div className="bg-green-50 p-3 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200">
+                <div className="flex items-center space-x-2">
+                    <FaDollarSign className="text-green-600 w-5 h-5"/>
+                    <div>
+                        <p className="text-xs text-gray-600 font-medium">Hourly Rate</p>
+                        <p className="text-sm font-semibold text-gray-800">
+                            ${parkingSpot.hourlyRate}
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <hr className="my-4 border-gray-300"/>
-
-            <div className="overflow-y-auto max-h-48">
-                <h4 className="text flex items-center">
-                    <FaInfoCircle className="text-gray-400 mr-2"/>
+            <div
+                className="bg-yellow-50 p-3 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 col-span-1 md:col-span-2">
+                <h4 className="font-semibold text-gray-800 flex items-center mb-2">
+                    <FaInfoCircle className="text-yellow-400 w-5 h-5 mr-2"/>
                     Description:
                 </h4>
-                <p className="text-gray-800">{parkingSpot.description}</p>
+                <p className="text-gray-700">{parkingSpot.description}</p>
             </div>
         </div>
     );
