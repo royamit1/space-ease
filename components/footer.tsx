@@ -41,7 +41,7 @@ export const Footer: React.FC<{children: React.ReactNode}> = ({children}) => {
                 style={{ maxHeight: "calc(100vh - 7rem)" }}
                 animate={{ height: initialHeight[footerSize] }}
             >
-                <div className="h-1.5 w-24 md:w-48 xl:w-96 m-3 rounded-full cursor-grab active:cursor-grabbing bg-muted" />
+                <div className="h-1.5 p-0.5 w-24 md:w-48 xl:w-96 m-3 rounded-full cursor-grab active:cursor-grabbing bg-gradient-to-r from-gray-300 to-gray-500 shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out"/>
                 <motion.div animate={{height: footerSize === "collapsed" ? "0" : "auto"}} className="overflow-hidden">
                     {children}
                 </motion.div>
