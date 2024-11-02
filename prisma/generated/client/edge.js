@@ -129,7 +129,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\ofira\\Documents\\repos\\space-ease\\prisma\\generated\\client",
+      "value": "C:\\Users\\royva\\Desktop\\space-ease v2\\space-ease\\prisma\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -140,14 +140,10 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
-      },
-      {
-        "fromEnvVar": null,
-        "value": "rhel-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\ofira\\Documents\\repos\\space-ease\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\royva\\Desktop\\space-ease v2\\space-ease\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -161,7 +157,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -170,8 +165,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"./generated/client\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\"]\n}\n\nmodel ParkingSpot {\n  id          Int      @id @default(autoincrement())\n  userId      String // insert the userId with supabase.auth\n  latitude    Float\n  longitude   Float\n  address     String\n  description String\n  hourlyRate  Int\n  startTime   DateTime\n  endTime     DateTime\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n}\n",
-  "inlineSchemaHash": "0754d0c8a1012dd4aa9b4971db3e2428943a92d477515291d4fdd43d92f04508",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/client\"\n}\n\nmodel ParkingSpot {\n  id          Int      @id @default(autoincrement())\n  userId      String // insert the userId with supabase.auth\n  latitude    Float\n  longitude   Float\n  address     String\n  description String\n  hourlyRate  Int\n  startTime   DateTime\n  endTime     DateTime\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n}\n",
+  "inlineSchemaHash": "0e5e3bd292e5d7f099f30281b8713d9a6301f0fc0e76a95071a145ea87be1519",
   "copyEngine": true
 }
 config.dirname = '/'
