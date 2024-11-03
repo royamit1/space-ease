@@ -23,6 +23,23 @@ const useParkingSpotById = (id: number | null) => {
     });
 };
 
+/**
+ * react query to fetch filtered parking spots and listen to changes on filter dependency
+ * @returns filtered parking spots
+ */
+// const useParkingSpots = (filters: FooterFilters, geolocation: { latitude: number, longitude: number }) => {
+//     return useQuery({
+//       queryKey: ['parkingSpots', filters, geolocation.latitude, geolocation.longitude],
+//       queryFn: () => fetchFilteredParkingSpots(
+//         filters,
+//         geolocation.latitude || 0,
+//         geolocation.longitude || 0
+//       ),
+//       refetchOnWindowFocus: false,
+//       enabled: !!geolocation.latitude && !!geolocation.longitude, // Only run the query when we have the user's location
+//     });
+//   }
+
 
 const useParkingMutation = () => {
     const queryClient = useQueryClient();

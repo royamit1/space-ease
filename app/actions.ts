@@ -6,7 +6,7 @@ import { ParkingSpot } from "@/prisma/generated/client";
 import { FooterFilters } from "@/hooks/useFooterState";
 import { date } from "zod";
 
-type parkingSpotNDist = {
+export type parkingSpotNDist = {
     id: number
     userId: String
     latitude: number
