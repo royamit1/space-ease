@@ -3,7 +3,23 @@ import db from "@/lib/db";
 import { ParkingFormSchema } from "@/schemas/parking-form-schema";
 import { createClient } from "@/utils/supabase/server";
 import { ParkingSpot } from "@/prisma/generated/client";
+import { FooterFilters } from "@/hooks/useFooterState";
 import { date } from "zod";
+
+type parkingSpotNDist = {
+    id: number
+    userId: String
+    latitude: number
+    longitude: number
+    address: String
+    description: String
+    hourlyRate: number
+    startTime: Date
+    endTime: Date
+    createdAt: Date
+    updatedAt: Date
+    distance: number
+}
 
 
 const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
@@ -66,4 +82,45 @@ const fetchParkingSpotById = async (id: number) => {
     }
 }
 
-export { createParkingSpot, fetchAvailableParkingSpots, fetchParkingSpotById }
+/**
+ * 
+ * @param filters filters for parking spots include distance, price and availability
+ * @param userLat user latitude for user selected location
+ * @param userLng user longitude for user selected location
+ * @returns filtered parking spots
+ */
+const fetchFilteredParkingSpots = async (filters: FooterFilters, userLat: number, userLng: number) => {
+    const { distance = 5, price, availability = 'all' } = filters
+
+    let whereClause: any = {}
+
+    if (availability) {
+        const date = new Date();
+        whereClause.endTime = { lte: date }
+        whereClause.startTime = { gte: date }
+    }
+
+    if (price !== undefined) {
+        whereClause.hourlyRate = { lte: price }
+    }
+
+    const parkingSpots: parkingSpotNDist[] = await db.$queryRaw`
+      SELECT *, 
+        ST_Distance(
+          ST_MakePoint(longitude, latitude)::geography,
+          ST_MakePoint(${userLng}, ${userLat})::geography
+        ) as distance
+      FROM "ParkingSpot"
+      WHERE ${whereClause}
+        AND ST_DWithin(
+          ST_MakePoint(longitude, latitude)::geography,
+          ST_MakePoint(${userLng}, ${userLat})::geography,
+          ${distance * 1000}
+        )
+      ORDER BY distance
+    `
+
+    return parkingSpots
+}
+
+export { createParkingSpot, fetchAvailableParkingSpots, fetchParkingSpotById, fetchFilteredParkingSpots }
