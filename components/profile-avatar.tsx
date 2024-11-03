@@ -12,18 +12,7 @@ import {
 import {useFooterState} from "@/hooks/useFooterState";
 
 export function ProfileAvatar() {
-    const router = useRouter()
     const [, setFooterState] = useFooterState();
-
-    const handleSignOut = async () => {
-        const supabase = createClient()
-        let {error} = await supabase.auth.signOut();
-        if (error) {
-            console.log(error)
-        } else {
-            router.push('/sign-in')
-        }
-    };
 
     // Function to set footer to "create" mode and "open" size
     const handleCreateParking = () => {
@@ -54,14 +43,13 @@ export function ProfileAvatar() {
                         </DropdownMenuItem>
                     </DialogTrigger>
                     <DropdownMenuItem className="flex justify-center">
-                        <Button className="w-full" onClick={() => {/* Add user info logic here */
-                        }}>
-                            User Info
+                        <Button className="w-full" >
+                            My Parking Spots
                         </Button>
                     </DropdownMenuItem>
                     <DropdownMenuItem className="flex justify-center">
-                        <Button className="w-full" onClick={handleSignOut}>
-                            Logout
+                        <Button className="w-full" >
+                            History
                         </Button>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
