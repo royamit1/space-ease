@@ -6,7 +6,7 @@ import {useFooterState} from "@/hooks/useFooterState";
 
 const initialHeight = {
     collapsed: "auto",
-    open: "45vh",
+    open: "50vh",
     full: "100vh",
 }
 
