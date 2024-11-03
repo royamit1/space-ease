@@ -7,7 +7,8 @@ import {useTheme} from "next-themes";
 import {useFooterState} from "@/hooks/useFooterState";
 import {useParkingSpots} from "@/hooks/useParkingSpots";
 import {UserMarker} from "@/components/user-marker";
-import {motion} from 'framer-motion'
+import {AnimatePresence, motion} from 'framer-motion'
+import CurrentLocationMarker from "@/components/current-location-marker";
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
@@ -25,6 +26,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
     const {data: parkingSpots, isLoading, isError, error} = useParkingSpots();  // Call the hook at the top level
     const [_, setFooterState] = useFooterState(state => state.mode.mode === "detail" ? state.mode.id : null);
     const [activeParkingId, setActiveParkingId] = useState<number | null>(null);
+    const [searchKey, setSearchKey] = useState(0);
 
     const geolocation = useGeolocation();
     const [center, setCenter] = useState<{ lat: number; lng: number }>({
@@ -36,6 +38,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
     useEffect(() => {
         if (searchCoordinates) {
             setCenter(searchCoordinates);
+            setSearchKey(prevKey => prevKey + 1); // Increment the key to force re-render
         }
     }, [searchCoordinates]);
 
@@ -80,11 +83,16 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
             {...props}
         >
             <UserMarker/>
-            {searchCoordinates && (
-                <AdvancedMarker position={searchCoordinates}>
-                    <Pin/>
-                </AdvancedMarker>
-            )}
+            <AnimatePresence>
+                {searchCoordinates && (
+                    <motion.div key={`search-${searchKey}`}>
+                        <CurrentLocationMarker
+                            position={searchCoordinates}
+                            isSearch={true}
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
             {parkingSpots?.map(parking => (
                 <AdvancedMarker
                     key={parking.id}
