@@ -1,6 +1,6 @@
 import React from "react";
 
-export type FilterOption = 'availability' | 'price' | 'nearby';
+export type FilterOption = 'availability' | 'price' | 'nearby' | 'parkingType';
 
 interface FilterSelectionProps {
     selectedSortingOption: { [key in FilterOption]?: string };
@@ -16,6 +16,7 @@ const FilterSelection: React.FC<FilterSelectionProps> = ({
         {id: 'availability', label: 'Availability', options: ['Available Now', 'Available Soon', 'Not Available']},
         {id: 'price', label: 'Price', options: ['$', '$-$$', '$-$$-$$$']},
         {id: 'nearby', label: 'Nearby', options: ['< 1 minute', '< 5 minutes', '< 10 minutes']},
+        {id: 'parkingType', label: 'Parking Type', options: ['All Parking Spots', 'My Parking Spots']},
     ];
 
     return (

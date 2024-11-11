@@ -42,16 +42,13 @@ export function ProfileAvatar() {
                             </Button>
                         </DropdownMenuItem>
                     </DialogTrigger>
-                    <DropdownMenuItem className="flex justify-center">
-                        <Button className="w-full" >
-                            My Parking Spots
-                        </Button>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="flex justify-center">
-                        <Button className="w-full" >
-                            History
-                        </Button>
-                    </DropdownMenuItem>
+                    <DialogTrigger asChild>
+                        <DropdownMenuItem className="flex justify-center">
+                            <Button className="w-full">
+                                My History
+                            </Button>
+                        </DropdownMenuItem>
+                    </DialogTrigger>
                 </DropdownMenuContent>
             </DropdownMenu>
         </Dialog>
