@@ -71,11 +71,11 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
 
     return (
         <Map
-            style={{width: '100vw', height: '100vh', zIndex: 0}}
+            style={{width: '100vw', height: '100vh', color:"black" , zIndex: 0}}
             mapId="my-map"
             center={center}
             defaultZoom={initial.zoom}
-            disableDefaultUI={false}
+            disableDefaultUI={true}
             colorScheme={theme.resolvedTheme?.toUpperCase()}
             onBoundsChanged={handleBoundsChanged}
             onDragstart={handleMapInteraction}
@@ -119,7 +119,9 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
                     </motion.div>
                 </AdvancedMarker>
             ))}
-            {children}
+            <div className="text-foreground">
+                {children}
+            </div>
         </Map>
     );
 };
