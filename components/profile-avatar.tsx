@@ -8,9 +8,11 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import {useFooterState} from "@/hooks/useFooterState";
+import {useProfilePicture} from "@/hooks/useProfilePicture";
 
 export function ProfileAvatar() {
     const [, setFooterState] = useFooterState();
+    const profilePicture = useProfilePicture();
 
     // Function to set footer to "create" mode and "open" size
     const handleCreateParking = () => {
@@ -25,7 +27,7 @@ export function ProfileAvatar() {
             <DropdownMenu>
                 <DropdownMenuTrigger>
                     <Avatar className="w-12 h-12 lg:w-16 lg:h-16">
-                        <AvatarImage src="https://github.com/shadcn.png"/>
+                        <AvatarImage src={profilePicture}/>
                         <AvatarFallback>YOUR PROFILE NAME</AvatarFallback>
                     </Avatar>
                 </DropdownMenuTrigger>
