@@ -15,13 +15,13 @@ export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({spot}) => {
 
     return (
         <li
-            className="bg-white shadow-md p-4 rounded-lg flex items-start gap-4 cursor-pointer hover:bg-gray-200 transition duration-200"
+            className="shadow-md rounded-lg flex items-start gap-4 cursor-pointer"
             onClick={handleItemClick}
         >
-            <div className="flex-1">
-                <h3 className="text-md font-semibold ">{spot.address}</h3>
-                <p className="text-gray-600 text-xs">Hourly Rate: ${spot.hourlyRate}</p>
-                <p className="text-gray-600 text-xs">
+            <div>
+                <h3 className="text-md font-semibold">{spot.address}</h3>
+                <span className="text-xs">Hourly Rate: ${spot.hourlyRate}</span><br/>
+                <span className="text-xs">
                     Available from: {new Date(spot.startTime).toLocaleTimeString([], {
                     hour: '2-digit',
                     minute: '2-digit',
@@ -31,7 +31,7 @@ export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({spot}) => {
                     minute: '2-digit',
                     hour12: false // Use 24-hour format
                 })}
-                </p>
+                </span>
             </div>
         </li>
     );
