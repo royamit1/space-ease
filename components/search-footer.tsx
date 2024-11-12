@@ -17,8 +17,14 @@ export const SearchFooter: React.FC = () => {
     };
 
     if (isLoading) {
-        return (<div>Loading...</div>);
+        return (
+            <div className="flex items-center justify-center h-full">
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-600"></div>
+                <span className="ml-2 text-gray-600 font-medium">Loading, please wait...</span>
+            </div>
+        );
     }
+
     if (isError) {
         return (<div>{JSON.stringify(error)}</div>)
     }
