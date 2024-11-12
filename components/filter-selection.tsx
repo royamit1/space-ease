@@ -1,4 +1,8 @@
 import React from "react";
+import {ToggleGroup, ToggleGroupItem} from "@/components/ui/toggle-group";
+import {DollarSignIcon} from "lucide-react";
+import {Toggle} from "@/components/ui/toggle";
+import {Separator} from "@/components/ui/separator";
 
 export type FilterOption = 'availability' | 'price' | 'nearby' | 'parkingType';
 
@@ -7,41 +11,30 @@ interface FilterSelectionProps {
     handleSortingOptionChange: (filter: FilterOption, event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const FilterSelection: React.FC<FilterSelectionProps> = ({
-                                                             selectedSortingOption,
-                                                             handleSortingOptionChange,
-                                                         }) => {
-
-    const filterOptions: { id: FilterOption; label: string; options: string[] }[] = [
-        {id: 'availability', label: 'Availability', options: ['Available Now', 'Available Soon', 'Not Available']},
-        {id: 'price', label: 'Price', options: ['$', '$-$$', '$-$$-$$$']},
-        {id: 'nearby', label: 'Nearby', options: ['< 1 minute', '< 5 minutes', '< 10 minutes']},
-        {id: 'parkingType', label: 'Parking Type', options: ['All Parking Spots', 'My Parking Spots']},
-    ];
+const FilterSelection: React.FC<FilterSelectionProps> = ({}) => {
 
     return (
-        <div className="w-full px-4 mb-3">
-            <div className="flex gap-2 justify-start overflow-x-auto hide-scrollbar mx-auto max-w-lg">
-                {filterOptions.map((option) => (
-                    <div key={option.id} className="flex-none">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            {option.label}
-                        </label>
-                        <select
-                            className="inline-block p-2 border border-gray-300 rounded-md whitespace-nowrap"
-                            onChange={(event) => handleSortingOptionChange(option.id, event)}
-                            value={selectedSortingOption[option.id] || ""}
-                        >
-                            <option value="" disabled>Select {option.label}</option>
-                            {option.options.map((sortOption) => (
-                                <option key={sortOption} value={sortOption}>
-                                    {sortOption}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                ))}
-            </div>
+        <div className="w-full h-36 flex flex-row space-x-4 justify-center items-center mx-4 overflow-x-auto hide-scrollbar">
+            <ToggleGroup type="multiple">
+                <ToggleGroupItem value="$" arial-label="Cheap">
+                    <DollarSignIcon className="h-4 w-4 -m-0.5" />
+                </ToggleGroupItem>
+                <ToggleGroupItem value="$$" arial-label="Moderate">
+                    <DollarSignIcon className="h-4 w-4 -m-0.5" />
+                    <DollarSignIcon className="h-4 w-4 -m-0.5" />
+                </ToggleGroupItem>
+                <ToggleGroupItem value="$$$" arial-label="Expensive">
+                    <DollarSignIcon className="h-4 w-4 -m-0.5" />
+                    <DollarSignIcon className="h-4 w-4 -m-0.5" />
+                    <DollarSignIcon className="h-4 w-4 -m-0.5" />
+                </ToggleGroupItem>
+            </ToggleGroup>
+            <Separator orientation="vertical" className="h-12"/>
+            <Toggle>
+                <span>
+                    My Parkings
+                </span>
+            </Toggle>
         </div>
     );
 };

@@ -15,7 +15,7 @@ export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({spot}) => {
 
     return (
         <li
-            className="bg-card rounded-lg p-3"
+            className="bg-card rounded-lg p-3 cursor-pointer shadow-md"
             onClick={handleItemClick}
         >
             <h3 className="text-md font-semibold">{spot.address}</h3>
