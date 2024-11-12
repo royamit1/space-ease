@@ -19,7 +19,7 @@ export const SearchFooter: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col w-full h-full ">
             <FilterSelection
                 selectedSortingOption={selectedSortingOption}
                 handleSortingOptionChange={handleSortingOptionChange}
