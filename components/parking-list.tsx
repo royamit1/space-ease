@@ -8,8 +8,7 @@ interface ParkingListProps {
 }
 
 export const ParkingList: React.FC<ParkingListProps> = ({parkingSpots}) => (
-    <div className="flex-grow w-full p-3 overflow-y-auto">
-        <ul className="space-y-2">
+        <ul className="flex-grow flex flex-col w-full px-4 mb-3 overflow-y-auto space-y-3">
             {parkingSpots.map((spot) => (
                 <ParkingSpotItem
                     key={spot.id}
@@ -17,5 +16,4 @@ export const ParkingList: React.FC<ParkingListProps> = ({parkingSpots}) => (
                 />
             ))}
         </ul>
-    </div>
 );
