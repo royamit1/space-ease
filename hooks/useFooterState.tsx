@@ -13,7 +13,12 @@ interface FooterModeSearch {
     mode: "search";
 }
 
-type FooterMode = FooterModeCreate | FooterModeDetail | FooterModeSearch;
+interface FooterModeRent {
+    mode: "rent";
+    id: number;
+}
+
+type FooterMode = FooterModeCreate | FooterModeDetail | FooterModeSearch | FooterModeRent;
 
 interface FooterState {
     mode: FooterMode;
