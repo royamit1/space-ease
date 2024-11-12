@@ -6,6 +6,7 @@ import FilterSelection, { FilterOption } from "@/components/filter-selection";
 import { useParkingSpots } from "@/hooks/useParkingSpots";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {AlertCircle} from "lucide-react";
+import {Separator} from "@/components/ui/separator";
 
 export const SearchFooter: React.FC = () => {
     const [selectedSortingOption, setSelectedSortingOption] = useState<{ [key in FilterOption]?: string }>({});
@@ -19,11 +20,12 @@ export const SearchFooter: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col w-full h-full ">
+        <div className="flex flex-col w-full h-full">
             <FilterSelection
                 selectedSortingOption={selectedSortingOption}
                 handleSortingOptionChange={handleSortingOptionChange}
             />
+            <Separator/>
             {parkingSpots && (
                 <ParkingList
                     parkingSpots={parkingSpots}
