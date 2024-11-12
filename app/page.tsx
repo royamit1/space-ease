@@ -32,7 +32,7 @@ export default function Index() {
                         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}&libraries=places`}
                         strategy="beforeInteractive"
                     />
-                    <MyMap searchCoordinates={searchCoordinates} disableDefaultUI={true}>
+                    <MyMap searchCoordinates={searchCoordinates}>
                         <Header className="fixed top-0 px-7 pt-3 " onSearch={handleSearch} />
                         <Footer>
                             <FooterContent />
