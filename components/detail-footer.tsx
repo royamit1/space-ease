@@ -54,7 +54,7 @@ export const DetailFooter: React.FC = () => {
             <ParkingDetails parkingSpot={parkingSpot}/>
             <div className="flex-grow"/>
                 <Button
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white"
+                    className="w-full"
                     onClick={() => setIsDialogOpen(true)}
                 >
                     Rent Now
