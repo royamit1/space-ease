@@ -23,7 +23,7 @@ export const DetailFooter: React.FC = () => {
     if (error) {
         return (
             <div className="flex items-center justify-center h-screen bg-red-50 text-red-700 p-4 rounded-lg shadow-md">
-                <AlertCircle className="w-6 h-6 mr-2 text-red-600" />
+                <AlertCircle className="w-6 h-6 mr-2 text-red-600"/>
                 <span className="font-semibold">Error:</span>
                 <span className="ml-1">{error.message || "An unexpected error occurred."}</span>
             </div>
@@ -32,8 +32,9 @@ export const DetailFooter: React.FC = () => {
 
     if (!parkingSpot) {
         return (
-            <div className="flex items-center justify-center h-screen bg-yellow-50 text-yellow-700 p-4 rounded-lg shadow-md">
-                <Info className="w-6 h-6 mr-2 text-yellow-600" />
+            <div
+                className="flex items-center justify-center h-screen bg-yellow-50 text-yellow-700 p-4 rounded-lg shadow-md">
+                <Info className="w-6 h-6 mr-2 text-yellow-600"/>
                 <span className="font-semibold">Notice:</span>
                 <span className="ml-1">No parking spot found.</span>
             </div>
@@ -49,12 +50,9 @@ export const DetailFooter: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col w-full h-full overflow-hidden">
-            <div className="flex-grow overflow-y-auto">
-                <ParkingDetails parkingSpot={parkingSpot}/>
-            </div>
-
-            <div className="p-4 bg-gray-100">
+        <div className="flex flex-col space-y-2 w-full h-full p-5">
+            <ParkingDetails parkingSpot={parkingSpot}/>
+            <div className="flex-grow"/>
                 <Button
                     className="w-full bg-blue-500 hover:bg-blue-600 text-white"
                     onClick={() => setIsDialogOpen(true)}
@@ -66,7 +64,6 @@ export const DetailFooter: React.FC = () => {
                     onOpenChange={setIsDialogOpen}
                     onConfirm={handleRentConfirmation}
                 />
-            </div>
         </div>
     );
 };
