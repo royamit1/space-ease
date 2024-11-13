@@ -49,6 +49,13 @@ export function ProfileAvatar() {
                             </Button>
                         </DropdownMenuItem>
                     </DialogTrigger>
+                    <DialogTrigger asChild>
+                        <DropdownMenuItem className="flex justify-center">
+                            <Button className="w-full">
+                                Logout
+                            </Button>
+                        </DropdownMenuItem>
+                    </DialogTrigger>
                 </DropdownMenuContent>
             </DropdownMenu>
         </Dialog>
