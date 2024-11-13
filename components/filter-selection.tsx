@@ -29,7 +29,7 @@ const FilterSelection: React.FC<FilterSelectionProps> = ({}) => {
                     <DollarSignIcon className="h-4 w-4 -m-0.5" />
                 </ToggleGroupItem>
             </ToggleGroup>
-            <Separator orientation="vertical" className="h-12"/>
+            <Separator orientation="vertical" className="h-8"/>
             <Toggle>
                 <span>
                     My Parkings
