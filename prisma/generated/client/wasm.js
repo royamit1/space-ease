@@ -136,6 +136,22 @@ exports.Prisma.ParkingSpotScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ActiveRentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  parkingSpotId: 'parkingSpotId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.RentalHistoryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  parkingSpotId: 'parkingSpotId',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  totalCost: 'totalCost'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -148,7 +164,9 @@ exports.Prisma.QueryMode = {
 
 
 exports.Prisma.ModelName = {
-  ParkingSpot: 'ParkingSpot'
+  ParkingSpot: 'ParkingSpot',
+  ActiveRent: 'ActiveRent',
+  RentalHistory: 'RentalHistory'
 };
 
 /**
