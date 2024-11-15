@@ -24,9 +24,9 @@ export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({spot}) => {
             </div>
             <div className="flex-grow">
                 <h3 className="text-md font-semibold">{spot.address}</h3>
-                <span className="text-xs">Hourly Rate: ${spot.hourlyRate}</span><br/>
+                <span className="text-xs">${spot.hourlyRate}</span><br/>
                 <span className="text-xs">
-                    Available from: {new Date(spot.startTime).toLocaleTimeString([], {
+                    {new Date(spot.startTime).toLocaleTimeString([], {
                     hour: '2-digit',
                     minute: '2-digit',
                     hour12: false // Use 24-hour format
@@ -37,18 +37,17 @@ export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({spot}) => {
                 })}
                 </span>
             </div>
-            <Button
-                onClick={handleItemClick}
-                className={cn(
-                    "bg-primary rounded-full p-2",
-                    "focus:outline-none focus:ring-2"
-                )}
-                aria-label="View Details"
-            >
-                <div className="flex items-center justify-center bg-white rounded-full w-6 h-6 font-bold">
-                    P
-                </div> {/* Parking symbol */}
-            </Button>
+            <div className="flex-shrink-0">
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={handleItemClick}
+                    className="rounded-full hover:bg-secondary/80"
+                    aria-label="View parking spot details"
+                >
+                    <ChevronRightIcon className="h-5 w-5"/>
+                </Button>
+            </div>
         </li>
     );
 };
