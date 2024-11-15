@@ -23,13 +23,11 @@ type FooterMode = FooterModeCreate | FooterModeDetail | FooterModeSearch | Foote
 interface FooterState {
     mode: FooterMode;
     size: "collapsed" | "open" | "full";
-    setModeAndSize: (mode: FooterMode, size: FooterState["size"]) => void;
 }
 
-const store = create<FooterState>((set) => ({
+const store = create<FooterState>(() => ({
     mode: { mode: "search" },
     size: "collapsed",
-    setModeAndSize: (mode, size) => set({ mode, size }),
 }));
 
 export const useFooterStore = store.useStore;
