@@ -44,7 +44,7 @@ export const DetailFooter: React.FC = () => {
     const handleRentConfirmation = () => {
         setIsDialogOpen(false);
         setFooterState({
-            mode: {mode: "rent", id: parkingSpot.id},
+            activeParkingId: parkingSpot.id,
             size: "open",
         });
     };
