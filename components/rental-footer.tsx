@@ -65,18 +65,18 @@ export const RentalFooter: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col space-y-6 p-5 h-full bg-[var(--rented-background)] rounded-2xl shadow-xl">
+        <div className="flex flex-col space-y-4 p-5 pt-2 h-full bg-[var(--rented-background)] rounded-2xl shadow-xl">
             {/* Rental Confirmation (First thing user sees) */}
-            <div className="flex justify-evenly items-center">
-                <CheckCircle className="w-12 h-12 text-primary animate-pulse"/>
+            <div className="flex flex-row items-center justify-start mx-auto">
+                <CheckCircle className="w-12 h-12 mx-6 text-primary animate-pulse"/>
                 <div>
-                    <span className="text-3xl font-semibold">Parking Spot Rented!</span><br/>
+                    <h3 className="text-3xl font-semibold mb-2">Parking Spot Rented!</h3>
                     <span
-                        className="text-xl text-[var(--muted-foreground)]">Your spot is now reserved. You’re all set!</span>
+                        className="text-lg">Your spot is now reserved. You’re all set!</span>
                 </div>
             </div>
 
-            <Separator/>
+            <Separator />
 
             <div className="space-y-5 ps-5 pe-5">
                 {/* Parking Spot Address */}
