@@ -5,11 +5,11 @@ import {useParkingSpotById} from "@/hooks/useParkingSpots";
 import {Button} from "@/components/ui/button";
 import {RentParkingDialog} from "@/components/rent-parking-dialog";
 import {AlertCircle, Info} from "lucide-react";
+import {ConfirmationButton} from "@/components/common/confirmation-button";
 
 export const DetailFooter: React.FC = () => {
     const [selectedParkingId, setFooterState] = useFooterState(state => state.mode.mode === "detail" ? state.mode.id : null);
     const {data: parkingSpot, isLoading, error} = useParkingSpotById(selectedParkingId)
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     if (isLoading) {
         return (
@@ -41,8 +41,7 @@ export const DetailFooter: React.FC = () => {
         );
     }
 
-    const handleRentConfirmation = () => {
-        setIsDialogOpen(false);
+    const handleRent = () => {
         setFooterState({
             activeParkingId: parkingSpot.id,
             size: "open",
@@ -53,17 +52,12 @@ export const DetailFooter: React.FC = () => {
         <div className="flex flex-col space-y-2 h-full p-5">
             <ParkingDetails parkingSpot={parkingSpot}/>
             <div className="flex-grow"/>
-            <Button
+            <ConfirmationButton
                 className="w-full"
-                onClick={() => setIsDialogOpen(true)}
+                onClick={handleRent}
             >
                 Rent Now
-            </Button>
-            <RentParkingDialog
-                isOpen={isDialogOpen}
-                onOpenChange={setIsDialogOpen}
-                onConfirm={handleRentConfirmation}
-            />
+            </ConfirmationButton>
         </div>
     );
 };

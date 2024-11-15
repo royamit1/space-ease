@@ -5,6 +5,7 @@ import {Button} from "@/components/ui/button";
 import {Separator} from "@/components/ui/separator";
 import {NavigationDialog} from "@/components/navigation-dialog";
 import {useFooterStore} from "@/hooks/useFooterState";
+import {ConfirmationButton} from "@/components/common/confirmation-button";
 
 export const RentalFooter: React.FC<{ activeParkingId: number }> = ({activeParkingId}) => {
     const footerStore = useFooterStore()
@@ -108,14 +109,14 @@ export const RentalFooter: React.FC<{ activeParkingId: number }> = ({activeParki
             {/* Buttons */}
             <div className="flex space-x-6">
                 {/* Stop Rental Button */}
-                <Button
+                <ConfirmationButton
                     variant="outline"
                     className="w-full flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
                     onClick={handleLeaveParking}
                 >
                     <XCircle className="w-6 h-6"/>
                     <span className="text-lg">Leave Parking</span>
-                </Button>
+                </ConfirmationButton>
 
                 {/* Navigate Button */}
                 <NavigationDialog
