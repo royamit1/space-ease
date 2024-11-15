@@ -1,28 +1,29 @@
 import React, {useState} from "react";
-import {useFooterState} from "@/hooks/useFooterState";
 import {useParkingSpotById} from "@/hooks/useParkingSpots";
 import {AlertCircle, CheckCircle, Info, XCircle} from "lucide-react";
-import {Button} from "@/components/ui/button";
 import {Separator} from "@/components/ui/separator";
 import {NavigationDialog} from "@/components/navigation-dialog";
+import {useFooterStore} from "@/hooks/useFooterState";
+import {ConfirmationButton} from "@/components/common/confirmation-button";
 
-export const RentalFooter: React.FC = () => {
-    const [selectedParkingId, setFooterState] = useFooterState(state => state.mode.mode === "rent" ? state.mode.id : null);
-    const {data: parkingSpot, isLoading, error} = useParkingSpotById(selectedParkingId);
+export const RentalFooter: React.FC<{ activeParkingId: number }> = ({activeParkingId}) => {
+    const footerStore = useFooterStore()
+    const {data: parkingSpot, isLoading, error} = useParkingSpotById(activeParkingId);
     const [showNavigationDialog, setShowNavigationDialog] = useState(false);
 
-    let rentalDuration = 0;
-    let totalCost = 0;
-
-    if (parkingSpot) {
+    const [totalCost, rentalDuration] = React.useMemo(() => {
+        if (!parkingSpot) {
+            return [0, 0];
+        }
         const startTime = new Date(parkingSpot.startTime);
         const endTime = new Date(parkingSpot.endTime);
         const hourlyRate = parkingSpot.hourlyRate;
 
         // Calculate the rental duration in hours
-        rentalDuration = (endTime.getTime() - startTime.getTime()) / 1000 / 60 / 60;
-        totalCost = rentalDuration * hourlyRate;
-    }
+        const rentalDuration = (endTime.getTime() - startTime.getTime()) / 1000 / 60 / 60;
+        const totalCost = rentalDuration * hourlyRate;
+        return [totalCost, totalCost]
+    }, [parkingSpot])
 
     if (isLoading) {
         return (
@@ -64,15 +65,23 @@ export const RentalFooter: React.FC = () => {
         }
     };
 
+    const handleLeaveParking = () => {
+        footerStore.setState({
+            activeParkingId: null,
+            mode: {mode: "search"},
+            size: "open",
+        })
+    }
+
     return (
-        <div className="flex flex-col space-y-6 p-5 h-full bg-[var(--rented-background)] rounded-2xl shadow-xl">
+        <div className="flex flex-col space-y-4 p-5 pt-2 h-full bg-[var(--rented-background)] rounded-2xl shadow-xl">
             {/* Rental Confirmation (First thing user sees) */}
-            <div className="flex justify-evenly items-center">
-                <CheckCircle className="w-12 h-12 text-primary animate-pulse"/>
+            <div className="flex flex-row items-center justify-start mx-auto">
+                <CheckCircle className="w-12 h-12 mx-6 text-primary animate-pulse"/>
                 <div>
-                    <span className="text-3xl font-semibold">Parking Spot Rented!</span><br/>
+                    <h3 className="text-3xl font-semibold mb-2">Parking Spot Rented!</h3>
                     <span
-                        className="text-xl text-[var(--muted-foreground)]">Your spot is now reserved. You’re all set!</span>
+                        className="text-lg">Your spot is now reserved. You’re all set!</span>
                 </div>
             </div>
 
@@ -99,13 +108,14 @@ export const RentalFooter: React.FC = () => {
             {/* Buttons */}
             <div className="flex space-x-6">
                 {/* Stop Rental Button */}
-                <Button
+                <ConfirmationButton
                     variant="outline"
                     className="w-full flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
+                    onClick={handleLeaveParking}
                 >
-                    <XCircle className="w-6 h-6" />
-                    <span className="text-lg">Stop Rental</span>
-                </Button>
+                    <XCircle className="w-6 h-6"/>
+                    <span className="text-lg">Leave Parking</span>
+                </ConfirmationButton>
 
                 {/* Navigate Button */}
                 <NavigationDialog

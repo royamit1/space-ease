@@ -13,23 +13,18 @@ interface FooterModeSearch {
     mode: "search";
 }
 
-interface FooterModeRent {
-    mode: "rent";
-    id: number;
-}
-
-type FooterMode = FooterModeCreate | FooterModeDetail | FooterModeSearch | FooterModeRent;
+type FooterMode = FooterModeCreate | FooterModeDetail | FooterModeSearch;
 
 interface FooterState {
     mode: FooterMode;
     size: "collapsed" | "open" | "full";
-    setModeAndSize: (mode: FooterMode, size: FooterState["size"]) => void;
+    activeParkingId: number | null;
 }
 
-const store = create<FooterState>((set) => ({
+const store = create<FooterState>(() => ({
     mode: { mode: "search" },
     size: "collapsed",
-    setModeAndSize: (mode, size) => set({ mode, size }),
+    activeParkingId: null,
 }));
 
 export const useFooterStore = store.useStore;

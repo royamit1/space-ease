@@ -7,6 +7,11 @@ import {RentalFooter} from "@/components/rental-footer";
 
 export const FooterContent: React.FC = () => {
     const [footerMode,] = useFooterState(state => state.mode.mode)
+    const [activeParkingId,] = useFooterState(state => state.activeParkingId)
+
+    if (activeParkingId) {
+        return <RentalFooter activeParkingId={activeParkingId} />;
+    }
 
     switch (footerMode) {
         case "create":
@@ -15,7 +20,5 @@ export const FooterContent: React.FC = () => {
             return <DetailFooter />;
         case "search":
             return <SearchFooter />;
-        case "rent":
-            return <RentalFooter />;
     }
 }
