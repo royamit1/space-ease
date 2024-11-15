@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {useParkingSpotById} from "@/hooks/useParkingSpots";
 import {AlertCircle, CheckCircle, Info, XCircle} from "lucide-react";
-import {Button} from "@/components/ui/button";
 import {Separator} from "@/components/ui/separator";
 import {NavigationDialog} from "@/components/navigation-dialog";
 import {useFooterStore} from "@/hooks/useFooterState";

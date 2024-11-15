@@ -6,14 +6,23 @@ import {
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
-import React, {useState} from "react";
+import React, {ReactNode, useState} from "react";
 import {TriangleAlert} from "lucide-react";
 
 interface ConfirmationButtonProps extends ButtonProps {
+    dialogHeader?: ReactNode
+    dialogTitle?: ReactNode
+    dialogIcon?: ReactNode
 }
 
 
-export const ConfirmationButton: React.FC<ConfirmationButtonProps> = ({onClick, ...props}) => {
+export const ConfirmationButton: React.FC<ConfirmationButtonProps> = ({
+                                                                          dialogHeader,
+                                                                          dialogTitle,
+                                                                          dialogIcon,
+                                                                          onClick,
+                                                                          ...props
+                                                                      }) => {
     const [open, setOpen] = useState(false)
 
     return <>
@@ -22,10 +31,14 @@ export const ConfirmationButton: React.FC<ConfirmationButtonProps> = ({onClick, 
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle className="flex flex-row items-center justify-center space-x-3 mb-6">
-                        <div className="bg-secondary rounded-full p-3">
-                            <TriangleAlert />
-                        </div>
-                        <h1 className="text-2xl">Are you sure?</h1>
+                        {dialogHeader || (
+                            <>
+                                <div className="bg-secondary rounded-full p-3">
+                                    {dialogIcon || <TriangleAlert/>}
+                                </div>
+                                <h1 className="text-2xl">{dialogTitle || "Are you sure?"}</h1>
+                            </>
+                            )}
                     </DialogTitle>
                 </DialogHeader>
                 <DialogFooter className="flex flex-row space-x-4">

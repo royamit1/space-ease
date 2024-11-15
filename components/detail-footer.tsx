@@ -2,8 +2,6 @@ import React, {useState} from "react";
 import ParkingDetails from "@/components/parking-details";
 import {useFooterState} from "@/hooks/useFooterState";
 import {useParkingSpotById} from "@/hooks/useParkingSpots";
-import {Button} from "@/components/ui/button";
-import {RentParkingDialog} from "@/components/rent-parking-dialog";
 import {AlertCircle, Info} from "lucide-react";
 import {ConfirmationButton} from "@/components/common/confirmation-button";
 
