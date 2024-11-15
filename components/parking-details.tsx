@@ -9,7 +9,7 @@ interface ParkingDetailsProps {
 const ParkingDetails: React.FC<ParkingDetailsProps> = ({parkingSpot}) => {
     return (
         <div className="space-y-2 p-2">
-            <h3 className="text-2xl font-semibold mb-4 text-[var(--foreground)]">{parkingSpot.address}</h3>
+            <h3 className="text-3xl font-semibold mb-4 text-[var(--foreground)]">{parkingSpot.address}</h3>
             <div
                 className="flex items-center space-x-3 bg-[var(--secondary)] rounded-lg p-3 shadow-md hover:shadow-lg transition-shadow duration-200">
                 <FaClock className="text-[var(--primary)] w-5 h-5"/>

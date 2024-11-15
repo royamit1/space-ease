@@ -6,7 +6,6 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
 import {Car} from "lucide-react";
@@ -40,14 +39,6 @@ export const RentParkingDialog: React.FC<RentParkingDialogProps> = ({
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter className="flex flex-col gap-3 pt-6 justify-center">
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => onOpenChange(false)}
-                            className="w-full border-border text-foreground hover:bg-muted"
-                        >
-                            Cancel
-                        </Button>
                         <Button
                             type="button"
                             onClick={onConfirm}
