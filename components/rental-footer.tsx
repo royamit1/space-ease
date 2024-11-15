@@ -1,16 +1,7 @@
 import React, {useState} from "react";
 import {useFooterState} from "@/hooks/useFooterState";
 import {useParkingSpotById} from "@/hooks/useParkingSpots";
-import {AlertCircle, CheckCircle, Info, MapPin, StopCircle, XCircle} from "lucide-react";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
-} from "@/components/ui/dialog";
+import {AlertCircle, CheckCircle, Info, XCircle} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {Separator} from "@/components/ui/separator";
 import {NavigationDialog} from "@/components/navigation-dialog";
@@ -62,11 +53,6 @@ export const RentalFooter: React.FC = () => {
             </div>
         );
     }
-
-    // Handle navigation dialog opening
-    const handleNavigationClick = () => {
-        setShowNavigationDialog(true);
-    };
 
     // Handle navigation button clicks (Google Maps and Waze)
     const handleNavigate = (app: string) => {

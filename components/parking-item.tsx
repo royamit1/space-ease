@@ -1,9 +1,8 @@
 import React from "react";
 import {ParkingSpot} from "@/prisma/generated/client";
 import {useFooterState} from "@/hooks/useFooterState";
-import {CarIcon, ChevronRightIcon, MapPinIcon} from "lucide-react";
+import {ChevronRightIcon, MapPinIcon} from "lucide-react";
 import {Button} from "@/components/ui/button";
-import {cn} from "@/lib/utils";
 
 interface ParkingSpotItemProps {
     spot: ParkingSpot;
