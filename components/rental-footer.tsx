@@ -92,7 +92,7 @@ export const RentalFooter: React.FC = () => {
 
             <Separator/>
 
-            <div className="space-y-3 ps-5 pe-5">
+            <div className="space-y-5 ps-5 pe-5">
                 {/* Parking Spot Address */}
                 <h3 className="text-2xl font-semibold text-[var(--foreground)]">{parkingSpot.address}</h3>
 
