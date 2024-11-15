@@ -140,6 +140,7 @@ exports.Prisma.ActiveRentScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   parkingSpotId: 'parkingSpotId',
+  hourlyRate: 'hourlyRate',
   createdAt: 'createdAt'
 };
 

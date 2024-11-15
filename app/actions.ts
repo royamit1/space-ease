@@ -1,14 +1,14 @@
 'use server';
 import db from "@/lib/db";
-import { ParkingFormSchema } from "@/schemas/parking-form-schema";
-import { createClient } from "@/utils/supabase/server";
-import { ParkingSpot } from "@/prisma/generated/client";
-import { date } from "zod";
+import {ParkingFormSchema} from "@/schemas/parking-form-schema";
+import {createClient} from "@/utils/supabase/server";
+import {ParkingSpot} from "@/prisma/generated/client";
+import {differenceInHours} from "date-fns";
 
 
 const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
     const supabase = createClient();
-    const { data, error } = await supabase.auth.getUser();
+    const {data, error} = await supabase.auth.getUser();
     if (error) {
         console.error(error)
     } else {
@@ -28,10 +28,10 @@ const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
             });
             //     // Return the parking spot data to the front-end
             console.log(parkingSpot)
-            return { parkingSpot };
+            return {parkingSpot};
         } catch (err) {
             console.error("Error creating parking spot:", err);
-            return { error: "Failed to create parking spot" };
+            return {error: "Failed to create parking spot"};
         }
     }
 }
@@ -41,8 +41,8 @@ const fetchAvailableParkingSpots = async () => {
         const now = new Date();
         const parkingSpots: ParkingSpot[] = await db.parkingSpot.findMany({
             where: {
-                startTime: { lte: now },
-                endTime: { gte: now },
+                startTime: {lte: now},
+                endTime: {gte: now},
             },
         });
         return parkingSpots;
@@ -66,4 +66,63 @@ const fetchParkingSpotById = async (id: number) => {
     }
 }
 
-export { createParkingSpot, fetchAvailableParkingSpots, fetchParkingSpotById }
+export {createParkingSpot, fetchAvailableParkingSpots, fetchParkingSpotById}
+
+export const startRenting = async (parkingSpotId: number) => {
+    const supabase = createClient();
+    const {data, error} = await supabase.auth.getSession();
+    if (error)
+        throw error;
+
+    if (!data || !data.session)
+        throw new Error("User not authenticated");
+
+    const parkingSpot = await db.parkingSpot.findUnique({where: {id: parkingSpotId}})
+    if (!parkingSpot)
+        throw new Error("Parking spot not found");
+
+    await db.activeRent.create({
+        data: {
+            userId: data.session.user.id,
+            parkingSpotId,
+            hourlyRate: parkingSpot.hourlyRate,
+        },
+    })
+}
+
+
+export const endRenting = async () => {
+    const supabase = createClient();
+    const {data, error} = await supabase.auth.getSession();
+    if (error)
+        throw error;
+
+    if (!data || !data.session)
+        throw new Error("User not authenticated");
+
+    const activeRent = await db.activeRent.delete({where: {userId: data.session.user.id}})
+    const rentDuration = differenceInHours(new Date(), activeRent.createdAt)
+    const totalCost = activeRent.hourlyRate.times(rentDuration)
+
+    await db.rentalHistory.create({
+        data: {
+            userId: activeRent.userId,
+            parkingSpotId: activeRent.parkingSpotId,
+            startDate: activeRent.createdAt,
+            totalCost: totalCost,
+        }
+    })
+}
+
+export const getActiveRent = async () => {
+    const supabase = createClient();
+    const {data, error} = await supabase.auth.getSession();
+    if (error)
+        throw error;
+
+    if (!data || !data.session)
+        throw new Error("User not authenticated");
+
+    return db.activeRent.findUnique({where: {userId: data.session.user.id}});
+}
+
