@@ -5,12 +5,18 @@ import React from "react";
 import {useHistoryParkingSpots} from "@/hooks/useParkingSpots";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {AlertCircle} from "lucide-react";
+import FlipText from "@/components/ui/flip-text";
+import GradualSpacing from "@/components/ui/gradual-spacing";
 
 export const HistoryFooter: React.FC = () => {
     const {data: historyParkingSpots, error} = useHistoryParkingSpots();
 
     return (
         <div className="flex flex-col w-full h-full">
+            <GradualSpacing
+                className="text-lg font-bold -tracking-widest text-black dark:text-white md:text-2xl"
+                text="History of Parking Spots"
+                delayMultiple={0.03}/>
             {historyParkingSpots && (
                 <HistoryParkingList
                     historyParkingSpots={historyParkingSpots}
