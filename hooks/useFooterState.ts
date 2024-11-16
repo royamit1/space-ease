@@ -13,7 +13,11 @@ interface FooterModeSearch {
     mode: "search";
 }
 
-type FooterMode = FooterModeCreate | FooterModeDetail | FooterModeSearch;
+interface FooterModeHistory {
+    mode: "history";
+}
+
+type FooterMode = FooterModeCreate | FooterModeDetail | FooterModeSearch | FooterModeHistory;
 
 interface FooterState {
     mode: FooterMode;

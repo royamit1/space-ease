@@ -22,6 +22,13 @@ export function ProfileAvatar() {
         });
     };
 
+    const handleHistoryParking = () => {
+        setFooterState({
+            mode: {mode: "history"},
+            size: "open",
+        });
+    };
+
     return (
         <Dialog>
             <DropdownMenu>
@@ -44,7 +51,7 @@ export function ProfileAvatar() {
                     </DialogTrigger>
                     <DialogTrigger asChild>
                         <DropdownMenuItem className="flex justify-center">
-                            <Button className="w-full">
+                            <Button className="w-full" onClick={handleHistoryParking}>
                                 My History
                             </Button>
                         </DropdownMenuItem>

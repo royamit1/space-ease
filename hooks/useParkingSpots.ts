@@ -1,9 +1,12 @@
 'use client';
-import { createParkingSpot, fetchAvailableParkingSpots, fetchParkingSpotById } from "@/app/actions";
-import { ParkingFormSchema } from "@/schemas/parking-form-schema";
-import { ParkingSpot } from "@/prisma/generated/client";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-
+import {
+    createParkingSpot,
+    fetchAvailableParkingSpots,
+    fetchHistoryParkingSpots,
+    fetchParkingSpotById
+} from "@/app/actions";
+import {ParkingFormSchema} from "@/schemas/parking-form-schema";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query"
 
 
 const useParkingSpots = () => {
@@ -13,6 +16,15 @@ const useParkingSpots = () => {
         refetchOnWindowFocus: false,
     })
     return parkingSpotsQuery;
+}
+
+const useHistoryParkingSpots = () => {
+    const historyParkingSpotsQuery = useQuery({
+        queryKey: ['historyParkingSpots'],
+        queryFn: () => fetchHistoryParkingSpots(),
+        refetchOnWindowFocus: false,
+    })
+    return historyParkingSpotsQuery;
 }
 
 const useParkingSpotById = (id: number | null) => {
@@ -32,7 +44,7 @@ const useParkingMutation = () => {
         },
         onSuccess: () => {
             console.log("created parking with react query !");
-            queryClient.invalidateQueries({ queryKey: ["parkingSpots"] });
+            queryClient.invalidateQueries({queryKey: ["parkingSpots"]});
         },
         onError: (error) => {
             console.error("Error creating parking spot: ", error)
@@ -42,4 +54,4 @@ const useParkingMutation = () => {
     return newParkingMutation;
 }
 
-export { useParkingSpots, useParkingMutation, useParkingSpotById };
+export {useParkingSpots, useParkingMutation, useParkingSpotById, useHistoryParkingSpots};
