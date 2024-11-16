@@ -10,6 +10,7 @@ import {Textarea} from "@/components/ui/textarea";
 import {CalendarIcon} from "@radix-ui/react-icons";
 import {DollarSignIcon, MapPinIcon} from "lucide-react";
 import {CreateParkingDialog} from "@/components/create-parking-dialog";
+import GradualSpacing from "@/components/ui/gradual-spacing";
 
 export const CreateParkingForm: React.FC = () => {
     const form = useForm<ParkingFormSchema>({
@@ -77,9 +78,12 @@ export const CreateParkingForm: React.FC = () => {
         <Form {...form}>
             <form className="flex flex-col h-full">
                 {/* Title */}
-                <h2 className="p-4 text-2xl font-semibold text-center text-foreground">
-                    {step === 1 ? "Parking Spot Details" : "Additional Information"}
-                </h2>
+                <div className="p-4">
+                    <GradualSpacing
+                        className="text-lg font-bold -tracking-widest text-black dark:text-white md:text-2xl"
+                        text="Create A Parking Spot"
+                        delayMultiple={0.03}/>
+                </div>
 
                 {/* Form Content */}
                 <div className="flex-grow flex flex-col space-y-5 ps-6 pe-6 shadow-md bg-background">
