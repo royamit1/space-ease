@@ -2,8 +2,9 @@
 import db from "@/lib/db";
 import {ParkingFormSchema} from "@/schemas/parking-form-schema";
 import {createClient} from "@/utils/supabase/server";
-import {ParkingSpot} from "@/prisma/generated/client";
-import {differenceInHours} from "date-fns";
+import {ActiveRent, ParkingSpot} from "@/prisma/generated/client";
+import {differenceInHours, differenceInMilliseconds} from "date-fns";
+import {calculateTotalCost} from "@/lib/rent";
 
 
 const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
@@ -101,8 +102,7 @@ export const endRenting = async () => {
         throw new Error("User not authenticated");
 
     const activeRent = await db.activeRent.delete({where: {userId: data.user.id}})
-    const rentDuration = differenceInHours(new Date(), activeRent.createdAt)
-    const totalCost = activeRent.hourlyRate * rentDuration
+    const totalCost = calculateTotalCost(activeRent, new Date())
 
     await db.rentalHistory.create({
         data: {

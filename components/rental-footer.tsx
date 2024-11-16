@@ -5,11 +5,12 @@ import {Separator} from "@/components/ui/separator";
 import {NavigationDialog} from "@/components/navigation-dialog";
 import {ConfirmationButton} from "@/components/common/confirmation-button";
 import {ActiveRent} from "@/prisma/generated/client";
-import {differenceInHours, differenceInMilliseconds, formatDistance} from "date-fns";
+import {differenceInMilliseconds, formatDistance} from "date-fns";
 import {endRenting} from "@/app/actions";
 import {useQueryClient} from "@tanstack/react-query";
 import {useFooterStore} from "@/hooks/useFooterState";
 import {useNow} from "@/hooks/useNow";
+import {calculateTotalCost} from "@/lib/rent";
 
 export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent}) => {
     const footerStore = useFooterStore()
@@ -19,8 +20,7 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent})
     const [showNavigationDialog, setShowNavigationDialog] = useState(false);
 
     const [totalCost, rentalDurationText] = React.useMemo(() => {
-        const rentDuration = differenceInMilliseconds(now, activeRent.createdAt)
-        const totalCost = activeRent.hourlyRate * (rentDuration / 1000 / 60 / 60)
+        const totalCost = calculateTotalCost(activeRent, now);
         const rentalDurationText = formatDistance(now, activeRent.createdAt)
         return [totalCost, rentalDurationText]
     }, [activeRent, now])
