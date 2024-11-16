@@ -4,6 +4,7 @@ import {CreateFooter} from "@/components/create-footer";
 import {DetailFooter} from "@/components/detail-footer";
 import {SearchFooter} from "@/components/search-footer";
 import {RentalFooter} from "@/components/rental-footer";
+import {HistoryFooter} from "@/components/history-footer";
 import {useActiveRent} from "@/hooks/useActiveRent";
 
 export const FooterContent: React.FC = () => {
@@ -28,5 +29,7 @@ export const FooterContent: React.FC = () => {
             return <DetailFooter/>;
         case "search":
             return <SearchFooter/>;
+        case "history":
+            return <HistoryFooter/>;
     }
 }

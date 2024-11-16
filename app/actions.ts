@@ -2,10 +2,8 @@
 import db from "@/lib/db";
 import {ParkingFormSchema} from "@/schemas/parking-form-schema";
 import {createClient} from "@/utils/supabase/server";
-import {ActiveRent, ParkingSpot} from "@/prisma/generated/client";
-import {differenceInHours, differenceInMilliseconds} from "date-fns";
+import {ActiveRent, ParkingSpot, RentalHistory} from "@/prisma/generated/client";
 import {calculateTotalCost} from "@/lib/rent";
-
 
 const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
     const supabase = createClient();
@@ -53,6 +51,20 @@ const fetchAvailableParkingSpots = async () => {
     }
 };
 
+const fetchHistoryParkingSpots = async () => {
+    try {
+        const historyParkingSpots: RentalHistory[] = await db.rentalHistory.findMany({
+            orderBy: {
+                startDate: 'desc',
+            },
+        });
+        return historyParkingSpots;
+    } catch (error) {
+        console.error("Error fetching parking spots:", error);
+        throw error; // This will allow React Query to handle the error
+    }
+};
+
 const fetchParkingSpotById = async (id: number) => {
     try {
         const singleParking = await db.parkingSpot.findUnique({
@@ -67,7 +79,7 @@ const fetchParkingSpotById = async (id: number) => {
     }
 }
 
-export {createParkingSpot, fetchAvailableParkingSpots, fetchParkingSpotById}
+export {createParkingSpot, fetchAvailableParkingSpots, fetchParkingSpotById, fetchHistoryParkingSpots}
 
 export const startRenting = async (parkingSpotId: number) => {
     const supabase = createClient();

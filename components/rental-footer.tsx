@@ -5,17 +5,19 @@ import {Separator} from "@/components/ui/separator";
 import {NavigationDialog} from "@/components/navigation-dialog";
 import {ConfirmationButton} from "@/components/common/confirmation-button";
 import {ActiveRent} from "@/prisma/generated/client";
-import {differenceInMilliseconds, formatDistance} from "date-fns";
+import {formatDistance} from "date-fns";
 import {endRenting} from "@/app/actions";
 import {useQueryClient} from "@tanstack/react-query";
 import {useFooterStore} from "@/hooks/useFooterState";
 import {useNow} from "@/hooks/useNow";
 import {calculateTotalCost} from "@/lib/rent";
+import {AnimatedNumber} from "@/components/ui/animated-number";
 
 export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent}) => {
     const footerStore = useFooterStore()
     const queryClient = useQueryClient()
-    const now = useNow(1000)
+    const now = useNow(5000)
+
     const {data: parkingSpot, isLoading, error} = useParkingSpotById(activeRent.parkingSpotId);
     const [showNavigationDialog, setShowNavigationDialog] = useState(false);
 
@@ -95,9 +97,9 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent})
                     <span
                         className="text-lg font-semibold text-[var(--foreground)]">{rentalDurationText}</span>
                 </div>
-                <div className="flex justify-between">
-                    <span className="text-md text-[var(--muted-foreground)] font-medium">Total Cost</span>
-                    <span className="text-lg font-semibold text-[var(--foreground)]">${totalCost.toFixed(2)}</span>
+                <div className="flex">
+                    <span className="text-md text-[var(--muted-foreground)] font-medium">Total Cost </span>
+                    <span className="text-lg font-semibold text-[var(--foreground)]"><AnimatedNumber value={totalCost} precision={2} stiffness={75} damping={15} /></span>
                 </div>
             </div>
 
