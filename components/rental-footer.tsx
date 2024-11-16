@@ -5,22 +5,25 @@ import {Separator} from "@/components/ui/separator";
 import {NavigationDialog} from "@/components/navigation-dialog";
 import {ConfirmationButton} from "@/components/common/confirmation-button";
 import {ActiveRent} from "@/prisma/generated/client";
-import {differenceInHours} from "date-fns";
+import {differenceInHours, differenceInMilliseconds, formatDistance} from "date-fns";
 import {endRenting} from "@/app/actions";
 import {useQueryClient} from "@tanstack/react-query";
 import {useFooterStore} from "@/hooks/useFooterState";
+import {useNow} from "@/hooks/useNow";
 
 export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent}) => {
     const footerStore = useFooterStore()
     const queryClient = useQueryClient()
+    const now = useNow(1000)
     const {data: parkingSpot, isLoading, error} = useParkingSpotById(activeRent.parkingSpotId);
     const [showNavigationDialog, setShowNavigationDialog] = useState(false);
 
-    const [totalCost, rentalDuration] = React.useMemo(() => {
-        const rentDuration = differenceInHours(new Date(), activeRent.createdAt)
-        const totalCost = activeRent.hourlyRate * rentDuration
-        return [totalCost, rentDuration]
-    }, [activeRent])
+    const [totalCost, rentalDurationText] = React.useMemo(() => {
+        const rentDuration = differenceInMilliseconds(now, activeRent.createdAt)
+        const totalCost = activeRent.hourlyRate * (rentDuration / 1000 / 60 / 60)
+        const rentalDurationText = formatDistance(now, activeRent.createdAt)
+        return [totalCost, rentalDurationText]
+    }, [activeRent, now])
 
     if (isLoading) {
         return (
@@ -90,7 +93,7 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent})
                 <div className="flex justify-between">
                     <span className="text-md text-[var(--muted-foreground)] font-medium">Rental Duration</span>
                     <span
-                        className="text-lg font-semibold text-[var(--foreground)]">{rentalDuration.toFixed(2)} hours</span>
+                        className="text-lg font-semibold text-[var(--foreground)]">{rentalDurationText}</span>
                 </div>
                 <div className="flex justify-between">
                     <span className="text-md text-[var(--muted-foreground)] font-medium">Total Cost</span>
