@@ -3,27 +3,27 @@ import {useParkingSpotById} from "@/hooks/useParkingSpots";
 import {AlertCircle, CheckCircle, Info, XCircle} from "lucide-react";
 import {Separator} from "@/components/ui/separator";
 import {NavigationDialog} from "@/components/navigation-dialog";
-import {useFooterStore} from "@/hooks/useFooterState";
 import {ConfirmationButton} from "@/components/common/confirmation-button";
+import {ActiveRent} from "@/prisma/generated/client";
+import {differenceInMilliseconds, formatDistance} from "date-fns";
+import {endRenting} from "@/app/actions";
+import {useQueryClient} from "@tanstack/react-query";
+import {useFooterStore} from "@/hooks/useFooterState";
+import {useNow} from "@/hooks/useNow";
+import {calculateTotalCost} from "@/lib/rent";
 
-export const RentalFooter: React.FC<{ activeParkingId: number }> = ({activeParkingId}) => {
+export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent}) => {
     const footerStore = useFooterStore()
-    const {data: parkingSpot, isLoading, error} = useParkingSpotById(activeParkingId);
+    const queryClient = useQueryClient()
+    const now = useNow(1000)
+    const {data: parkingSpot, isLoading, error} = useParkingSpotById(activeRent.parkingSpotId);
     const [showNavigationDialog, setShowNavigationDialog] = useState(false);
 
-    const [totalCost, rentalDuration] = React.useMemo(() => {
-        if (!parkingSpot) {
-            return [0, 0];
-        }
-        const startTime = new Date(parkingSpot.startTime);
-        const endTime = new Date(parkingSpot.endTime);
-        const hourlyRate = parkingSpot.hourlyRate;
-
-        // Calculate the rental duration in hours
-        const rentalDuration = (endTime.getTime() - startTime.getTime()) / 1000 / 60 / 60;
-        const totalCost = rentalDuration * hourlyRate;
-        return [totalCost, totalCost]
-    }, [parkingSpot])
+    const [totalCost, rentalDurationText] = React.useMemo(() => {
+        const totalCost = calculateTotalCost(activeRent, now);
+        const rentalDurationText = formatDistance(now, activeRent.createdAt)
+        return [totalCost, rentalDurationText]
+    }, [activeRent, now])
 
     if (isLoading) {
         return (
@@ -65,12 +65,10 @@ export const RentalFooter: React.FC<{ activeParkingId: number }> = ({activeParki
         }
     };
 
-    const handleLeaveParking = () => {
-        footerStore.setState({
-            activeParkingId: null,
-            mode: {mode: "search"},
-            size: "open",
-        })
+    const handleLeaveParking = async () => {
+        await endRenting()
+        await queryClient.invalidateQueries({ queryKey: ["activeRent"] })
+        footerStore.setState({ mode: {mode: "search"}, size: "open" })
     }
 
     return (
@@ -95,7 +93,7 @@ export const RentalFooter: React.FC<{ activeParkingId: number }> = ({activeParki
                 <div className="flex justify-between">
                     <span className="text-md text-[var(--muted-foreground)] font-medium">Rental Duration</span>
                     <span
-                        className="text-lg font-semibold text-[var(--foreground)]">{rentalDuration.toFixed(2)} hours</span>
+                        className="text-lg font-semibold text-[var(--foreground)]">{rentalDurationText}</span>
                 </div>
                 <div className="flex justify-between">
                     <span className="text-md text-[var(--muted-foreground)] font-medium">Total Cost</span>

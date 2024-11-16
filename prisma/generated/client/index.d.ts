@@ -18,6 +18,16 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type ParkingSpot = $Result.DefaultSelection<Prisma.$ParkingSpotPayload>
+/**
+ * Model ActiveRent
+ * 
+ */
+export type ActiveRent = $Result.DefaultSelection<Prisma.$ActiveRentPayload>
+/**
+ * Model RentalHistory
+ * 
+ */
+export type RentalHistory = $Result.DefaultSelection<Prisma.$RentalHistoryPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -151,6 +161,26 @@ export class PrismaClient<
     * ```
     */
   get parkingSpot(): Prisma.ParkingSpotDelegate<ExtArgs>;
+
+  /**
+   * `prisma.activeRent`: Exposes CRUD operations for the **ActiveRent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ActiveRents
+    * const activeRents = await prisma.activeRent.findMany()
+    * ```
+    */
+  get activeRent(): Prisma.ActiveRentDelegate<ExtArgs>;
+
+  /**
+   * `prisma.rentalHistory`: Exposes CRUD operations for the **RentalHistory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RentalHistories
+    * const rentalHistories = await prisma.rentalHistory.findMany()
+    * ```
+    */
+  get rentalHistory(): Prisma.RentalHistoryDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -592,7 +622,9 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    ParkingSpot: 'ParkingSpot'
+    ParkingSpot: 'ParkingSpot',
+    ActiveRent: 'ActiveRent',
+    RentalHistory: 'RentalHistory'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -608,7 +640,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "parkingSpot"
+      modelProps: "parkingSpot" | "activeRent" | "rentalHistory"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -679,6 +711,146 @@ export namespace Prisma {
           count: {
             args: Prisma.ParkingSpotCountArgs<ExtArgs>
             result: $Utils.Optional<ParkingSpotCountAggregateOutputType> | number
+          }
+        }
+      }
+      ActiveRent: {
+        payload: Prisma.$ActiveRentPayload<ExtArgs>
+        fields: Prisma.ActiveRentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ActiveRentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActiveRentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ActiveRentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActiveRentPayload>
+          }
+          findFirst: {
+            args: Prisma.ActiveRentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActiveRentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ActiveRentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActiveRentPayload>
+          }
+          findMany: {
+            args: Prisma.ActiveRentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActiveRentPayload>[]
+          }
+          create: {
+            args: Prisma.ActiveRentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActiveRentPayload>
+          }
+          createMany: {
+            args: Prisma.ActiveRentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ActiveRentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActiveRentPayload>[]
+          }
+          delete: {
+            args: Prisma.ActiveRentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActiveRentPayload>
+          }
+          update: {
+            args: Prisma.ActiveRentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActiveRentPayload>
+          }
+          deleteMany: {
+            args: Prisma.ActiveRentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ActiveRentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ActiveRentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActiveRentPayload>
+          }
+          aggregate: {
+            args: Prisma.ActiveRentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateActiveRent>
+          }
+          groupBy: {
+            args: Prisma.ActiveRentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ActiveRentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ActiveRentCountArgs<ExtArgs>
+            result: $Utils.Optional<ActiveRentCountAggregateOutputType> | number
+          }
+        }
+      }
+      RentalHistory: {
+        payload: Prisma.$RentalHistoryPayload<ExtArgs>
+        fields: Prisma.RentalHistoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RentalHistoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalHistoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RentalHistoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalHistoryPayload>
+          }
+          findFirst: {
+            args: Prisma.RentalHistoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalHistoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RentalHistoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalHistoryPayload>
+          }
+          findMany: {
+            args: Prisma.RentalHistoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalHistoryPayload>[]
+          }
+          create: {
+            args: Prisma.RentalHistoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalHistoryPayload>
+          }
+          createMany: {
+            args: Prisma.RentalHistoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RentalHistoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalHistoryPayload>[]
+          }
+          delete: {
+            args: Prisma.RentalHistoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalHistoryPayload>
+          }
+          update: {
+            args: Prisma.RentalHistoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalHistoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.RentalHistoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RentalHistoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RentalHistoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalHistoryPayload>
+          }
+          aggregate: {
+            args: Prisma.RentalHistoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRentalHistory>
+          }
+          groupBy: {
+            args: Prisma.RentalHistoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RentalHistoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RentalHistoryCountArgs<ExtArgs>
+            result: $Utils.Optional<RentalHistoryCountAggregateOutputType> | number
           }
         }
       }
@@ -1546,7 +1718,7 @@ export namespace Prisma {
     readonly longitude: FieldRef<"ParkingSpot", 'Float'>
     readonly address: FieldRef<"ParkingSpot", 'String'>
     readonly description: FieldRef<"ParkingSpot", 'String'>
-    readonly hourlyRate: FieldRef<"ParkingSpot", 'Int'>
+    readonly hourlyRate: FieldRef<"ParkingSpot", 'Float'>
     readonly startTime: FieldRef<"ParkingSpot", 'DateTime'>
     readonly endTime: FieldRef<"ParkingSpot", 'DateTime'>
     readonly createdAt: FieldRef<"ParkingSpot", 'DateTime'>
@@ -1840,6 +2012,1858 @@ export namespace Prisma {
 
 
   /**
+   * Model ActiveRent
+   */
+
+  export type AggregateActiveRent = {
+    _count: ActiveRentCountAggregateOutputType | null
+    _avg: ActiveRentAvgAggregateOutputType | null
+    _sum: ActiveRentSumAggregateOutputType | null
+    _min: ActiveRentMinAggregateOutputType | null
+    _max: ActiveRentMaxAggregateOutputType | null
+  }
+
+  export type ActiveRentAvgAggregateOutputType = {
+    id: number | null
+    parkingSpotId: number | null
+    hourlyRate: number | null
+  }
+
+  export type ActiveRentSumAggregateOutputType = {
+    id: number | null
+    parkingSpotId: number | null
+    hourlyRate: number | null
+  }
+
+  export type ActiveRentMinAggregateOutputType = {
+    id: number | null
+    userId: string | null
+    parkingSpotId: number | null
+    hourlyRate: number | null
+    createdAt: Date | null
+  }
+
+  export type ActiveRentMaxAggregateOutputType = {
+    id: number | null
+    userId: string | null
+    parkingSpotId: number | null
+    hourlyRate: number | null
+    createdAt: Date | null
+  }
+
+  export type ActiveRentCountAggregateOutputType = {
+    id: number
+    userId: number
+    parkingSpotId: number
+    hourlyRate: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ActiveRentAvgAggregateInputType = {
+    id?: true
+    parkingSpotId?: true
+    hourlyRate?: true
+  }
+
+  export type ActiveRentSumAggregateInputType = {
+    id?: true
+    parkingSpotId?: true
+    hourlyRate?: true
+  }
+
+  export type ActiveRentMinAggregateInputType = {
+    id?: true
+    userId?: true
+    parkingSpotId?: true
+    hourlyRate?: true
+    createdAt?: true
+  }
+
+  export type ActiveRentMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    parkingSpotId?: true
+    hourlyRate?: true
+    createdAt?: true
+  }
+
+  export type ActiveRentCountAggregateInputType = {
+    id?: true
+    userId?: true
+    parkingSpotId?: true
+    hourlyRate?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ActiveRentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ActiveRent to aggregate.
+     */
+    where?: ActiveRentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActiveRents to fetch.
+     */
+    orderBy?: ActiveRentOrderByWithRelationInput | ActiveRentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ActiveRentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActiveRents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActiveRents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ActiveRents
+    **/
+    _count?: true | ActiveRentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ActiveRentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ActiveRentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ActiveRentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ActiveRentMaxAggregateInputType
+  }
+
+  export type GetActiveRentAggregateType<T extends ActiveRentAggregateArgs> = {
+        [P in keyof T & keyof AggregateActiveRent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateActiveRent[P]>
+      : GetScalarType<T[P], AggregateActiveRent[P]>
+  }
+
+
+
+
+  export type ActiveRentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActiveRentWhereInput
+    orderBy?: ActiveRentOrderByWithAggregationInput | ActiveRentOrderByWithAggregationInput[]
+    by: ActiveRentScalarFieldEnum[] | ActiveRentScalarFieldEnum
+    having?: ActiveRentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ActiveRentCountAggregateInputType | true
+    _avg?: ActiveRentAvgAggregateInputType
+    _sum?: ActiveRentSumAggregateInputType
+    _min?: ActiveRentMinAggregateInputType
+    _max?: ActiveRentMaxAggregateInputType
+  }
+
+  export type ActiveRentGroupByOutputType = {
+    id: number
+    userId: string
+    parkingSpotId: number
+    hourlyRate: number
+    createdAt: Date
+    _count: ActiveRentCountAggregateOutputType | null
+    _avg: ActiveRentAvgAggregateOutputType | null
+    _sum: ActiveRentSumAggregateOutputType | null
+    _min: ActiveRentMinAggregateOutputType | null
+    _max: ActiveRentMaxAggregateOutputType | null
+  }
+
+  type GetActiveRentGroupByPayload<T extends ActiveRentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ActiveRentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ActiveRentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ActiveRentGroupByOutputType[P]>
+            : GetScalarType<T[P], ActiveRentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ActiveRentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    parkingSpotId?: boolean
+    hourlyRate?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["activeRent"]>
+
+  export type ActiveRentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    parkingSpotId?: boolean
+    hourlyRate?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["activeRent"]>
+
+  export type ActiveRentSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    parkingSpotId?: boolean
+    hourlyRate?: boolean
+    createdAt?: boolean
+  }
+
+
+  export type $ActiveRentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ActiveRent"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      userId: string
+      parkingSpotId: number
+      hourlyRate: number
+      createdAt: Date
+    }, ExtArgs["result"]["activeRent"]>
+    composites: {}
+  }
+
+  type ActiveRentGetPayload<S extends boolean | null | undefined | ActiveRentDefaultArgs> = $Result.GetResult<Prisma.$ActiveRentPayload, S>
+
+  type ActiveRentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ActiveRentFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ActiveRentCountAggregateInputType | true
+    }
+
+  export interface ActiveRentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ActiveRent'], meta: { name: 'ActiveRent' } }
+    /**
+     * Find zero or one ActiveRent that matches the filter.
+     * @param {ActiveRentFindUniqueArgs} args - Arguments to find a ActiveRent
+     * @example
+     * // Get one ActiveRent
+     * const activeRent = await prisma.activeRent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ActiveRentFindUniqueArgs>(args: SelectSubset<T, ActiveRentFindUniqueArgs<ExtArgs>>): Prisma__ActiveRentClient<$Result.GetResult<Prisma.$ActiveRentPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ActiveRent that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ActiveRentFindUniqueOrThrowArgs} args - Arguments to find a ActiveRent
+     * @example
+     * // Get one ActiveRent
+     * const activeRent = await prisma.activeRent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ActiveRentFindUniqueOrThrowArgs>(args: SelectSubset<T, ActiveRentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ActiveRentClient<$Result.GetResult<Prisma.$ActiveRentPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ActiveRent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActiveRentFindFirstArgs} args - Arguments to find a ActiveRent
+     * @example
+     * // Get one ActiveRent
+     * const activeRent = await prisma.activeRent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ActiveRentFindFirstArgs>(args?: SelectSubset<T, ActiveRentFindFirstArgs<ExtArgs>>): Prisma__ActiveRentClient<$Result.GetResult<Prisma.$ActiveRentPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ActiveRent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActiveRentFindFirstOrThrowArgs} args - Arguments to find a ActiveRent
+     * @example
+     * // Get one ActiveRent
+     * const activeRent = await prisma.activeRent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ActiveRentFindFirstOrThrowArgs>(args?: SelectSubset<T, ActiveRentFindFirstOrThrowArgs<ExtArgs>>): Prisma__ActiveRentClient<$Result.GetResult<Prisma.$ActiveRentPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ActiveRents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActiveRentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ActiveRents
+     * const activeRents = await prisma.activeRent.findMany()
+     * 
+     * // Get first 10 ActiveRents
+     * const activeRents = await prisma.activeRent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const activeRentWithIdOnly = await prisma.activeRent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ActiveRentFindManyArgs>(args?: SelectSubset<T, ActiveRentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActiveRentPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ActiveRent.
+     * @param {ActiveRentCreateArgs} args - Arguments to create a ActiveRent.
+     * @example
+     * // Create one ActiveRent
+     * const ActiveRent = await prisma.activeRent.create({
+     *   data: {
+     *     // ... data to create a ActiveRent
+     *   }
+     * })
+     * 
+     */
+    create<T extends ActiveRentCreateArgs>(args: SelectSubset<T, ActiveRentCreateArgs<ExtArgs>>): Prisma__ActiveRentClient<$Result.GetResult<Prisma.$ActiveRentPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ActiveRents.
+     * @param {ActiveRentCreateManyArgs} args - Arguments to create many ActiveRents.
+     * @example
+     * // Create many ActiveRents
+     * const activeRent = await prisma.activeRent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ActiveRentCreateManyArgs>(args?: SelectSubset<T, ActiveRentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ActiveRents and returns the data saved in the database.
+     * @param {ActiveRentCreateManyAndReturnArgs} args - Arguments to create many ActiveRents.
+     * @example
+     * // Create many ActiveRents
+     * const activeRent = await prisma.activeRent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ActiveRents and only return the `id`
+     * const activeRentWithIdOnly = await prisma.activeRent.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ActiveRentCreateManyAndReturnArgs>(args?: SelectSubset<T, ActiveRentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActiveRentPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ActiveRent.
+     * @param {ActiveRentDeleteArgs} args - Arguments to delete one ActiveRent.
+     * @example
+     * // Delete one ActiveRent
+     * const ActiveRent = await prisma.activeRent.delete({
+     *   where: {
+     *     // ... filter to delete one ActiveRent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ActiveRentDeleteArgs>(args: SelectSubset<T, ActiveRentDeleteArgs<ExtArgs>>): Prisma__ActiveRentClient<$Result.GetResult<Prisma.$ActiveRentPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ActiveRent.
+     * @param {ActiveRentUpdateArgs} args - Arguments to update one ActiveRent.
+     * @example
+     * // Update one ActiveRent
+     * const activeRent = await prisma.activeRent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ActiveRentUpdateArgs>(args: SelectSubset<T, ActiveRentUpdateArgs<ExtArgs>>): Prisma__ActiveRentClient<$Result.GetResult<Prisma.$ActiveRentPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ActiveRents.
+     * @param {ActiveRentDeleteManyArgs} args - Arguments to filter ActiveRents to delete.
+     * @example
+     * // Delete a few ActiveRents
+     * const { count } = await prisma.activeRent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ActiveRentDeleteManyArgs>(args?: SelectSubset<T, ActiveRentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ActiveRents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActiveRentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ActiveRents
+     * const activeRent = await prisma.activeRent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ActiveRentUpdateManyArgs>(args: SelectSubset<T, ActiveRentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ActiveRent.
+     * @param {ActiveRentUpsertArgs} args - Arguments to update or create a ActiveRent.
+     * @example
+     * // Update or create a ActiveRent
+     * const activeRent = await prisma.activeRent.upsert({
+     *   create: {
+     *     // ... data to create a ActiveRent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ActiveRent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ActiveRentUpsertArgs>(args: SelectSubset<T, ActiveRentUpsertArgs<ExtArgs>>): Prisma__ActiveRentClient<$Result.GetResult<Prisma.$ActiveRentPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ActiveRents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActiveRentCountArgs} args - Arguments to filter ActiveRents to count.
+     * @example
+     * // Count the number of ActiveRents
+     * const count = await prisma.activeRent.count({
+     *   where: {
+     *     // ... the filter for the ActiveRents we want to count
+     *   }
+     * })
+    **/
+    count<T extends ActiveRentCountArgs>(
+      args?: Subset<T, ActiveRentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ActiveRentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ActiveRent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActiveRentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ActiveRentAggregateArgs>(args: Subset<T, ActiveRentAggregateArgs>): Prisma.PrismaPromise<GetActiveRentAggregateType<T>>
+
+    /**
+     * Group by ActiveRent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActiveRentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ActiveRentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ActiveRentGroupByArgs['orderBy'] }
+        : { orderBy?: ActiveRentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ActiveRentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetActiveRentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ActiveRent model
+   */
+  readonly fields: ActiveRentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ActiveRent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ActiveRentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ActiveRent model
+   */ 
+  interface ActiveRentFieldRefs {
+    readonly id: FieldRef<"ActiveRent", 'Int'>
+    readonly userId: FieldRef<"ActiveRent", 'String'>
+    readonly parkingSpotId: FieldRef<"ActiveRent", 'Int'>
+    readonly hourlyRate: FieldRef<"ActiveRent", 'Float'>
+    readonly createdAt: FieldRef<"ActiveRent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ActiveRent findUnique
+   */
+  export type ActiveRentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActiveRent
+     */
+    select?: ActiveRentSelect<ExtArgs> | null
+    /**
+     * Filter, which ActiveRent to fetch.
+     */
+    where: ActiveRentWhereUniqueInput
+  }
+
+  /**
+   * ActiveRent findUniqueOrThrow
+   */
+  export type ActiveRentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActiveRent
+     */
+    select?: ActiveRentSelect<ExtArgs> | null
+    /**
+     * Filter, which ActiveRent to fetch.
+     */
+    where: ActiveRentWhereUniqueInput
+  }
+
+  /**
+   * ActiveRent findFirst
+   */
+  export type ActiveRentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActiveRent
+     */
+    select?: ActiveRentSelect<ExtArgs> | null
+    /**
+     * Filter, which ActiveRent to fetch.
+     */
+    where?: ActiveRentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActiveRents to fetch.
+     */
+    orderBy?: ActiveRentOrderByWithRelationInput | ActiveRentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ActiveRents.
+     */
+    cursor?: ActiveRentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActiveRents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActiveRents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ActiveRents.
+     */
+    distinct?: ActiveRentScalarFieldEnum | ActiveRentScalarFieldEnum[]
+  }
+
+  /**
+   * ActiveRent findFirstOrThrow
+   */
+  export type ActiveRentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActiveRent
+     */
+    select?: ActiveRentSelect<ExtArgs> | null
+    /**
+     * Filter, which ActiveRent to fetch.
+     */
+    where?: ActiveRentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActiveRents to fetch.
+     */
+    orderBy?: ActiveRentOrderByWithRelationInput | ActiveRentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ActiveRents.
+     */
+    cursor?: ActiveRentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActiveRents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActiveRents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ActiveRents.
+     */
+    distinct?: ActiveRentScalarFieldEnum | ActiveRentScalarFieldEnum[]
+  }
+
+  /**
+   * ActiveRent findMany
+   */
+  export type ActiveRentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActiveRent
+     */
+    select?: ActiveRentSelect<ExtArgs> | null
+    /**
+     * Filter, which ActiveRents to fetch.
+     */
+    where?: ActiveRentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ActiveRents to fetch.
+     */
+    orderBy?: ActiveRentOrderByWithRelationInput | ActiveRentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ActiveRents.
+     */
+    cursor?: ActiveRentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ActiveRents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ActiveRents.
+     */
+    skip?: number
+    distinct?: ActiveRentScalarFieldEnum | ActiveRentScalarFieldEnum[]
+  }
+
+  /**
+   * ActiveRent create
+   */
+  export type ActiveRentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActiveRent
+     */
+    select?: ActiveRentSelect<ExtArgs> | null
+    /**
+     * The data needed to create a ActiveRent.
+     */
+    data: XOR<ActiveRentCreateInput, ActiveRentUncheckedCreateInput>
+  }
+
+  /**
+   * ActiveRent createMany
+   */
+  export type ActiveRentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ActiveRents.
+     */
+    data: ActiveRentCreateManyInput | ActiveRentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ActiveRent createManyAndReturn
+   */
+  export type ActiveRentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActiveRent
+     */
+    select?: ActiveRentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ActiveRents.
+     */
+    data: ActiveRentCreateManyInput | ActiveRentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ActiveRent update
+   */
+  export type ActiveRentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActiveRent
+     */
+    select?: ActiveRentSelect<ExtArgs> | null
+    /**
+     * The data needed to update a ActiveRent.
+     */
+    data: XOR<ActiveRentUpdateInput, ActiveRentUncheckedUpdateInput>
+    /**
+     * Choose, which ActiveRent to update.
+     */
+    where: ActiveRentWhereUniqueInput
+  }
+
+  /**
+   * ActiveRent updateMany
+   */
+  export type ActiveRentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ActiveRents.
+     */
+    data: XOR<ActiveRentUpdateManyMutationInput, ActiveRentUncheckedUpdateManyInput>
+    /**
+     * Filter which ActiveRents to update
+     */
+    where?: ActiveRentWhereInput
+  }
+
+  /**
+   * ActiveRent upsert
+   */
+  export type ActiveRentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActiveRent
+     */
+    select?: ActiveRentSelect<ExtArgs> | null
+    /**
+     * The filter to search for the ActiveRent to update in case it exists.
+     */
+    where: ActiveRentWhereUniqueInput
+    /**
+     * In case the ActiveRent found by the `where` argument doesn't exist, create a new ActiveRent with this data.
+     */
+    create: XOR<ActiveRentCreateInput, ActiveRentUncheckedCreateInput>
+    /**
+     * In case the ActiveRent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ActiveRentUpdateInput, ActiveRentUncheckedUpdateInput>
+  }
+
+  /**
+   * ActiveRent delete
+   */
+  export type ActiveRentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActiveRent
+     */
+    select?: ActiveRentSelect<ExtArgs> | null
+    /**
+     * Filter which ActiveRent to delete.
+     */
+    where: ActiveRentWhereUniqueInput
+  }
+
+  /**
+   * ActiveRent deleteMany
+   */
+  export type ActiveRentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ActiveRents to delete
+     */
+    where?: ActiveRentWhereInput
+  }
+
+  /**
+   * ActiveRent without action
+   */
+  export type ActiveRentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActiveRent
+     */
+    select?: ActiveRentSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RentalHistory
+   */
+
+  export type AggregateRentalHistory = {
+    _count: RentalHistoryCountAggregateOutputType | null
+    _avg: RentalHistoryAvgAggregateOutputType | null
+    _sum: RentalHistorySumAggregateOutputType | null
+    _min: RentalHistoryMinAggregateOutputType | null
+    _max: RentalHistoryMaxAggregateOutputType | null
+  }
+
+  export type RentalHistoryAvgAggregateOutputType = {
+    id: number | null
+    parkingSpotId: number | null
+    totalCost: number | null
+  }
+
+  export type RentalHistorySumAggregateOutputType = {
+    id: number | null
+    parkingSpotId: number | null
+    totalCost: number | null
+  }
+
+  export type RentalHistoryMinAggregateOutputType = {
+    id: number | null
+    userId: string | null
+    parkingSpotId: number | null
+    startDate: Date | null
+    endDate: Date | null
+    totalCost: number | null
+  }
+
+  export type RentalHistoryMaxAggregateOutputType = {
+    id: number | null
+    userId: string | null
+    parkingSpotId: number | null
+    startDate: Date | null
+    endDate: Date | null
+    totalCost: number | null
+  }
+
+  export type RentalHistoryCountAggregateOutputType = {
+    id: number
+    userId: number
+    parkingSpotId: number
+    startDate: number
+    endDate: number
+    totalCost: number
+    _all: number
+  }
+
+
+  export type RentalHistoryAvgAggregateInputType = {
+    id?: true
+    parkingSpotId?: true
+    totalCost?: true
+  }
+
+  export type RentalHistorySumAggregateInputType = {
+    id?: true
+    parkingSpotId?: true
+    totalCost?: true
+  }
+
+  export type RentalHistoryMinAggregateInputType = {
+    id?: true
+    userId?: true
+    parkingSpotId?: true
+    startDate?: true
+    endDate?: true
+    totalCost?: true
+  }
+
+  export type RentalHistoryMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    parkingSpotId?: true
+    startDate?: true
+    endDate?: true
+    totalCost?: true
+  }
+
+  export type RentalHistoryCountAggregateInputType = {
+    id?: true
+    userId?: true
+    parkingSpotId?: true
+    startDate?: true
+    endDate?: true
+    totalCost?: true
+    _all?: true
+  }
+
+  export type RentalHistoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RentalHistory to aggregate.
+     */
+    where?: RentalHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RentalHistories to fetch.
+     */
+    orderBy?: RentalHistoryOrderByWithRelationInput | RentalHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RentalHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RentalHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RentalHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RentalHistories
+    **/
+    _count?: true | RentalHistoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RentalHistoryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RentalHistorySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RentalHistoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RentalHistoryMaxAggregateInputType
+  }
+
+  export type GetRentalHistoryAggregateType<T extends RentalHistoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateRentalHistory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRentalHistory[P]>
+      : GetScalarType<T[P], AggregateRentalHistory[P]>
+  }
+
+
+
+
+  export type RentalHistoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RentalHistoryWhereInput
+    orderBy?: RentalHistoryOrderByWithAggregationInput | RentalHistoryOrderByWithAggregationInput[]
+    by: RentalHistoryScalarFieldEnum[] | RentalHistoryScalarFieldEnum
+    having?: RentalHistoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RentalHistoryCountAggregateInputType | true
+    _avg?: RentalHistoryAvgAggregateInputType
+    _sum?: RentalHistorySumAggregateInputType
+    _min?: RentalHistoryMinAggregateInputType
+    _max?: RentalHistoryMaxAggregateInputType
+  }
+
+  export type RentalHistoryGroupByOutputType = {
+    id: number
+    userId: string
+    parkingSpotId: number
+    startDate: Date
+    endDate: Date
+    totalCost: number
+    _count: RentalHistoryCountAggregateOutputType | null
+    _avg: RentalHistoryAvgAggregateOutputType | null
+    _sum: RentalHistorySumAggregateOutputType | null
+    _min: RentalHistoryMinAggregateOutputType | null
+    _max: RentalHistoryMaxAggregateOutputType | null
+  }
+
+  type GetRentalHistoryGroupByPayload<T extends RentalHistoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RentalHistoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RentalHistoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RentalHistoryGroupByOutputType[P]>
+            : GetScalarType<T[P], RentalHistoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RentalHistorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    parkingSpotId?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    totalCost?: boolean
+  }, ExtArgs["result"]["rentalHistory"]>
+
+  export type RentalHistorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    parkingSpotId?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    totalCost?: boolean
+  }, ExtArgs["result"]["rentalHistory"]>
+
+  export type RentalHistorySelectScalar = {
+    id?: boolean
+    userId?: boolean
+    parkingSpotId?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    totalCost?: boolean
+  }
+
+
+  export type $RentalHistoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RentalHistory"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      userId: string
+      parkingSpotId: number
+      startDate: Date
+      endDate: Date
+      totalCost: number
+    }, ExtArgs["result"]["rentalHistory"]>
+    composites: {}
+  }
+
+  type RentalHistoryGetPayload<S extends boolean | null | undefined | RentalHistoryDefaultArgs> = $Result.GetResult<Prisma.$RentalHistoryPayload, S>
+
+  type RentalHistoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RentalHistoryFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RentalHistoryCountAggregateInputType | true
+    }
+
+  export interface RentalHistoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RentalHistory'], meta: { name: 'RentalHistory' } }
+    /**
+     * Find zero or one RentalHistory that matches the filter.
+     * @param {RentalHistoryFindUniqueArgs} args - Arguments to find a RentalHistory
+     * @example
+     * // Get one RentalHistory
+     * const rentalHistory = await prisma.rentalHistory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RentalHistoryFindUniqueArgs>(args: SelectSubset<T, RentalHistoryFindUniqueArgs<ExtArgs>>): Prisma__RentalHistoryClient<$Result.GetResult<Prisma.$RentalHistoryPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one RentalHistory that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {RentalHistoryFindUniqueOrThrowArgs} args - Arguments to find a RentalHistory
+     * @example
+     * // Get one RentalHistory
+     * const rentalHistory = await prisma.rentalHistory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RentalHistoryFindUniqueOrThrowArgs>(args: SelectSubset<T, RentalHistoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RentalHistoryClient<$Result.GetResult<Prisma.$RentalHistoryPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first RentalHistory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RentalHistoryFindFirstArgs} args - Arguments to find a RentalHistory
+     * @example
+     * // Get one RentalHistory
+     * const rentalHistory = await prisma.rentalHistory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RentalHistoryFindFirstArgs>(args?: SelectSubset<T, RentalHistoryFindFirstArgs<ExtArgs>>): Prisma__RentalHistoryClient<$Result.GetResult<Prisma.$RentalHistoryPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first RentalHistory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RentalHistoryFindFirstOrThrowArgs} args - Arguments to find a RentalHistory
+     * @example
+     * // Get one RentalHistory
+     * const rentalHistory = await prisma.rentalHistory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RentalHistoryFindFirstOrThrowArgs>(args?: SelectSubset<T, RentalHistoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__RentalHistoryClient<$Result.GetResult<Prisma.$RentalHistoryPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more RentalHistories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RentalHistoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RentalHistories
+     * const rentalHistories = await prisma.rentalHistory.findMany()
+     * 
+     * // Get first 10 RentalHistories
+     * const rentalHistories = await prisma.rentalHistory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const rentalHistoryWithIdOnly = await prisma.rentalHistory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RentalHistoryFindManyArgs>(args?: SelectSubset<T, RentalHistoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RentalHistoryPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a RentalHistory.
+     * @param {RentalHistoryCreateArgs} args - Arguments to create a RentalHistory.
+     * @example
+     * // Create one RentalHistory
+     * const RentalHistory = await prisma.rentalHistory.create({
+     *   data: {
+     *     // ... data to create a RentalHistory
+     *   }
+     * })
+     * 
+     */
+    create<T extends RentalHistoryCreateArgs>(args: SelectSubset<T, RentalHistoryCreateArgs<ExtArgs>>): Prisma__RentalHistoryClient<$Result.GetResult<Prisma.$RentalHistoryPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many RentalHistories.
+     * @param {RentalHistoryCreateManyArgs} args - Arguments to create many RentalHistories.
+     * @example
+     * // Create many RentalHistories
+     * const rentalHistory = await prisma.rentalHistory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RentalHistoryCreateManyArgs>(args?: SelectSubset<T, RentalHistoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RentalHistories and returns the data saved in the database.
+     * @param {RentalHistoryCreateManyAndReturnArgs} args - Arguments to create many RentalHistories.
+     * @example
+     * // Create many RentalHistories
+     * const rentalHistory = await prisma.rentalHistory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RentalHistories and only return the `id`
+     * const rentalHistoryWithIdOnly = await prisma.rentalHistory.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RentalHistoryCreateManyAndReturnArgs>(args?: SelectSubset<T, RentalHistoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RentalHistoryPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a RentalHistory.
+     * @param {RentalHistoryDeleteArgs} args - Arguments to delete one RentalHistory.
+     * @example
+     * // Delete one RentalHistory
+     * const RentalHistory = await prisma.rentalHistory.delete({
+     *   where: {
+     *     // ... filter to delete one RentalHistory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RentalHistoryDeleteArgs>(args: SelectSubset<T, RentalHistoryDeleteArgs<ExtArgs>>): Prisma__RentalHistoryClient<$Result.GetResult<Prisma.$RentalHistoryPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one RentalHistory.
+     * @param {RentalHistoryUpdateArgs} args - Arguments to update one RentalHistory.
+     * @example
+     * // Update one RentalHistory
+     * const rentalHistory = await prisma.rentalHistory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RentalHistoryUpdateArgs>(args: SelectSubset<T, RentalHistoryUpdateArgs<ExtArgs>>): Prisma__RentalHistoryClient<$Result.GetResult<Prisma.$RentalHistoryPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more RentalHistories.
+     * @param {RentalHistoryDeleteManyArgs} args - Arguments to filter RentalHistories to delete.
+     * @example
+     * // Delete a few RentalHistories
+     * const { count } = await prisma.rentalHistory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RentalHistoryDeleteManyArgs>(args?: SelectSubset<T, RentalHistoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RentalHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RentalHistoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RentalHistories
+     * const rentalHistory = await prisma.rentalHistory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RentalHistoryUpdateManyArgs>(args: SelectSubset<T, RentalHistoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RentalHistory.
+     * @param {RentalHistoryUpsertArgs} args - Arguments to update or create a RentalHistory.
+     * @example
+     * // Update or create a RentalHistory
+     * const rentalHistory = await prisma.rentalHistory.upsert({
+     *   create: {
+     *     // ... data to create a RentalHistory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RentalHistory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RentalHistoryUpsertArgs>(args: SelectSubset<T, RentalHistoryUpsertArgs<ExtArgs>>): Prisma__RentalHistoryClient<$Result.GetResult<Prisma.$RentalHistoryPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of RentalHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RentalHistoryCountArgs} args - Arguments to filter RentalHistories to count.
+     * @example
+     * // Count the number of RentalHistories
+     * const count = await prisma.rentalHistory.count({
+     *   where: {
+     *     // ... the filter for the RentalHistories we want to count
+     *   }
+     * })
+    **/
+    count<T extends RentalHistoryCountArgs>(
+      args?: Subset<T, RentalHistoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RentalHistoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RentalHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RentalHistoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RentalHistoryAggregateArgs>(args: Subset<T, RentalHistoryAggregateArgs>): Prisma.PrismaPromise<GetRentalHistoryAggregateType<T>>
+
+    /**
+     * Group by RentalHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RentalHistoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RentalHistoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RentalHistoryGroupByArgs['orderBy'] }
+        : { orderBy?: RentalHistoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RentalHistoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRentalHistoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RentalHistory model
+   */
+  readonly fields: RentalHistoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RentalHistory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RentalHistoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RentalHistory model
+   */ 
+  interface RentalHistoryFieldRefs {
+    readonly id: FieldRef<"RentalHistory", 'Int'>
+    readonly userId: FieldRef<"RentalHistory", 'String'>
+    readonly parkingSpotId: FieldRef<"RentalHistory", 'Int'>
+    readonly startDate: FieldRef<"RentalHistory", 'DateTime'>
+    readonly endDate: FieldRef<"RentalHistory", 'DateTime'>
+    readonly totalCost: FieldRef<"RentalHistory", 'Float'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RentalHistory findUnique
+   */
+  export type RentalHistoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalHistory
+     */
+    select?: RentalHistorySelect<ExtArgs> | null
+    /**
+     * Filter, which RentalHistory to fetch.
+     */
+    where: RentalHistoryWhereUniqueInput
+  }
+
+  /**
+   * RentalHistory findUniqueOrThrow
+   */
+  export type RentalHistoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalHistory
+     */
+    select?: RentalHistorySelect<ExtArgs> | null
+    /**
+     * Filter, which RentalHistory to fetch.
+     */
+    where: RentalHistoryWhereUniqueInput
+  }
+
+  /**
+   * RentalHistory findFirst
+   */
+  export type RentalHistoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalHistory
+     */
+    select?: RentalHistorySelect<ExtArgs> | null
+    /**
+     * Filter, which RentalHistory to fetch.
+     */
+    where?: RentalHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RentalHistories to fetch.
+     */
+    orderBy?: RentalHistoryOrderByWithRelationInput | RentalHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RentalHistories.
+     */
+    cursor?: RentalHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RentalHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RentalHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RentalHistories.
+     */
+    distinct?: RentalHistoryScalarFieldEnum | RentalHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * RentalHistory findFirstOrThrow
+   */
+  export type RentalHistoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalHistory
+     */
+    select?: RentalHistorySelect<ExtArgs> | null
+    /**
+     * Filter, which RentalHistory to fetch.
+     */
+    where?: RentalHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RentalHistories to fetch.
+     */
+    orderBy?: RentalHistoryOrderByWithRelationInput | RentalHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RentalHistories.
+     */
+    cursor?: RentalHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RentalHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RentalHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RentalHistories.
+     */
+    distinct?: RentalHistoryScalarFieldEnum | RentalHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * RentalHistory findMany
+   */
+  export type RentalHistoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalHistory
+     */
+    select?: RentalHistorySelect<ExtArgs> | null
+    /**
+     * Filter, which RentalHistories to fetch.
+     */
+    where?: RentalHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RentalHistories to fetch.
+     */
+    orderBy?: RentalHistoryOrderByWithRelationInput | RentalHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RentalHistories.
+     */
+    cursor?: RentalHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RentalHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RentalHistories.
+     */
+    skip?: number
+    distinct?: RentalHistoryScalarFieldEnum | RentalHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * RentalHistory create
+   */
+  export type RentalHistoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalHistory
+     */
+    select?: RentalHistorySelect<ExtArgs> | null
+    /**
+     * The data needed to create a RentalHistory.
+     */
+    data: XOR<RentalHistoryCreateInput, RentalHistoryUncheckedCreateInput>
+  }
+
+  /**
+   * RentalHistory createMany
+   */
+  export type RentalHistoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RentalHistories.
+     */
+    data: RentalHistoryCreateManyInput | RentalHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RentalHistory createManyAndReturn
+   */
+  export type RentalHistoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalHistory
+     */
+    select?: RentalHistorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many RentalHistories.
+     */
+    data: RentalHistoryCreateManyInput | RentalHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RentalHistory update
+   */
+  export type RentalHistoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalHistory
+     */
+    select?: RentalHistorySelect<ExtArgs> | null
+    /**
+     * The data needed to update a RentalHistory.
+     */
+    data: XOR<RentalHistoryUpdateInput, RentalHistoryUncheckedUpdateInput>
+    /**
+     * Choose, which RentalHistory to update.
+     */
+    where: RentalHistoryWhereUniqueInput
+  }
+
+  /**
+   * RentalHistory updateMany
+   */
+  export type RentalHistoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RentalHistories.
+     */
+    data: XOR<RentalHistoryUpdateManyMutationInput, RentalHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which RentalHistories to update
+     */
+    where?: RentalHistoryWhereInput
+  }
+
+  /**
+   * RentalHistory upsert
+   */
+  export type RentalHistoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalHistory
+     */
+    select?: RentalHistorySelect<ExtArgs> | null
+    /**
+     * The filter to search for the RentalHistory to update in case it exists.
+     */
+    where: RentalHistoryWhereUniqueInput
+    /**
+     * In case the RentalHistory found by the `where` argument doesn't exist, create a new RentalHistory with this data.
+     */
+    create: XOR<RentalHistoryCreateInput, RentalHistoryUncheckedCreateInput>
+    /**
+     * In case the RentalHistory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RentalHistoryUpdateInput, RentalHistoryUncheckedUpdateInput>
+  }
+
+  /**
+   * RentalHistory delete
+   */
+  export type RentalHistoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalHistory
+     */
+    select?: RentalHistorySelect<ExtArgs> | null
+    /**
+     * Filter which RentalHistory to delete.
+     */
+    where: RentalHistoryWhereUniqueInput
+  }
+
+  /**
+   * RentalHistory deleteMany
+   */
+  export type RentalHistoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RentalHistories to delete
+     */
+    where?: RentalHistoryWhereInput
+  }
+
+  /**
+   * RentalHistory without action
+   */
+  export type RentalHistoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalHistory
+     */
+    select?: RentalHistorySelect<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -1868,6 +3892,29 @@ export namespace Prisma {
   };
 
   export type ParkingSpotScalarFieldEnum = (typeof ParkingSpotScalarFieldEnum)[keyof typeof ParkingSpotScalarFieldEnum]
+
+
+  export const ActiveRentScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    parkingSpotId: 'parkingSpotId',
+    hourlyRate: 'hourlyRate',
+    createdAt: 'createdAt'
+  };
+
+  export type ActiveRentScalarFieldEnum = (typeof ActiveRentScalarFieldEnum)[keyof typeof ActiveRentScalarFieldEnum]
+
+
+  export const RentalHistoryScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    parkingSpotId: 'parkingSpotId',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    totalCost: 'totalCost'
+  };
+
+  export type RentalHistoryScalarFieldEnum = (typeof RentalHistoryScalarFieldEnum)[keyof typeof RentalHistoryScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -1960,7 +4007,7 @@ export namespace Prisma {
     longitude?: FloatFilter<"ParkingSpot"> | number
     address?: StringFilter<"ParkingSpot"> | string
     description?: StringFilter<"ParkingSpot"> | string
-    hourlyRate?: IntFilter<"ParkingSpot"> | number
+    hourlyRate?: FloatFilter<"ParkingSpot"> | number
     startTime?: DateTimeFilter<"ParkingSpot"> | Date | string
     endTime?: DateTimeFilter<"ParkingSpot"> | Date | string
     createdAt?: DateTimeFilter<"ParkingSpot"> | Date | string
@@ -1991,7 +4038,7 @@ export namespace Prisma {
     longitude?: FloatFilter<"ParkingSpot"> | number
     address?: StringFilter<"ParkingSpot"> | string
     description?: StringFilter<"ParkingSpot"> | string
-    hourlyRate?: IntFilter<"ParkingSpot"> | number
+    hourlyRate?: FloatFilter<"ParkingSpot"> | number
     startTime?: DateTimeFilter<"ParkingSpot"> | Date | string
     endTime?: DateTimeFilter<"ParkingSpot"> | Date | string
     createdAt?: DateTimeFilter<"ParkingSpot"> | Date | string
@@ -2027,11 +4074,124 @@ export namespace Prisma {
     longitude?: FloatWithAggregatesFilter<"ParkingSpot"> | number
     address?: StringWithAggregatesFilter<"ParkingSpot"> | string
     description?: StringWithAggregatesFilter<"ParkingSpot"> | string
-    hourlyRate?: IntWithAggregatesFilter<"ParkingSpot"> | number
+    hourlyRate?: FloatWithAggregatesFilter<"ParkingSpot"> | number
     startTime?: DateTimeWithAggregatesFilter<"ParkingSpot"> | Date | string
     endTime?: DateTimeWithAggregatesFilter<"ParkingSpot"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"ParkingSpot"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ParkingSpot"> | Date | string
+  }
+
+  export type ActiveRentWhereInput = {
+    AND?: ActiveRentWhereInput | ActiveRentWhereInput[]
+    OR?: ActiveRentWhereInput[]
+    NOT?: ActiveRentWhereInput | ActiveRentWhereInput[]
+    id?: IntFilter<"ActiveRent"> | number
+    userId?: StringFilter<"ActiveRent"> | string
+    parkingSpotId?: IntFilter<"ActiveRent"> | number
+    hourlyRate?: FloatFilter<"ActiveRent"> | number
+    createdAt?: DateTimeFilter<"ActiveRent"> | Date | string
+  }
+
+  export type ActiveRentOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    parkingSpotId?: SortOrder
+    hourlyRate?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ActiveRentWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    userId?: string
+    parkingSpotId?: number
+    AND?: ActiveRentWhereInput | ActiveRentWhereInput[]
+    OR?: ActiveRentWhereInput[]
+    NOT?: ActiveRentWhereInput | ActiveRentWhereInput[]
+    hourlyRate?: FloatFilter<"ActiveRent"> | number
+    createdAt?: DateTimeFilter<"ActiveRent"> | Date | string
+  }, "id" | "userId" | "parkingSpotId">
+
+  export type ActiveRentOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    parkingSpotId?: SortOrder
+    hourlyRate?: SortOrder
+    createdAt?: SortOrder
+    _count?: ActiveRentCountOrderByAggregateInput
+    _avg?: ActiveRentAvgOrderByAggregateInput
+    _max?: ActiveRentMaxOrderByAggregateInput
+    _min?: ActiveRentMinOrderByAggregateInput
+    _sum?: ActiveRentSumOrderByAggregateInput
+  }
+
+  export type ActiveRentScalarWhereWithAggregatesInput = {
+    AND?: ActiveRentScalarWhereWithAggregatesInput | ActiveRentScalarWhereWithAggregatesInput[]
+    OR?: ActiveRentScalarWhereWithAggregatesInput[]
+    NOT?: ActiveRentScalarWhereWithAggregatesInput | ActiveRentScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ActiveRent"> | number
+    userId?: StringWithAggregatesFilter<"ActiveRent"> | string
+    parkingSpotId?: IntWithAggregatesFilter<"ActiveRent"> | number
+    hourlyRate?: FloatWithAggregatesFilter<"ActiveRent"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"ActiveRent"> | Date | string
+  }
+
+  export type RentalHistoryWhereInput = {
+    AND?: RentalHistoryWhereInput | RentalHistoryWhereInput[]
+    OR?: RentalHistoryWhereInput[]
+    NOT?: RentalHistoryWhereInput | RentalHistoryWhereInput[]
+    id?: IntFilter<"RentalHistory"> | number
+    userId?: StringFilter<"RentalHistory"> | string
+    parkingSpotId?: IntFilter<"RentalHistory"> | number
+    startDate?: DateTimeFilter<"RentalHistory"> | Date | string
+    endDate?: DateTimeFilter<"RentalHistory"> | Date | string
+    totalCost?: FloatFilter<"RentalHistory"> | number
+  }
+
+  export type RentalHistoryOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    parkingSpotId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    totalCost?: SortOrder
+  }
+
+  export type RentalHistoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: RentalHistoryWhereInput | RentalHistoryWhereInput[]
+    OR?: RentalHistoryWhereInput[]
+    NOT?: RentalHistoryWhereInput | RentalHistoryWhereInput[]
+    userId?: StringFilter<"RentalHistory"> | string
+    parkingSpotId?: IntFilter<"RentalHistory"> | number
+    startDate?: DateTimeFilter<"RentalHistory"> | Date | string
+    endDate?: DateTimeFilter<"RentalHistory"> | Date | string
+    totalCost?: FloatFilter<"RentalHistory"> | number
+  }, "id">
+
+  export type RentalHistoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    parkingSpotId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    totalCost?: SortOrder
+    _count?: RentalHistoryCountOrderByAggregateInput
+    _avg?: RentalHistoryAvgOrderByAggregateInput
+    _max?: RentalHistoryMaxOrderByAggregateInput
+    _min?: RentalHistoryMinOrderByAggregateInput
+    _sum?: RentalHistorySumOrderByAggregateInput
+  }
+
+  export type RentalHistoryScalarWhereWithAggregatesInput = {
+    AND?: RentalHistoryScalarWhereWithAggregatesInput | RentalHistoryScalarWhereWithAggregatesInput[]
+    OR?: RentalHistoryScalarWhereWithAggregatesInput[]
+    NOT?: RentalHistoryScalarWhereWithAggregatesInput | RentalHistoryScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"RentalHistory"> | number
+    userId?: StringWithAggregatesFilter<"RentalHistory"> | string
+    parkingSpotId?: IntWithAggregatesFilter<"RentalHistory"> | number
+    startDate?: DateTimeWithAggregatesFilter<"RentalHistory"> | Date | string
+    endDate?: DateTimeWithAggregatesFilter<"RentalHistory"> | Date | string
+    totalCost?: FloatWithAggregatesFilter<"RentalHistory"> | number
   }
 
   export type ParkingSpotCreateInput = {
@@ -2067,7 +4227,7 @@ export namespace Prisma {
     longitude?: FloatFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    hourlyRate?: IntFieldUpdateOperationsInput | number
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2081,7 +4241,7 @@ export namespace Prisma {
     longitude?: FloatFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    hourlyRate?: IntFieldUpdateOperationsInput | number
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2108,7 +4268,7 @@ export namespace Prisma {
     longitude?: FloatFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    hourlyRate?: IntFieldUpdateOperationsInput | number
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2122,11 +4282,124 @@ export namespace Prisma {
     longitude?: FloatFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    hourlyRate?: IntFieldUpdateOperationsInput | number
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActiveRentCreateInput = {
+    userId: string
+    parkingSpotId: number
+    hourlyRate: number
+    createdAt?: Date | string
+  }
+
+  export type ActiveRentUncheckedCreateInput = {
+    id?: number
+    userId: string
+    parkingSpotId: number
+    hourlyRate: number
+    createdAt?: Date | string
+  }
+
+  export type ActiveRentUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    parkingSpotId?: IntFieldUpdateOperationsInput | number
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActiveRentUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    parkingSpotId?: IntFieldUpdateOperationsInput | number
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActiveRentCreateManyInput = {
+    id?: number
+    userId: string
+    parkingSpotId: number
+    hourlyRate: number
+    createdAt?: Date | string
+  }
+
+  export type ActiveRentUpdateManyMutationInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    parkingSpotId?: IntFieldUpdateOperationsInput | number
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ActiveRentUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    parkingSpotId?: IntFieldUpdateOperationsInput | number
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RentalHistoryCreateInput = {
+    userId: string
+    parkingSpotId: number
+    startDate: Date | string
+    endDate?: Date | string
+    totalCost: number
+  }
+
+  export type RentalHistoryUncheckedCreateInput = {
+    id?: number
+    userId: string
+    parkingSpotId: number
+    startDate: Date | string
+    endDate?: Date | string
+    totalCost: number
+  }
+
+  export type RentalHistoryUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    parkingSpotId?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalCost?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type RentalHistoryUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    parkingSpotId?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalCost?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type RentalHistoryCreateManyInput = {
+    id?: number
+    userId: string
+    parkingSpotId: number
+    startDate: Date | string
+    endDate?: Date | string
+    totalCost: number
+  }
+
+  export type RentalHistoryUpdateManyMutationInput = {
+    userId?: StringFieldUpdateOperationsInput | string
+    parkingSpotId?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalCost?: FloatFieldUpdateOperationsInput | number
+  }
+
+  export type RentalHistoryUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    parkingSpotId?: IntFieldUpdateOperationsInput | number
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    totalCost?: FloatFieldUpdateOperationsInput | number
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -2297,6 +4570,81 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type ActiveRentCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    parkingSpotId?: SortOrder
+    hourlyRate?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ActiveRentAvgOrderByAggregateInput = {
+    id?: SortOrder
+    parkingSpotId?: SortOrder
+    hourlyRate?: SortOrder
+  }
+
+  export type ActiveRentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    parkingSpotId?: SortOrder
+    hourlyRate?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ActiveRentMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    parkingSpotId?: SortOrder
+    hourlyRate?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ActiveRentSumOrderByAggregateInput = {
+    id?: SortOrder
+    parkingSpotId?: SortOrder
+    hourlyRate?: SortOrder
+  }
+
+  export type RentalHistoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    parkingSpotId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    totalCost?: SortOrder
+  }
+
+  export type RentalHistoryAvgOrderByAggregateInput = {
+    id?: SortOrder
+    parkingSpotId?: SortOrder
+    totalCost?: SortOrder
+  }
+
+  export type RentalHistoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    parkingSpotId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    totalCost?: SortOrder
+  }
+
+  export type RentalHistoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    parkingSpotId?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    totalCost?: SortOrder
+  }
+
+  export type RentalHistorySumOrderByAggregateInput = {
+    id?: SortOrder
+    parkingSpotId?: SortOrder
+    totalCost?: SortOrder
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -2309,16 +4657,16 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
-  }
-
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -2440,6 +4788,14 @@ export namespace Prisma {
      * @deprecated Use ParkingSpotDefaultArgs instead
      */
     export type ParkingSpotArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ParkingSpotDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ActiveRentDefaultArgs instead
+     */
+    export type ActiveRentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ActiveRentDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RentalHistoryDefaultArgs instead
+     */
+    export type RentalHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RentalHistoryDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

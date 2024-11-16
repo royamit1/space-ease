@@ -11,9 +11,8 @@ datasource db {
 }
 
 generator client {
-  provider      = "prisma-client-js"
-  output        = "./generated/client"
-  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+  provider = "prisma-client-js"
+  output   = "./generated/client"
 }
 
 model ParkingSpot {
@@ -23,9 +22,26 @@ model ParkingSpot {
   longitude   Float
   address     String
   description String
-  hourlyRate  Int
+  hourlyRate  Float
   startTime   DateTime
   endTime     DateTime
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model ActiveRent {
+  id            Int      @id @default(autoincrement())
+  userId        String   @unique
+  parkingSpotId Int      @unique
+  hourlyRate    Float
+  createdAt     DateTime @default(now())
+}
+
+model RentalHistory {
+  id            Int      @id @default(autoincrement())
+  userId        String
+  parkingSpotId Int
+  startDate     DateTime
+  endDate       DateTime @default(now())
+  totalCost     Float
 }

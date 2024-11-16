@@ -4,9 +4,12 @@ import {useFooterState} from "@/hooks/useFooterState";
 import {useParkingSpotById} from "@/hooks/useParkingSpots";
 import {AlertCircle, Info} from "lucide-react";
 import {ConfirmationButton} from "@/components/common/confirmation-button";
+import {startRenting} from "@/app/actions";
+import {useQueryClient} from "@tanstack/react-query";
 
 export const DetailFooter: React.FC = () => {
-    const [selectedParkingId, setFooterState] = useFooterState(state => state.mode.mode === "detail" ? state.mode.id : null);
+    const [selectedParkingId] = useFooterState(state => state.mode.mode === "detail" ? state.mode.id : null);
+    const queryClient = useQueryClient()
     const {data: parkingSpot, isLoading, error} = useParkingSpotById(selectedParkingId)
 
     if (isLoading) {
@@ -39,11 +42,14 @@ export const DetailFooter: React.FC = () => {
         );
     }
 
-    const handleRent = () => {
-        setFooterState({
-            activeParkingId: parkingSpot.id,
-            size: "open",
-        });
+    const handleRent = async () => {
+        try {
+            await startRenting(parkingSpot.id)
+        } catch (err) {
+            console.error(err)
+            return
+        }
+        await queryClient.invalidateQueries({ queryKey: ["activeRent"] })
     };
 
     return (
