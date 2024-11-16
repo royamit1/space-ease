@@ -17,6 +17,7 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent})
     const footerStore = useFooterStore()
     const queryClient = useQueryClient()
     const now = useNow(5000)
+
     const {data: parkingSpot, isLoading, error} = useParkingSpotById(activeRent.parkingSpotId);
     const [showNavigationDialog, setShowNavigationDialog] = useState(false);
 
