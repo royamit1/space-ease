@@ -1031,14 +1031,14 @@ export namespace Prisma {
     id: number | null
     latitude: number | null
     longitude: number | null
-    hourlyRate: Decimal | null
+    hourlyRate: number | null
   }
 
   export type ParkingSpotSumAggregateOutputType = {
     id: number | null
     latitude: number | null
     longitude: number | null
-    hourlyRate: Decimal | null
+    hourlyRate: number | null
   }
 
   export type ParkingSpotMinAggregateOutputType = {
@@ -1048,7 +1048,7 @@ export namespace Prisma {
     longitude: number | null
     address: string | null
     description: string | null
-    hourlyRate: Decimal | null
+    hourlyRate: number | null
     startTime: Date | null
     endTime: Date | null
     createdAt: Date | null
@@ -1062,7 +1062,7 @@ export namespace Prisma {
     longitude: number | null
     address: string | null
     description: string | null
-    hourlyRate: Decimal | null
+    hourlyRate: number | null
     startTime: Date | null
     endTime: Date | null
     createdAt: Date | null
@@ -1235,7 +1235,7 @@ export namespace Prisma {
     longitude: number
     address: string
     description: string
-    hourlyRate: Decimal
+    hourlyRate: number
     startTime: Date
     endTime: Date
     createdAt: Date
@@ -1314,7 +1314,7 @@ export namespace Prisma {
       longitude: number
       address: string
       description: string
-      hourlyRate: Prisma.Decimal
+      hourlyRate: number
       startTime: Date
       endTime: Date
       createdAt: Date
@@ -1718,7 +1718,7 @@ export namespace Prisma {
     readonly longitude: FieldRef<"ParkingSpot", 'Float'>
     readonly address: FieldRef<"ParkingSpot", 'String'>
     readonly description: FieldRef<"ParkingSpot", 'String'>
-    readonly hourlyRate: FieldRef<"ParkingSpot", 'Decimal'>
+    readonly hourlyRate: FieldRef<"ParkingSpot", 'Float'>
     readonly startTime: FieldRef<"ParkingSpot", 'DateTime'>
     readonly endTime: FieldRef<"ParkingSpot", 'DateTime'>
     readonly createdAt: FieldRef<"ParkingSpot", 'DateTime'>
@@ -2026,20 +2026,20 @@ export namespace Prisma {
   export type ActiveRentAvgAggregateOutputType = {
     id: number | null
     parkingSpotId: number | null
-    hourlyRate: Decimal | null
+    hourlyRate: number | null
   }
 
   export type ActiveRentSumAggregateOutputType = {
     id: number | null
     parkingSpotId: number | null
-    hourlyRate: Decimal | null
+    hourlyRate: number | null
   }
 
   export type ActiveRentMinAggregateOutputType = {
     id: number | null
     userId: string | null
     parkingSpotId: number | null
-    hourlyRate: Decimal | null
+    hourlyRate: number | null
     createdAt: Date | null
   }
 
@@ -2047,7 +2047,7 @@ export namespace Prisma {
     id: number | null
     userId: string | null
     parkingSpotId: number | null
-    hourlyRate: Decimal | null
+    hourlyRate: number | null
     createdAt: Date | null
   }
 
@@ -2188,7 +2188,7 @@ export namespace Prisma {
     id: number
     userId: string
     parkingSpotId: number
-    hourlyRate: Decimal
+    hourlyRate: number
     createdAt: Date
     _count: ActiveRentCountAggregateOutputType | null
     _avg: ActiveRentAvgAggregateOutputType | null
@@ -2243,7 +2243,7 @@ export namespace Prisma {
       id: number
       userId: string
       parkingSpotId: number
-      hourlyRate: Prisma.Decimal
+      hourlyRate: number
       createdAt: Date
     }, ExtArgs["result"]["activeRent"]>
     composites: {}
@@ -2641,7 +2641,7 @@ export namespace Prisma {
     readonly id: FieldRef<"ActiveRent", 'Int'>
     readonly userId: FieldRef<"ActiveRent", 'String'>
     readonly parkingSpotId: FieldRef<"ActiveRent", 'Int'>
-    readonly hourlyRate: FieldRef<"ActiveRent", 'Decimal'>
+    readonly hourlyRate: FieldRef<"ActiveRent", 'Float'>
     readonly createdAt: FieldRef<"ActiveRent", 'DateTime'>
   }
     
@@ -2946,13 +2946,13 @@ export namespace Prisma {
   export type RentalHistoryAvgAggregateOutputType = {
     id: number | null
     parkingSpotId: number | null
-    totalCost: Decimal | null
+    totalCost: number | null
   }
 
   export type RentalHistorySumAggregateOutputType = {
     id: number | null
     parkingSpotId: number | null
-    totalCost: Decimal | null
+    totalCost: number | null
   }
 
   export type RentalHistoryMinAggregateOutputType = {
@@ -2961,7 +2961,7 @@ export namespace Prisma {
     parkingSpotId: number | null
     startDate: Date | null
     endDate: Date | null
-    totalCost: Decimal | null
+    totalCost: number | null
   }
 
   export type RentalHistoryMaxAggregateOutputType = {
@@ -2970,7 +2970,7 @@ export namespace Prisma {
     parkingSpotId: number | null
     startDate: Date | null
     endDate: Date | null
-    totalCost: Decimal | null
+    totalCost: number | null
   }
 
   export type RentalHistoryCountAggregateOutputType = {
@@ -3116,7 +3116,7 @@ export namespace Prisma {
     parkingSpotId: number
     startDate: Date
     endDate: Date
-    totalCost: Decimal
+    totalCost: number
     _count: RentalHistoryCountAggregateOutputType | null
     _avg: RentalHistoryAvgAggregateOutputType | null
     _sum: RentalHistorySumAggregateOutputType | null
@@ -3175,7 +3175,7 @@ export namespace Prisma {
       parkingSpotId: number
       startDate: Date
       endDate: Date
-      totalCost: Prisma.Decimal
+      totalCost: number
     }, ExtArgs["result"]["rentalHistory"]>
     composites: {}
   }
@@ -3574,7 +3574,7 @@ export namespace Prisma {
     readonly parkingSpotId: FieldRef<"RentalHistory", 'Int'>
     readonly startDate: FieldRef<"RentalHistory", 'DateTime'>
     readonly endDate: FieldRef<"RentalHistory", 'DateTime'>
-    readonly totalCost: FieldRef<"RentalHistory", 'Decimal'>
+    readonly totalCost: FieldRef<"RentalHistory", 'Float'>
   }
     
 
@@ -3981,20 +3981,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Decimal'
-   */
-  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
-    
-
-
-  /**
-   * Reference to a field of type 'Decimal[]'
-   */
-  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
-    
-
-
-  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -4021,7 +4007,7 @@ export namespace Prisma {
     longitude?: FloatFilter<"ParkingSpot"> | number
     address?: StringFilter<"ParkingSpot"> | string
     description?: StringFilter<"ParkingSpot"> | string
-    hourlyRate?: DecimalFilter<"ParkingSpot"> | Decimal | DecimalJsLike | number | string
+    hourlyRate?: FloatFilter<"ParkingSpot"> | number
     startTime?: DateTimeFilter<"ParkingSpot"> | Date | string
     endTime?: DateTimeFilter<"ParkingSpot"> | Date | string
     createdAt?: DateTimeFilter<"ParkingSpot"> | Date | string
@@ -4052,7 +4038,7 @@ export namespace Prisma {
     longitude?: FloatFilter<"ParkingSpot"> | number
     address?: StringFilter<"ParkingSpot"> | string
     description?: StringFilter<"ParkingSpot"> | string
-    hourlyRate?: DecimalFilter<"ParkingSpot"> | Decimal | DecimalJsLike | number | string
+    hourlyRate?: FloatFilter<"ParkingSpot"> | number
     startTime?: DateTimeFilter<"ParkingSpot"> | Date | string
     endTime?: DateTimeFilter<"ParkingSpot"> | Date | string
     createdAt?: DateTimeFilter<"ParkingSpot"> | Date | string
@@ -4088,7 +4074,7 @@ export namespace Prisma {
     longitude?: FloatWithAggregatesFilter<"ParkingSpot"> | number
     address?: StringWithAggregatesFilter<"ParkingSpot"> | string
     description?: StringWithAggregatesFilter<"ParkingSpot"> | string
-    hourlyRate?: DecimalWithAggregatesFilter<"ParkingSpot"> | Decimal | DecimalJsLike | number | string
+    hourlyRate?: FloatWithAggregatesFilter<"ParkingSpot"> | number
     startTime?: DateTimeWithAggregatesFilter<"ParkingSpot"> | Date | string
     endTime?: DateTimeWithAggregatesFilter<"ParkingSpot"> | Date | string
     createdAt?: DateTimeWithAggregatesFilter<"ParkingSpot"> | Date | string
@@ -4102,7 +4088,7 @@ export namespace Prisma {
     id?: IntFilter<"ActiveRent"> | number
     userId?: StringFilter<"ActiveRent"> | string
     parkingSpotId?: IntFilter<"ActiveRent"> | number
-    hourlyRate?: DecimalFilter<"ActiveRent"> | Decimal | DecimalJsLike | number | string
+    hourlyRate?: FloatFilter<"ActiveRent"> | number
     createdAt?: DateTimeFilter<"ActiveRent"> | Date | string
   }
 
@@ -4121,7 +4107,7 @@ export namespace Prisma {
     AND?: ActiveRentWhereInput | ActiveRentWhereInput[]
     OR?: ActiveRentWhereInput[]
     NOT?: ActiveRentWhereInput | ActiveRentWhereInput[]
-    hourlyRate?: DecimalFilter<"ActiveRent"> | Decimal | DecimalJsLike | number | string
+    hourlyRate?: FloatFilter<"ActiveRent"> | number
     createdAt?: DateTimeFilter<"ActiveRent"> | Date | string
   }, "id" | "userId" | "parkingSpotId">
 
@@ -4145,7 +4131,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"ActiveRent"> | number
     userId?: StringWithAggregatesFilter<"ActiveRent"> | string
     parkingSpotId?: IntWithAggregatesFilter<"ActiveRent"> | number
-    hourlyRate?: DecimalWithAggregatesFilter<"ActiveRent"> | Decimal | DecimalJsLike | number | string
+    hourlyRate?: FloatWithAggregatesFilter<"ActiveRent"> | number
     createdAt?: DateTimeWithAggregatesFilter<"ActiveRent"> | Date | string
   }
 
@@ -4158,7 +4144,7 @@ export namespace Prisma {
     parkingSpotId?: IntFilter<"RentalHistory"> | number
     startDate?: DateTimeFilter<"RentalHistory"> | Date | string
     endDate?: DateTimeFilter<"RentalHistory"> | Date | string
-    totalCost?: DecimalFilter<"RentalHistory"> | Decimal | DecimalJsLike | number | string
+    totalCost?: FloatFilter<"RentalHistory"> | number
   }
 
   export type RentalHistoryOrderByWithRelationInput = {
@@ -4179,7 +4165,7 @@ export namespace Prisma {
     parkingSpotId?: IntFilter<"RentalHistory"> | number
     startDate?: DateTimeFilter<"RentalHistory"> | Date | string
     endDate?: DateTimeFilter<"RentalHistory"> | Date | string
-    totalCost?: DecimalFilter<"RentalHistory"> | Decimal | DecimalJsLike | number | string
+    totalCost?: FloatFilter<"RentalHistory"> | number
   }, "id">
 
   export type RentalHistoryOrderByWithAggregationInput = {
@@ -4205,7 +4191,7 @@ export namespace Prisma {
     parkingSpotId?: IntWithAggregatesFilter<"RentalHistory"> | number
     startDate?: DateTimeWithAggregatesFilter<"RentalHistory"> | Date | string
     endDate?: DateTimeWithAggregatesFilter<"RentalHistory"> | Date | string
-    totalCost?: DecimalWithAggregatesFilter<"RentalHistory"> | Decimal | DecimalJsLike | number | string
+    totalCost?: FloatWithAggregatesFilter<"RentalHistory"> | number
   }
 
   export type ParkingSpotCreateInput = {
@@ -4214,7 +4200,7 @@ export namespace Prisma {
     longitude: number
     address: string
     description: string
-    hourlyRate: Decimal | DecimalJsLike | number | string
+    hourlyRate: number
     startTime: Date | string
     endTime: Date | string
     createdAt?: Date | string
@@ -4228,7 +4214,7 @@ export namespace Prisma {
     longitude: number
     address: string
     description: string
-    hourlyRate: Decimal | DecimalJsLike | number | string
+    hourlyRate: number
     startTime: Date | string
     endTime: Date | string
     createdAt?: Date | string
@@ -4241,7 +4227,7 @@ export namespace Prisma {
     longitude?: FloatFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    hourlyRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4255,7 +4241,7 @@ export namespace Prisma {
     longitude?: FloatFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    hourlyRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4269,7 +4255,7 @@ export namespace Prisma {
     longitude: number
     address: string
     description: string
-    hourlyRate: Decimal | DecimalJsLike | number | string
+    hourlyRate: number
     startTime: Date | string
     endTime: Date | string
     createdAt?: Date | string
@@ -4282,7 +4268,7 @@ export namespace Prisma {
     longitude?: FloatFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    hourlyRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4296,7 +4282,7 @@ export namespace Prisma {
     longitude?: FloatFieldUpdateOperationsInput | number
     address?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    hourlyRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4306,7 +4292,7 @@ export namespace Prisma {
   export type ActiveRentCreateInput = {
     userId: string
     parkingSpotId: number
-    hourlyRate: Decimal | DecimalJsLike | number | string
+    hourlyRate: number
     createdAt?: Date | string
   }
 
@@ -4314,14 +4300,14 @@ export namespace Prisma {
     id?: number
     userId: string
     parkingSpotId: number
-    hourlyRate: Decimal | DecimalJsLike | number | string
+    hourlyRate: number
     createdAt?: Date | string
   }
 
   export type ActiveRentUpdateInput = {
     userId?: StringFieldUpdateOperationsInput | string
     parkingSpotId?: IntFieldUpdateOperationsInput | number
-    hourlyRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4329,7 +4315,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     parkingSpotId?: IntFieldUpdateOperationsInput | number
-    hourlyRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4337,14 +4323,14 @@ export namespace Prisma {
     id?: number
     userId: string
     parkingSpotId: number
-    hourlyRate: Decimal | DecimalJsLike | number | string
+    hourlyRate: number
     createdAt?: Date | string
   }
 
   export type ActiveRentUpdateManyMutationInput = {
     userId?: StringFieldUpdateOperationsInput | string
     parkingSpotId?: IntFieldUpdateOperationsInput | number
-    hourlyRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4352,7 +4338,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     parkingSpotId?: IntFieldUpdateOperationsInput | number
-    hourlyRate?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    hourlyRate?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -4361,7 +4347,7 @@ export namespace Prisma {
     parkingSpotId: number
     startDate: Date | string
     endDate?: Date | string
-    totalCost: Decimal | DecimalJsLike | number | string
+    totalCost: number
   }
 
   export type RentalHistoryUncheckedCreateInput = {
@@ -4370,7 +4356,7 @@ export namespace Prisma {
     parkingSpotId: number
     startDate: Date | string
     endDate?: Date | string
-    totalCost: Decimal | DecimalJsLike | number | string
+    totalCost: number
   }
 
   export type RentalHistoryUpdateInput = {
@@ -4378,7 +4364,7 @@ export namespace Prisma {
     parkingSpotId?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    totalCost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalCost?: FloatFieldUpdateOperationsInput | number
   }
 
   export type RentalHistoryUncheckedUpdateInput = {
@@ -4387,7 +4373,7 @@ export namespace Prisma {
     parkingSpotId?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    totalCost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalCost?: FloatFieldUpdateOperationsInput | number
   }
 
   export type RentalHistoryCreateManyInput = {
@@ -4396,7 +4382,7 @@ export namespace Prisma {
     parkingSpotId: number
     startDate: Date | string
     endDate?: Date | string
-    totalCost: Decimal | DecimalJsLike | number | string
+    totalCost: number
   }
 
   export type RentalHistoryUpdateManyMutationInput = {
@@ -4404,7 +4390,7 @@ export namespace Prisma {
     parkingSpotId?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    totalCost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalCost?: FloatFieldUpdateOperationsInput | number
   }
 
   export type RentalHistoryUncheckedUpdateManyInput = {
@@ -4413,7 +4399,7 @@ export namespace Prisma {
     parkingSpotId?: IntFieldUpdateOperationsInput | number
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    totalCost?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    totalCost?: FloatFieldUpdateOperationsInput | number
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -4451,17 +4437,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type DecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -4581,22 +4556,6 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
-  }
-
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -4698,14 +4657,6 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type DecimalFieldUpdateOperationsInput = {
-    set?: Decimal | DecimalJsLike | number | string
-    increment?: Decimal | DecimalJsLike | number | string
-    decrement?: Decimal | DecimalJsLike | number | string
-    multiply?: Decimal | DecimalJsLike | number | string
-    divide?: Decimal | DecimalJsLike | number | string
-  }
-
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -4752,17 +4703,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type NestedDecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -4823,22 +4763,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-
-  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {

@@ -18,13 +18,11 @@ type FooterMode = FooterModeCreate | FooterModeDetail | FooterModeSearch;
 interface FooterState {
     mode: FooterMode;
     size: "collapsed" | "open" | "full";
-    activeParkingId: number | null;
 }
 
 const store = create<FooterState>(() => ({
     mode: { mode: "search" },
     size: "collapsed",
-    activeParkingId: null,
 }));
 
 export const useFooterStore = store.useStore;

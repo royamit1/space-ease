@@ -70,11 +70,11 @@ export {createParkingSpot, fetchAvailableParkingSpots, fetchParkingSpotById}
 
 export const startRenting = async (parkingSpotId: number) => {
     const supabase = createClient();
-    const {data, error} = await supabase.auth.getSession();
+    const {data, error} = await supabase.auth.getUser();
     if (error)
         throw error;
 
-    if (!data || !data.session)
+    if (!data || !data.user)
         throw new Error("User not authenticated");
 
     const parkingSpot = await db.parkingSpot.findUnique({where: {id: parkingSpotId}})
@@ -83,7 +83,7 @@ export const startRenting = async (parkingSpotId: number) => {
 
     await db.activeRent.create({
         data: {
-            userId: data.session.user.id,
+            userId: data.user.id,
             parkingSpotId,
             hourlyRate: parkingSpot.hourlyRate,
         },
@@ -93,16 +93,16 @@ export const startRenting = async (parkingSpotId: number) => {
 
 export const endRenting = async () => {
     const supabase = createClient();
-    const {data, error} = await supabase.auth.getSession();
+    const {data, error} = await supabase.auth.getUser();
     if (error)
         throw error;
 
-    if (!data || !data.session)
+    if (!data || !data.user)
         throw new Error("User not authenticated");
 
-    const activeRent = await db.activeRent.delete({where: {userId: data.session.user.id}})
+    const activeRent = await db.activeRent.delete({where: {userId: data.user.id}})
     const rentDuration = differenceInHours(new Date(), activeRent.createdAt)
-    const totalCost = activeRent.hourlyRate.times(rentDuration)
+    const totalCost = activeRent.hourlyRate * rentDuration
 
     await db.rentalHistory.create({
         data: {
@@ -116,13 +116,13 @@ export const endRenting = async () => {
 
 export const getActiveRent = async () => {
     const supabase = createClient();
-    const {data, error} = await supabase.auth.getSession();
+    const {data, error} = await supabase.auth.getUser();
     if (error)
-        throw error;
+        return null
 
-    if (!data || !data.session)
-        throw new Error("User not authenticated");
+    if (!data || !data.user)
+        return null
 
-    return db.activeRent.findUnique({where: {userId: data.session.user.id}});
+    return db.activeRent.findUnique({where: {userId: data.user.id}});
 }
 

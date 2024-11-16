@@ -3,27 +3,24 @@ import {useParkingSpotById} from "@/hooks/useParkingSpots";
 import {AlertCircle, CheckCircle, Info, XCircle} from "lucide-react";
 import {Separator} from "@/components/ui/separator";
 import {NavigationDialog} from "@/components/navigation-dialog";
-import {useFooterStore} from "@/hooks/useFooterState";
 import {ConfirmationButton} from "@/components/common/confirmation-button";
+import {ActiveRent} from "@/prisma/generated/client";
+import {differenceInHours} from "date-fns";
+import {endRenting} from "@/app/actions";
+import {useQueryClient} from "@tanstack/react-query";
+import {useFooterStore} from "@/hooks/useFooterState";
 
-export const RentalFooter: React.FC<{ activeParkingId: number }> = ({activeParkingId}) => {
+export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent}) => {
     const footerStore = useFooterStore()
-    const {data: parkingSpot, isLoading, error} = useParkingSpotById(activeParkingId);
+    const queryClient = useQueryClient()
+    const {data: parkingSpot, isLoading, error} = useParkingSpotById(activeRent.parkingSpotId);
     const [showNavigationDialog, setShowNavigationDialog] = useState(false);
 
     const [totalCost, rentalDuration] = React.useMemo(() => {
-        if (!parkingSpot) {
-            return [0, 0];
-        }
-        const startTime = new Date(parkingSpot.startTime);
-        const endTime = new Date(parkingSpot.endTime);
-        const hourlyRate = parkingSpot.hourlyRate;
-
-        // Calculate the rental duration in hours
-        const rentalDuration = (endTime.getTime() - startTime.getTime()) / 1000 / 60 / 60;
-        const totalCost = rentalDuration * hourlyRate;
-        return [totalCost, totalCost]
-    }, [parkingSpot])
+        const rentDuration = differenceInHours(new Date(), activeRent.createdAt)
+        const totalCost = activeRent.hourlyRate * rentDuration
+        return [totalCost, rentDuration]
+    }, [activeRent])
 
     if (isLoading) {
         return (
@@ -65,12 +62,10 @@ export const RentalFooter: React.FC<{ activeParkingId: number }> = ({activeParki
         }
     };
 
-    const handleLeaveParking = () => {
-        footerStore.setState({
-            activeParkingId: null,
-            mode: {mode: "search"},
-            size: "open",
-        })
+    const handleLeaveParking = async () => {
+        await endRenting()
+        await queryClient.invalidateQueries({ queryKey: ["activeRent"] })
+        footerStore.setState({ mode: {mode: "search"}, size: "open" })
     }
 
     return (
