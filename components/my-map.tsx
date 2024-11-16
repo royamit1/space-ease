@@ -9,6 +9,7 @@ import {useParkingSpots} from "@/hooks/useParkingSpots";
 import {UserMarker} from "@/components/user-marker";
 import {AnimatePresence, motion} from 'framer-motion'
 import CurrentLocationMarker from "@/components/current-location-marker";
+import {useActiveRent} from "@/hooks/useActiveRent";
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
@@ -27,6 +28,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
     const [_, setFooterState] = useFooterState(state => state.mode.mode === "detail" ? state.mode.id : null);
     const [activeParkingId, setActiveParkingId] = useState<number | null>(null);
     const [searchKey, setSearchKey] = useState(0);
+    const activeRent = useActiveRent()
 
     const geolocation = useGeolocation();
     const [center, setCenter] = useState<{ lat: number; lng: number }>({
@@ -93,7 +95,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
                     </motion.div>
                 )}
             </AnimatePresence>
-            {parkingSpots?.map(parking => (
+            {!activeRent.data && parkingSpots?.map(parking => ( // Conditionally render parking spots
                 <AdvancedMarker
                     key={parking.id}
                     position={{lat: parking.latitude, lng: parking.longitude}}
@@ -101,7 +103,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
                 >
                     <motion.div
                         initial={{scale: 0, opacity: 0}}
-                        animate={{ scale: activeParkingId === parking.id ? 1.3 : 1, opacity: 1 }}
+                        animate={{scale: activeParkingId === parking.id ? 1.3 : 1, opacity: 1}}
                         transition={{type: 'spring', stiffness: 260, damping: 20}}
                     >
                         <div className="relative">
