@@ -57,14 +57,20 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent})
         );
     }
 
-    // Handle navigation button clicks (Google Maps and Waze)
-    const handleNavigate = (app: string) => {
+    const handleGoogleMapNav = () => {
         setShowNavigationDialog(false);
-        if (app === "google") {
-            window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(parkingSpot.address)}`, "_blank");
-        } else if (app === "waze") {
-            window.open(`https://waze.com/ul?ll=0.0&navigate=yes&z=10`, "_blank");
+        window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(parkingSpot.address)}`, "_blank");
+    };
+
+    const handleWazeNav = () => {
+        if (!parkingSpot.address) {
+            console.error("Parking spot address is missing.");
+            return;
         }
+        setShowNavigationDialog(false);
+        const latitude = parkingSpot.latitude;
+        const longitude = parkingSpot.longitude;
+        window.open(`https://waze.com/ul?ll=${latitude},${longitude}&navigate=yes`, "_blank");
     };
 
     const handleLeaveParking = async () => {
@@ -121,12 +127,14 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent})
                 <Button
                     variant="outline"
                     className="w-full flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
+                    onClick={handleGoogleMapNav}
                 >
                     <span className="text-lg">Google Maps</span>
                 </Button>
                 <Button
                     variant="outline"
                     className="w-full flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
+                    onClick={handleWazeNav}
                 >
                     <span className="text-lg">Waze</span>
                 </Button>
