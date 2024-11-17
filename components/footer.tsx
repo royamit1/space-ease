@@ -42,11 +42,9 @@ export const Footer: React.FC<{ children: React.ReactNode }> = ({children}) => {
                 animate={{height: initialHeight[footerSize]}}
             >
                 <div className="h-12">
-                    <div
-                        className="h-1.5 p-0.5 w-24 md:w-48 xl:w-96 m-3 rounded-full cursor-grab bg-gray-200 dark:bg-gray-700"/>
+                    <div className="h-1.5 p-0.5 w-24 md:w-48 xl:w-96 m-3 rounded-full cursor-grab bg-gray-200 dark:bg-gray-700"/>
                 </div>
-                <motion.div animate={{height: footerSize === "collapsed" ? "0" : "auto"}}
-                            className="flex-grow overflow-hidden w-full">
+                <motion.div animate={{height: footerSize === "collapsed" ? "0" : "auto"}} className="flex-grow overflow-hidden w-full">
                     {children}
                 </motion.div>
             </motion.div>

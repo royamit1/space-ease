@@ -19,8 +19,8 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent})
     const queryClient = useQueryClient()
     const now = useNow(5000)
     const {data: parkingSpot, isLoading, error} = useParkingSpotById(activeRent.parkingSpotId);
+  
     const [showNavigationDialog, setShowNavigationDialog] = useState(false);
-
     const [totalCost, rentalDurationText] = React.useMemo(() => {
         const totalCost = calculateTotalCost(activeRent, now);
         const rentalDurationText = formatDistance(now, activeRent.createdAt)
