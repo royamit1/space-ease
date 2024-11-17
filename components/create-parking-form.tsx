@@ -11,6 +11,8 @@ import {CalendarIcon} from "@radix-ui/react-icons";
 import {DollarSignIcon, MapPinIcon} from "lucide-react";
 import {CreateParkingDialog} from "@/components/create-parking-dialog";
 import GradualSpacing from "@/components/ui/gradual-spacing";
+import {Separator} from "@/components/ui/separator";
+import { SmartDatetimeInput } from "@/components/ui/smart-datetime-input";
 
 export const CreateParkingForm: React.FC = () => {
     const form = useForm<ParkingFormSchema>({
@@ -76,157 +78,153 @@ export const CreateParkingForm: React.FC = () => {
 
     return (
         <Form {...form}>
-            <form className="flex flex-col h-full">
+            <form>
                 {/* Title */}
-                <div className="p-4">
+                <div className="p-3">
                     <GradualSpacing
                         className="text-lg font-bold -tracking-widest text-black dark:text-white md:text-2xl"
                         text="Create A Parking Spot"
-                        delayMultiple={0.03}/>
+                        delayMultiple={0.03}
+                    />
                 </div>
+              
+                <Separator />
 
                 {/* Form Content */}
-                <div className="flex-grow flex flex-col space-y-5 ps-6 pe-6 shadow-md bg-background">
-                    {step === 1 && (
-                        <>
-                            <FormField
-                                control={form.control}
-                                name="address"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel className="text-base font-medium text-foreground">Address</FormLabel>
-                                        <FormControl>
-                                            <div className="relative">
-                                                <MapPinIcon
-                                                    className="absolute left-2 top-1/2 transform -translate-y-1/2 text-primary"
-                                                />
-                                                <Input
-                                                    {...field}
-                                                    ref={addressInputRef}
-                                                    placeholder="Search for an address"
-                                                    className="pl-10 py-2"
-                                                />
-                                            </div>
-                                        </FormControl>
-                                    </FormItem>
-                                )}
-                            />
+                <div className="flex flex-col w-full h-full space-y-3 ps-8 pe-8 pt-5 shadow-md bg-background">
+                    {/* Address Field */}
+                    <FormField
+                        control={form.control}
+                        name="address"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-base font-medium text-foreground">Address</FormLabel>
+                                <FormControl>
+                                    <div className="relative">
+                                        <MapPinIcon
+                                            className="absolute left-2 top-1/2 transform -translate-y-1/2 text-primary"
+                                        />
+                                        <Input
+                                            {...field}
+                                            ref={addressInputRef}
+                                            placeholder="Search for an address"
+                                            className="pl-10 py-2"
+                                        />
+                                    </div>
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
 
-                            <div className="grid grid-cols-2 gap-4">
-                                <FormField
-                                    control={form.control}
-                                    name="availableFrom"
-                                    render={({field}) => (
-                                        <FormItem>
-                                            <FormLabel className="text-base font-medium text-foreground">Available
-                                                From</FormLabel>
-                                            <FormControl>
-                                                <div className="relative">
-                                                    <CalendarIcon
-                                                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary"
-                                                    />
-                                                    <Input {...field} className="pl-10 py-2"/>
-                                                </div>
-                                            </FormControl>
-                                            <FormMessage/>
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="availableUntil"
-                                    render={({field}) => (
-                                        <FormItem>
-                                            <FormLabel className="text-base font-medium text-foreground">Available
-                                                Until</FormLabel>
-                                            <FormControl>
-                                                <div className="relative">
-                                                    <CalendarIcon
-                                                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary"
-                                                    />
-                                                    <Input {...field} className="pl-10 py-2"/>
-                                                </div>
-                                            </FormControl>
-                                            <FormMessage/>
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-
-                            <FormField
-                                control={form.control}
-                                name="price"
-                                render={({field}) => (
-                                    <FormItem>
-                                        <FormLabel className="text-base font-medium text-foreground">Price (per
-                                            hour)</FormLabel>
-                                        <FormControl>
-                                            <div className="relative">
-                                                <DollarSignIcon
-                                                    className="absolute left-2 top-1/2 transform -translate-y-1/2 text-primary"
-                                                />
-                                                <Input
-                                                    {...field}
-                                                    type="number"
-                                                    step="0.01"
-                                                    min="0"
-                                                    className="pl-10 py-2"
-                                                />
-                                            </div>
-                                        </FormControl>
-                                        <FormMessage/>
-                                    </FormItem>
-                                )}
-                            />
-                        </>
-                    )}
-
-                    {step === 2 && (
+                    {/* Available From and Until Fields */}
+                    <div className="grid grid-cols-2 gap-4">
                         <FormField
                             control={form.control}
-                            name="description"
-                            render={({field}) => (
+                            name="availableFrom"
+                            render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-base font-medium text-foreground">Description</FormLabel>
+                                    <FormLabel className="text-base font-medium text-foreground">Available From</FormLabel>
                                     <FormControl>
-                                        <Textarea
-                                            {...field}
-                                            placeholder="Describe your parking spot..."
-                                            className="min-h-[100px] py-2"
-                                        />
+                                        <div className="relative">
+                                            <CalendarIcon
+                                                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary"
+                                            />
+                                            <Input {...field} className="pl-10 py-2" />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="availableUntil"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-base font-medium text-foreground">Available Until</FormLabel>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <CalendarIcon
+                                                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary"
+                                            />
+                                            <Input {...field} className="pl-10 py-2" />
+
+                                            {/*<SmartDatetimeInput*/}
+                                            {/*    name="datetime"*/}
+                                            {/*    value={field.value ? new Date(field.value) : new Date()} // Default to current date if value is missing*/}
+                                            {/*    onChange={(date) => {*/}
+                                            {/*        if (date) field.onChange(date.toISOString());*/}
+                                            {/*    }}*/}
+                                            {/*    placeholder="e.g. tomorrow at 3pm"*/}
+                                            {/*    className="py-2"*/}
+                                            {/*/>*/}
+                                        </div>
                                     </FormControl>
                                     <FormMessage/>
                                 </FormItem>
                             )}
                         />
-                    )}
-                    <div className="flex-grow"/>
-
-                    {/* Navigation Buttons */}
-                    <div className="flex space-x-3 p-6 bg-background">
-                        {step > 1 && (
-                            <Button type="button" onClick={prevStep} className="w-full">
-                                Previous
-                            </Button>
-                        )}
-                        {step < 2 && (
-                            <Button type="button" onClick={nextStep} className="w-full">
-                                Next
-                            </Button>
-                        )}
-                        {step === 2 && (
-                            <Button type="button" onClick={() => setIsDialogOpen(true)} className="w-full">
-                                Create Parking Spot
-                            </Button>
-                        )}
                     </div>
+
+                    {/* Price Field */}
+                    <FormField
+                        control={form.control}
+                        name="price"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel className="text-base font-medium text-foreground">Price (per hour)</FormLabel>
+                                <FormControl>
+                                    <div className="relative">
+                                        <DollarSignIcon
+                                            className="absolute left-2 top-1/2 transform -translate-y-1/2 text-primary"
+                                        />
+                                        <Input
+                                            {...field}
+                                            type="number"
+                                            step="0.01"
+                                            min="0"
+                                            className="pl-10 py-2"
+                                        />
+                                    </div>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    {/* Description Field */}
+                    <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-base font-medium text-foreground">Description</FormLabel>
+                                <FormControl>
+                                    <Textarea
+                                        {...field}
+                                        placeholder="Describe your parking spot..."
+                                        className="min-h-[100px] py-2"
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                </div>
+                {/* Submit Button */}
+                <div className="flex-grow"/>
+
+                <div className="p-4 pt-6 bg-background">
+                    <Button type="button" onClick={() => setIsDialogOpen(true)} className="w-full">
+                        Create Parking Spot
+                    </Button>
                     <CreateParkingDialog
                         isOpen={isDialogOpen}
                         onOpenChange={setIsDialogOpen}
                         onConfirm={handleConfirm}
                     />
                 </div>
-
             </form>
         </Form>
     );

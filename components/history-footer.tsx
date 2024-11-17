@@ -5,7 +5,6 @@ import React from "react";
 import {useHistoryParkingSpots} from "@/hooks/useParkingSpots";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {AlertCircle} from "lucide-react";
-import FlipText from "@/components/ui/flip-text";
 import GradualSpacing from "@/components/ui/gradual-spacing";
 import {Separator} from "@/components/ui/separator";
 
