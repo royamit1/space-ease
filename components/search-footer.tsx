@@ -1,16 +1,16 @@
 'use client'
 
-import { ParkingList } from "@/components/parking-list";
-import React, { useState } from "react";
-import FilterSelection, { FilterOption } from "@/components/filter-selection";
-import { useParkingSpots } from "@/hooks/useParkingSpots";
+import {ParkingList} from "@/components/parking-list";
+import React, {useState} from "react";
+import FilterSelection, {FilterOption} from "@/components/filter-selection";
+import {useParkingSpots} from "@/hooks/useParkingSpots";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 import {AlertCircle} from "lucide-react";
 import {Separator} from "@/components/ui/separator";
 
 export const SearchFooter: React.FC = () => {
     const [selectedSortingOption, setSelectedSortingOption] = useState<{ [key in FilterOption]?: string }>({});
-    const { data: parkingSpots, error } = useParkingSpots();
+    const {data: parkingSpots, error} = useParkingSpots();
 
     const handleSortingOptionChange = (filter: FilterOption, event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedSortingOption((prev) => ({
@@ -33,7 +33,7 @@ export const SearchFooter: React.FC = () => {
             )}
             {error && (
                 <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
+                    <AlertCircle className="h-4 w-4"/>
                     <AlertTitle>Error</AlertTitle>
                     <AlertDescription>
                         An error occurred while fetching parking spots. Please try again later.

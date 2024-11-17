@@ -10,7 +10,7 @@ const initialHeight = {
     full: "100vh",
 }
 
-export const Footer: React.FC<{children: React.ReactNode}> = ({children}) => {
+export const Footer: React.FC<{ children: React.ReactNode }> = ({children}) => {
     const [footerSize, setFooterState] = useFooterState((state) => state.size);
     const constraintsRef = useRef(null);
 
@@ -21,12 +21,12 @@ export const Footer: React.FC<{children: React.ReactNode}> = ({children}) => {
         const isDown = yOffset > 50;
 
         if (footerSize === "collapsed" && isUp) {
-            setFooterState({ size: "open" });
+            setFooterState({size: "open"});
         } else if (footerSize === "open") {
-            if (isUp) setFooterState({ size: "full" });
-            else if (isDown) setFooterState({ size: "collapsed" });
+            if (isUp) setFooterState({size: "full"});
+            else if (isDown) setFooterState({size: "collapsed"});
         } else if (footerSize === "full" && isDown) {
-            setFooterState({ size: "collapsed" });
+            setFooterState({size: "collapsed"});
         }
     }
 
@@ -36,15 +36,17 @@ export const Footer: React.FC<{children: React.ReactNode}> = ({children}) => {
                 drag="y"
                 dragConstraints={constraintsRef}
                 onDragEnd={handleDragEnd}
-                transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                transition={{type: 'spring', stiffness: 200, damping: 20}}
                 className="bg-background min-h-12 rounded-3xl flex flex-col items-center justify-start overflow-hidden"
-                style={{ maxHeight: "calc(100vh - 7rem)" }}
-                animate={{ height: initialHeight[footerSize] }}
+                style={{maxHeight: "calc(100vh - 7rem)"}}
+                animate={{height: initialHeight[footerSize]}}
             >
                 <div className="h-12">
-                    <div className="h-1.5 p-0.5 w-24 md:w-48 xl:w-96 m-3 rounded-full cursor-grab bg-gray-200 dark:bg-gray-700"/>
+                    <div
+                        className="h-1.5 p-0.5 w-24 md:w-48 xl:w-96 m-3 rounded-full cursor-grab bg-gray-200 dark:bg-gray-700"/>
                 </div>
-                <motion.div animate={{height: footerSize === "collapsed" ? "0" : "auto"}} className="flex-grow overflow-hidden w-full">
+                <motion.div animate={{height: footerSize === "collapsed" ? "0" : "auto"}}
+                            className="flex-grow overflow-hidden w-full">
                     {children}
                 </motion.div>
             </motion.div>
