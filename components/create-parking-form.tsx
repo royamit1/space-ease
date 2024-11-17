@@ -12,6 +12,7 @@ import {DollarSignIcon, MapPinIcon} from "lucide-react";
 import {CreateParkingDialog} from "@/components/create-parking-dialog";
 import GradualSpacing from "@/components/ui/gradual-spacing";
 import {Separator} from "@/components/ui/separator";
+import { SmartDatetimeInput } from "@/components/ui/smart-datetime-input";
 
 export const CreateParkingForm: React.FC = () => {
     const form = useForm<ParkingFormSchema>({
@@ -146,9 +147,19 @@ export const CreateParkingForm: React.FC = () => {
                                                 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary"
                                             />
                                             <Input {...field} className="pl-10 py-2" />
+
+                                            {/*<SmartDatetimeInput*/}
+                                            {/*    name="datetime"*/}
+                                            {/*    value={field.value ? new Date(field.value) : new Date()} // Default to current date if value is missing*/}
+                                            {/*    onChange={(date) => {*/}
+                                            {/*        if (date) field.onChange(date.toISOString());*/}
+                                            {/*    }}*/}
+                                            {/*    placeholder="e.g. tomorrow at 3pm"*/}
+                                            {/*    className="py-2"*/}
+                                            {/*/>*/}
                                         </div>
                                     </FormControl>
-                                    <FormMessage />
+                                    <FormMessage/>
                                 </FormItem>
                             )}
                         />
@@ -158,7 +169,7 @@ export const CreateParkingForm: React.FC = () => {
                     <FormField
                         control={form.control}
                         name="price"
-                        render={({ field }) => (
+                        render={({field}) => (
                             <FormItem>
                                 <FormLabel className="text-base font-medium text-foreground">Price (per hour)</FormLabel>
                                 <FormControl>
