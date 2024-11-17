@@ -53,7 +53,7 @@ export const DetailFooter: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col space-y-2 h-full p-5">
+        <div className="flex flex-col space-y-2 h-full p-4">
             <ParkingDetails parkingSpot={parkingSpot}/>
             <div className="flex-grow"/>
             <ConfirmationButton
