@@ -1,23 +1,28 @@
-import React from "react";
-import {ToggleGroup, ToggleGroupItem} from "@/components/ui/toggle-group";
-import {DollarSignIcon} from "lucide-react";
-import {Toggle} from "@/components/ui/toggle";
-import {Separator} from "@/components/ui/separator";
-
-export type FilterOption = 'availability' | 'price' | 'nearby' | 'parkingType';
+import React, { useState } from "react";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { DollarSignIcon } from "lucide-react";
+import { Toggle } from "@/components/ui/toggle";
+import { Separator } from "@/components/ui/separator";
 
 interface FilterSelectionProps {
     onPriceChange: (priceRange: string | null) => void;
     onMyParkingToggle: (isToggled: boolean) => void;
 }
 
-const FilterSelection: React.FC<FilterSelectionProps> = ({ onPriceChange, onMyParkingToggle }) => {
+const FilterSelection: React.FC<FilterSelectionProps> = ({
+    onPriceChange,
+    onMyParkingToggle,
+}) => {
+    const [myParkingToggled, setMyParkingToggled] = useState(false);
+
     const handlePriceToggle = (value: string | null) => {
         onPriceChange(value);
     };
 
-    const handleMyParkingToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onMyParkingToggle(event.target.checked);
+    const handleMyParkingToggle = () => {
+        const newToggleState = !myParkingToggled;
+        setMyParkingToggled(newToggleState);
+        onMyParkingToggle(newToggleState);
     };
 
     return (
@@ -37,15 +42,14 @@ const FilterSelection: React.FC<FilterSelectionProps> = ({ onPriceChange, onMyPa
                 </ToggleGroupItem>
             </ToggleGroup>
             <Separator orientation="vertical" className="h-8" />
-            <Toggle>
-                <span>
-                    My Parkings
-                </span>
-                <input type="checkbox" onChange={handleMyParkingToggle} />
+            <Toggle
+                pressed={myParkingToggled}
+                onClick={handleMyParkingToggle}
+            >
+                <span>My Parkings</span>
             </Toggle>
         </div>
     );
 };
 
 export default FilterSelection;
-

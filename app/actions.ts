@@ -37,6 +37,7 @@ const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
 
 const fetchAvailableParkingSpots = async (filters?: { priceRange?: string; userId?: string }) => {
     try {
+        // filter by available parking spots
         const now = new Date();
         const whereClause: any = {
             startTime: { lte: now },
