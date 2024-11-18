@@ -9,14 +9,15 @@ import {ParkingFormSchema} from "@/schemas/parking-form-schema";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query"
 
 
-const useParkingSpots = () => {
+const useParkingSpots = (filters?: { priceRange?: string; userId?: string }) => {
     const parkingSpotsQuery = useQuery({
-        queryKey: ['parkingSpots'],
-        queryFn: () => fetchAvailableParkingSpots(),
+        queryKey: ['parkingSpots', filters],
+        queryFn: () => fetchAvailableParkingSpots(filters),
         refetchOnWindowFocus: false,
-    })
+    });
     return parkingSpotsQuery;
-}
+};
+
 
 const useHistoryParkingSpots = () => {
     const historyParkingSpotsQuery = useQuery({

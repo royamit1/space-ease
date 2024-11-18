@@ -1,13 +1,13 @@
 'use server';
 import db from "@/lib/db";
-import {ParkingFormSchema} from "@/schemas/parking-form-schema";
-import {createClient} from "@/utils/supabase/server";
-import {ActiveRent, ParkingSpot, RentalHistory} from "@/prisma/generated/client";
-import {calculateTotalCost} from "@/lib/rent";
+import { ParkingFormSchema } from "@/schemas/parking-form-schema";
+import { createClient } from "@/utils/supabase/server";
+import { ActiveRent, ParkingSpot, RentalHistory } from "@/prisma/generated/client";
+import { calculateTotalCost } from "@/lib/rent";
 
 const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
     const supabase = createClient();
-    const {data, error} = await supabase.auth.getUser();
+    const { data, error } = await supabase.auth.getUser();
     if (error) {
         console.error(error)
     } else {
@@ -27,29 +27,50 @@ const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
             });
             //     // Return the parking spot data to the front-end
             console.log(parkingSpot)
-            return {parkingSpot};
+            return { parkingSpot };
         } catch (err) {
             console.error("Error creating parking spot:", err);
-            return {error: "Failed to create parking spot"};
+            return { error: "Failed to create parking spot" };
         }
     }
 }
 
-const fetchAvailableParkingSpots = async () => {
+const fetchAvailableParkingSpots = async (filters?: { priceRange?: string; userId?: string }) => {
     try {
         const now = new Date();
-        const parkingSpots: ParkingSpot[] = await db.parkingSpot.findMany({
-            where: {
-                startTime: {lte: now},
-                endTime: {gte: now},
-            },
-        });
+        const whereClause: any = {
+            startTime: { lte: now },
+            endTime: { gte: now },
+        };
+
+        // Add price range filter
+        if (filters?.priceRange) {
+            switch (filters.priceRange) {
+                case "$":
+                    whereClause.hourlyRate = { lt: 20 }; // Example: Cheap (< $20)
+                    break;
+                case "$$":
+                    whereClause.hourlyRate = { gte: 20, lt: 50 }; // Example: Moderate ($20-$50)
+                    break;
+                case "$$$":
+                    whereClause.hourlyRate = { gte: 50 }; // Example: Expensive (>= $50)
+                    break;
+            }
+        }
+
+        // Add user-owned parking spots filter
+        if (filters?.userId) {
+            whereClause.userId = filters.userId;
+        }
+
+        const parkingSpots: ParkingSpot[] = await db.parkingSpot.findMany({ where: whereClause });
         return parkingSpots;
     } catch (error) {
         console.error("Error fetching parking spots:", error);
-        throw error; // This will allow React Query to handle the error
+        throw error;
     }
 };
+
 
 const fetchHistoryParkingSpots = async () => {
     try {
@@ -79,18 +100,18 @@ const fetchParkingSpotById = async (id: number) => {
     }
 }
 
-export {createParkingSpot, fetchAvailableParkingSpots, fetchParkingSpotById, fetchHistoryParkingSpots}
+export { createParkingSpot, fetchAvailableParkingSpots, fetchParkingSpotById, fetchHistoryParkingSpots }
 
 export const startRenting = async (parkingSpotId: number) => {
     const supabase = createClient();
-    const {data, error} = await supabase.auth.getUser();
+    const { data, error } = await supabase.auth.getUser();
     if (error)
         throw error;
 
     if (!data || !data.user)
         throw new Error("User not authenticated");
 
-    const parkingSpot = await db.parkingSpot.findUnique({where: {id: parkingSpotId}})
+    const parkingSpot = await db.parkingSpot.findUnique({ where: { id: parkingSpotId } })
     if (!parkingSpot)
         throw new Error("Parking spot not found");
 
@@ -106,14 +127,14 @@ export const startRenting = async (parkingSpotId: number) => {
 
 export const endRenting = async () => {
     const supabase = createClient();
-    const {data, error} = await supabase.auth.getUser();
+    const { data, error } = await supabase.auth.getUser();
     if (error)
         throw error;
 
     if (!data || !data.user)
         throw new Error("User not authenticated");
 
-    const activeRent = await db.activeRent.delete({where: {userId: data.user.id}})
+    const activeRent = await db.activeRent.delete({ where: { userId: data.user.id } })
     const totalCost = calculateTotalCost(activeRent, new Date())
 
     await db.rentalHistory.create({
@@ -128,13 +149,13 @@ export const endRenting = async () => {
 
 export const getActiveRent = async () => {
     const supabase = createClient();
-    const {data, error} = await supabase.auth.getUser();
+    const { data, error } = await supabase.auth.getUser();
     if (error)
         return null
 
     if (!data || !data.user)
         return null
 
-    return db.activeRent.findUnique({where: {userId: data.user.id}});
+    return db.activeRent.findUnique({ where: { userId: data.user.id } });
 }
 

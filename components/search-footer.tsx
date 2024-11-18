@@ -9,28 +9,32 @@ import {AlertCircle} from "lucide-react";
 import {Separator} from "@/components/ui/separator";
 
 export const SearchFooter: React.FC = () => {
-    const [selectedSortingOption, setSelectedSortingOption] = useState<{ [key in FilterOption]?: string }>({});
-    const { data: parkingSpots, error } = useParkingSpots();
+    const [selectedFilters, setSelectedFilters] = useState<{ priceRange?: string; userId?: string }>({});
+    const { data: parkingSpots, error } = useParkingSpots(selectedFilters);
 
-    const handleSortingOptionChange = (filter: FilterOption, event: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedSortingOption((prev) => ({
+    const handlePriceFilterChange = (priceRange: string | null) => {
+        setSelectedFilters((prev) => ({
             ...prev,
-            [filter]: event.target.value,
+            priceRange: priceRange || undefined,
+        }));
+    };
+
+    const handleMyParkingToggle = (isToggled: boolean) => {
+        const userId = isToggled ? "currentUserId" : undefined; // Replace "currentUserId" with actual user ID
+        setSelectedFilters((prev) => ({
+            ...prev,
+            userId,
         }));
     };
 
     return (
         <div className="flex flex-col w-full h-full">
             <FilterSelection
-                selectedSortingOption={selectedSortingOption}
-                handleSortingOptionChange={handleSortingOptionChange}
+                onPriceChange={handlePriceFilterChange}
+                onMyParkingToggle={handleMyParkingToggle}
             />
-            <Separator/>
-            {parkingSpots && (
-                <ParkingList
-                    parkingSpots={parkingSpots}
-                />
-            )}
+            <Separator />
+            {parkingSpots && <ParkingList parkingSpots={parkingSpots} />}
             {error && (
                 <Alert variant="destructive">
                     <AlertCircle className="h-4 w-4" />
@@ -47,5 +51,6 @@ export const SearchFooter: React.FC = () => {
                 </div>
             )}
         </div>
-    )
-}
+    );
+};
+
