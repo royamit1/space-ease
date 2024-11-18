@@ -156,7 +156,6 @@ export const getActiveRent = async () => {
 
     if (!data || !data.user)
         return null
-
+  
     return db.activeRent.findUnique({ where: { userId: data.user.id } });
 }
-

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useParkingSpotById} from "@/hooks/useParkingSpots";
-import {AlertCircle, CheckCircle, Info, XCircle} from "lucide-react";
+import {AlertCircle, CheckCircle, Info, MapPin, XCircle} from "lucide-react";
 import {Separator} from "@/components/ui/separator";
 import {NavigationDialog} from "@/components/navigation-dialog";
 import {ConfirmationButton} from "@/components/common/confirmation-button";
@@ -12,15 +12,15 @@ import {useFooterStore} from "@/hooks/useFooterState";
 import {useNow} from "@/hooks/useNow";
 import {calculateTotalCost} from "@/lib/rent";
 import {AnimatedNumber} from "@/components/ui/animated-number";
+import {Button} from "@/components/ui/button";
 
 export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent}) => {
     const footerStore = useFooterStore()
     const queryClient = useQueryClient()
     const now = useNow(5000)
-
     const {data: parkingSpot, isLoading, error} = useParkingSpotById(activeRent.parkingSpotId);
+  
     const [showNavigationDialog, setShowNavigationDialog] = useState(false);
-
     const [totalCost, rentalDurationText] = React.useMemo(() => {
         const totalCost = calculateTotalCost(activeRent, now);
         const rentalDurationText = formatDistance(now, activeRent.createdAt)
@@ -57,14 +57,20 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent})
         );
     }
 
-    // Handle navigation button clicks (Google Maps and Waze)
-    const handleNavigate = (app: string) => {
+    const handleGoogleMapNav = () => {
         setShowNavigationDialog(false);
-        if (app === "google") {
-            window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(parkingSpot.address)}`, "_blank");
-        } else if (app === "waze") {
-            window.open(`https://waze.com/ul?ll=0.0&navigate=yes&z=10`, "_blank");
+        window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(parkingSpot.address)}`, "_blank");
+    };
+
+    const handleWazeNav = () => {
+        if (!parkingSpot.address) {
+            console.error("Parking spot address is missing.");
+            return;
         }
+        setShowNavigationDialog(false);
+        const latitude = parkingSpot.latitude;
+        const longitude = parkingSpot.longitude;
+        window.open(`https://waze.com/ul?ll=${latitude},${longitude}&navigate=yes`, "_blank");
     };
 
     const handleLeaveParking = async () => {
@@ -87,26 +93,26 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent})
 
             <Separator/>
 
-            <div className="space-y-5 ps-5 pe-5">
+            <div className="space-y-4 ps-5 pe-5">
                 {/* Parking Spot Address */}
-                <h3 className="text-2xl font-semibold text-[var(--foreground)]">{parkingSpot.address}</h3>
+                <h3 className="text-2xl font-semibold">{parkingSpot.address}</h3>
 
                 {/* Rental Duration and Cost */}
                 <div className="flex justify-between">
-                    <span className="text-md text-[var(--muted-foreground)] font-medium">Rental Duration</span>
+                    <span className="text-md font-medium">Rental Duration</span>
                     <span
-                        className="text-lg font-semibold text-[var(--foreground)]">{rentalDurationText}</span>
+                        className="text-lg font-semibold">{rentalDurationText}</span>
                 </div>
                 <div className="flex">
-                    <span className="text-md text-[var(--muted-foreground)] font-medium">Total Cost </span>
-                    <span className="text-lg font-semibold text-[var(--foreground)]"><AnimatedNumber value={totalCost} precision={2} stiffness={75} damping={15} /></span>
+                    <span className="text-md font-medium">Total Cost </span>
+                    <span className="text-lg font-semibold"><AnimatedNumber value={totalCost} precision={2} stiffness={75} damping={15} /></span>
                 </div>
             </div>
 
             <div className="flex-grow"/>
 
             {/* Buttons */}
-            <div className="flex space-x-6">
+            <div className="flex space-x-2">
                 {/* Stop Rental Button */}
                 <ConfirmationButton
                     variant="outline"
@@ -118,11 +124,20 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent})
                 </ConfirmationButton>
 
                 {/* Navigate Button */}
-                <NavigationDialog
-                    isOpen={showNavigationDialog}
-                    onOpenChange={setShowNavigationDialog}
-                    onNavigate={handleNavigate}
-                />
+                <Button
+                    variant="outline"
+                    className="w-full flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
+                    onClick={handleGoogleMapNav}
+                >
+                    <span className="text-lg">Google Maps</span>
+                </Button>
+                <Button
+                    variant="outline"
+                    className="w-full flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
+                    onClick={handleWazeNav}
+                >
+                    <span className="text-lg">Waze</span>
+                </Button>
             </div>
         </div>
     );

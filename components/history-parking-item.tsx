@@ -16,27 +16,41 @@ export const HistoryParkingSpotItem: React.FC<HistoryParkingSpotItemProps> = ({h
     };
 
     return (
-        <li className="flex flex-row items-center space-x-4 bg-card rounded-lg p-3 cursor-pointer shadow-md"
-            onClick={handleItemClick}>
-            <div className="flex-shrink-0 bg-primary text-secondary-foreground rounded-full p-2">
-                <MapPinIcon className="h-6 w-6 "/>
+        <li
+            className="group relative flex items-center p-3 bg-card rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer hover:ring-2 hover:ring-primary/50"
+            onClick={handleItemClick}
+        >
+            {/* Map Icon */}
+            <div className="flex-shrink-0 bg-primary/80 text-secondary-foreground rounded-lg p-3">
+                <MapPinIcon className="h-7 w-7 text-secondary" />
             </div>
-            <div className="flex-grow">
-                <h3 className="text-md font-semibold">{historyParkingSpot.totalCost.toFixed(2)}</h3>
-                <span className="text-xs">{historyParkingSpot.parkingSpotId}</span><br/>
-                <span className="text-xs">HELLO</span>
+
+            {/* Information Section */}
+            <div className="flex flex-col flex-grow pl-4">
+                <h3 className="text-lg font-semibold text-card-foreground group-hover:text-primary/90">
+                    ${historyParkingSpot.totalCost.toFixed(2)}
+                </h3>
+                <div className="text-sm text-muted-foreground mt-1">
+                    <span className="block font-medium">Parking Spot ID: {historyParkingSpot.parkingSpotId}</span>
+                    <span className="text-xs">HELLO</span>
+                </div>
             </div>
+
+            {/* Action Button */}
             <div className="flex-shrink-0">
                 <Button
                     variant="ghost"
                     size="icon"
                     onClick={handleItemClick}
-                    className="rounded-full hover:bg-secondary/80"
+                    className="group-hover:bg-secondary/20 rounded-full"
                     aria-label="View parking spot details"
                 >
-                    <ChevronRightIcon className="h-5 w-5"/>
+                    <ChevronRightIcon className="h-6 w-6 text-muted-foreground group-hover:text-primary" />
                 </Button>
             </div>
+
+            {/* Ripple Effect */}
+            <span className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-transparent opacity-0 group-hover:opacity-100 rounded-lg transition-opacity duration-500" />
         </li>
     );
 };

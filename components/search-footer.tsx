@@ -48,7 +48,7 @@ export const SearchFooter: React.FC = () => {
             {parkingSpots && <ParkingList parkingSpots={parkingSpots} />}
             {error && (
                 <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
+                    <AlertCircle className="h-4 w-4"/>
                     <AlertTitle>Error</AlertTitle>
                     <AlertDescription>
                         An error occurred while fetching parking spots. Please try again later.
@@ -62,5 +62,5 @@ export const SearchFooter: React.FC = () => {
                 </div>
             )}
         </div>
-    );
-};
+    )
+}
