@@ -15,9 +15,10 @@ const FilterSelection: React.FC<FilterSelectionProps> = ({
 }) => {
     const [myParkingToggled, setMyParkingToggled] = useState(false);
 
-    const handlePriceToggle = (value: string | null) => {
-        onPriceChange(value);
+    const handlePriceToggle = (value: string | null | undefined) => {
+        onPriceChange(value || null); // Ensures `null` is passed instead of `undefined`
     };
+    
 
     const handleMyParkingToggle = () => {
         const newToggleState = !myParkingToggled;
@@ -27,7 +28,7 @@ const FilterSelection: React.FC<FilterSelectionProps> = ({
 
     return (
         <div className="w-full h-36 flex flex-row space-x-4 justify-center items-center p-3 overflow-x-auto hide-scrollbar">
-            <ToggleGroup type="multiple" onValueChange={handlePriceToggle}>
+            <ToggleGroup type="single" onValueChange={handlePriceToggle}>
                 <ToggleGroupItem value="$" arial-label="Cheap">
                     <DollarSignIcon className="h-4 w-4 -m-0.5" />
                 </ToggleGroupItem>

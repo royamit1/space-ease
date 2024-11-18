@@ -22,7 +22,7 @@ export const SearchFooter: React.FC = () => {
     };
 
     const handleMyParkingToggle = (isToggled: boolean) => {
-        const userId = isToggled ? user?.id : undefined; // Use actual user ID if toggle is on
+        const userId = isToggled && user ? user.id : undefined;
         setSelectedFilters((prev) => ({
             ...prev,
             userId,
