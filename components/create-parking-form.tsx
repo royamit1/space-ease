@@ -87,7 +87,7 @@ export const CreateParkingForm: React.FC = () => {
                         delayMultiple={0.03}
                     />
                 </div>
-              
+
                 <Separator />
 
                 {/* Form Content */}
