@@ -9,6 +9,7 @@ import {useParkingSpots} from "@/hooks/useParkingSpots";
 import {UserMarker} from "@/components/user-marker";
 import {AnimatePresence, motion} from 'framer-motion'
 import CurrentLocationMarker from "@/components/current-location-marker";
+import { useActiveRent } from "@/hooks/useActiveRent";
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode;
@@ -23,7 +24,8 @@ const initial = {
 
 export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...props}) => {
     const theme = useTheme();
-    const {data: parkingSpots, isLoading, isError, error} = useParkingSpots();  // Call the hook at the top level
+    const {data: parkingSpots, isLoading, isError, error} = useParkingSpots();
+    const { data: activeRent} = useActiveRent();
     const [_, setFooterState] = useFooterState(state => state.mode.mode === "detail" ? state.mode.id : null);
     const [activeParkingId, setActiveParkingId] = useState<number | null>(null);
     const [searchKey, setSearchKey] = useState(0);
@@ -93,7 +95,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
                     </motion.div>
                 )}
             </AnimatePresence>
-            {parkingSpots?.map(parking => (
+            {!activeRent && parkingSpots?.map(parking => (
                 <AdvancedMarker
                     key={parking.id}
                     position={{lat: parking.latitude, lng: parking.longitude}}
