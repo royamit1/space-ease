@@ -3,7 +3,7 @@ import {CreateParkingForm} from "@/components/create-parking-form";
 
 export const CreateFooter: React.FC = () => {
     return (
-        <div className="create-footer">
+        <div>
             <CreateParkingForm/>
         </div>
     );
