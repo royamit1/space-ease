@@ -5,18 +5,19 @@ import {
     fetchHistoryParkingSpots,
     fetchParkingSpotById
 } from "@/app/actions";
-import {ParkingFormSchema} from "@/schemas/parking-form-schema";
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query"
+import { ParkingFormSchema } from "@/schemas/parking-form-schema";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 
-const useParkingSpots = () => {
+const useParkingSpots = (filters?: { priceRange?: string; userId?: string }) => {
     const parkingSpotsQuery = useQuery({
-        queryKey: ['parkingSpots'],
-        queryFn: () => fetchAvailableParkingSpots(),
+        queryKey: ['parkingSpots', filters],
+        queryFn: () => fetchAvailableParkingSpots(filters || {}),
         refetchOnWindowFocus: false,
-    })
+    });
     return parkingSpotsQuery;
-}
+};
+
 
 const useHistoryParkingSpots = () => {
     const historyParkingSpotsQuery = useQuery({
@@ -44,7 +45,7 @@ const useParkingMutation = () => {
         },
         onSuccess: () => {
             console.log("created parking with react query !");
-            queryClient.invalidateQueries({queryKey: ["parkingSpots"]});
+            queryClient.invalidateQueries({ queryKey: ["parkingSpots"] });
         },
         onError: (error) => {
             console.error("Error creating parking spot: ", error)
@@ -54,4 +55,4 @@ const useParkingMutation = () => {
     return newParkingMutation;
 }
 
-export {useParkingSpots, useParkingMutation, useParkingSpotById, useHistoryParkingSpots};
+export { useParkingSpots, useParkingMutation, useParkingSpotById, useHistoryParkingSpots };

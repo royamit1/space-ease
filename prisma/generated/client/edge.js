@@ -148,7 +148,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\ofira\\Documents\\repos\\space-ease\\prisma\\generated\\client",
+      "value": "C:\\Users\\royva\\Desktop\\space-ease v2\\space-ease\\prisma\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -162,7 +162,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\ofira\\Documents\\repos\\space-ease\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\royva\\Desktop\\space-ease v2\\space-ease\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

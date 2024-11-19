@@ -1,21 +1,34 @@
-import React from "react";
-import {ToggleGroup, ToggleGroupItem} from "@/components/ui/toggle-group";
-import {DollarSignIcon} from "lucide-react";
-import {Toggle} from "@/components/ui/toggle";
-import {Separator} from "@/components/ui/separator";
-
-export type FilterOption = 'availability' | 'price' | 'nearby' | 'parkingType';
+import React, { useState } from "react";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { DollarSignIcon } from "lucide-react";
+import { Toggle } from "@/components/ui/toggle";
+import { Separator } from "@/components/ui/separator";
 
 interface FilterSelectionProps {
-    selectedSortingOption: { [key in FilterOption]?: string };
-    handleSortingOptionChange: (filter: FilterOption, event: React.ChangeEvent<HTMLSelectElement>) => void;
+    onPriceChange: (priceRange: string | null) => void;
+    onMyParkingToggle: (isToggled: boolean) => void;
 }
 
-const FilterSelection: React.FC<FilterSelectionProps> = ({}) => {
+const FilterSelection: React.FC<FilterSelectionProps> = ({
+    onPriceChange,
+    onMyParkingToggle,
+}) => {
+    const [myParkingToggled, setMyParkingToggled] = useState(false);
+
+    const handlePriceToggle = (value: string | null | undefined) => {
+        onPriceChange(value || null); // Ensures `null` is passed instead of `undefined`
+    };
+    
+
+    const handleMyParkingToggle = () => {
+        const newToggleState = !myParkingToggled;
+        setMyParkingToggled(newToggleState);
+        onMyParkingToggle(newToggleState);
+    };
 
     return (
         <div className="w-full h-36 flex flex-row space-x-4 justify-center items-center p-3 overflow-x-auto hide-scrollbar">
-            <ToggleGroup type="multiple">
+            <ToggleGroup type="single" onValueChange={handlePriceToggle}>
                 <ToggleGroupItem value="$" arial-label="Cheap">
                     <DollarSignIcon className="h-4 w-4 -m-0.5" />
                 </ToggleGroupItem>
@@ -29,11 +42,12 @@ const FilterSelection: React.FC<FilterSelectionProps> = ({}) => {
                     <DollarSignIcon className="h-4 w-4 -m-0.5" />
                 </ToggleGroupItem>
             </ToggleGroup>
-            <Separator orientation="vertical" className="h-8"/>
-            <Toggle>
-                <span>
-                    My Parkings
-                </span>
+            <Separator orientation="vertical" className="h-8" />
+            <Toggle
+                pressed={myParkingToggled}
+                onClick={handleMyParkingToggle}
+            >
+                <span>My Parkings</span>
             </Toggle>
         </div>
     );
