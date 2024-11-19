@@ -159,3 +159,14 @@ export const getActiveRent = async () => {
   
     return db.activeRent.findUnique({ where: { userId: data.user.id } });
 }
+
+export const fetchUser = async () => {
+    const supabase = createClient(); // Use your Supabase server client
+    const { data, error } = await supabase.auth.getUser();
+
+    if (error) {
+        console.error("Failed to fetch user on the server:", error);
+        return null;
+    }
+    return data.user;
+};

@@ -7,12 +7,11 @@ import { useParkingSpots } from "@/hooks/useParkingSpots";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import useUser from "@/hooks/useSupabase";
+import { fetchUser } from "@/app/actions";
 
 export const SearchFooter: React.FC = () => {
     const [selectedFilters, setSelectedFilters] = useState<{ priceRange?: string; userId?: string }>({});
     const { data: parkingSpots, error } = useParkingSpots(selectedFilters);
-    const { user, loading } = useUser();
 
     const handlePriceFilterChange = (priceRange: string | null) => {
         setSelectedFilters((prev) => ({
@@ -21,22 +20,14 @@ export const SearchFooter: React.FC = () => {
         }));
     };
 
-    const handleMyParkingToggle = (isToggled: boolean) => {
+    const handleMyParkingToggle = async (isToggled: boolean) => {
+        const user = await fetchUser();
         const userId = isToggled && user ? user.id : undefined;
         setSelectedFilters((prev) => ({
             ...prev,
             userId,
         }));
     };
-
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center h-full">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-600"></div>
-                <span className="ml-2 text-gray-600 font-medium">Loading user data...</span>
-            </div>
-        );
-    }
 
     return (
         <div className="flex flex-col w-full h-full">
