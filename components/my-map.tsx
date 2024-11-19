@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useEffect, useState} from "react";
-import {AdvancedMarker, Map, MapCameraChangedEvent, MapProps, Pin} from "@vis.gl/react-google-maps";
+import {AdvancedMarker, Map, MapCameraChangedEvent, MapProps} from "@vis.gl/react-google-maps";
 import useGeolocation from "react-hook-geolocation";
 import {useTheme} from "next-themes";
 import {useFooterState} from "@/hooks/useFooterState";
@@ -23,7 +23,7 @@ const initial = {
 
 export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...props}) => {
     const theme = useTheme();
-    const {data: parkingSpots, isLoading, isError, error} = useParkingSpots();  // Call the hook at the top level
+    const {data: parkingSpots, isLoading, isError, error} = useParkingSpots();
     const [_, setFooterState] = useFooterState(state => state.mode.mode === "detail" ? state.mode.id : null);
     const [activeParkingId, setActiveParkingId] = useState<number | null>(null);
     const [searchKey, setSearchKey] = useState(0);
@@ -71,7 +71,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
 
     return (
         <Map
-            style={{width: '100vw', height: '100vh', color:"black" , zIndex: 0}}
+            style={{width: '100vw', height: '100vh', color: "black", zIndex: 0}}
             mapId="my-map"
             center={center}
             defaultZoom={initial.zoom}
@@ -101,7 +101,7 @@ export const MyMap: React.FC<MyMapProps> = ({children, searchCoordinates, ...pro
                 >
                     <motion.div
                         initial={{scale: 0, opacity: 0}}
-                        animate={{ scale: activeParkingId === parking.id ? 1.3 : 1, opacity: 1 }}
+                        animate={{scale: activeParkingId === parking.id ? 1.3 : 1, opacity: 1}}
                         transition={{type: 'spring', stiffness: 260, damping: 20}}
                     >
                         <div className="relative">

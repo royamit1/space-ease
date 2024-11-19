@@ -1,7 +1,6 @@
-import React, {useState} from "react";
+import React, {useState, useMemo} from "react";
 import {useParkingSpotById} from "@/hooks/useParkingSpots";
-import {AlertCircle, CheckCircle, Info, MapPin, XCircle} from "lucide-react";
-import {Separator} from "@/components/ui/separator";
+import {AlertCircle, CheckCircle, Clock, MapPin, XCircle, Navigation} from "lucide-react";
 import {NavigationDialog} from "@/components/navigation-dialog";
 import {ConfirmationButton} from "@/components/common/confirmation-button";
 import {ActiveRent} from "@/prisma/generated/client";
@@ -13,132 +12,214 @@ import {useNow} from "@/hooks/useNow";
 import {calculateTotalCost} from "@/lib/rent";
 import {AnimatedNumber} from "@/components/ui/animated-number";
 import {Button} from "@/components/ui/button";
+import {motion} from "framer-motion";
+import {Card} from "@/components/ui/card";
+import {Badge} from "@/components/ui/badge";
 
 export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent}) => {
-    const footerStore = useFooterStore()
-    const queryClient = useQueryClient()
-    const now = useNow(5000)
+    const footerStore = useFooterStore();
+    const queryClient = useQueryClient();
+    const now = useNow(5000);
     const {data: parkingSpot, isLoading, error} = useParkingSpotById(activeRent.parkingSpotId);
-    const [showNavigationDialog, setShowNavigationDialog] = useState(false);
 
-    const [totalCost, rentalDurationText] = React.useMemo(() => {
+    const [totalCost, rentalDurationText] = useMemo(() => {
         const totalCost = calculateTotalCost(activeRent, now);
-        const rentalDurationText = formatDistance(now, activeRent.createdAt)
-        return [totalCost, rentalDurationText]
-    }, [activeRent, now])
+        const rentalDurationText = formatDistance(now, activeRent.createdAt);
+        return [totalCost, rentalDurationText];
+    }, [activeRent, now]);
+
+    const container = {
+        hidden: {opacity: 0},
+        show: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
+    const item = {
+        hidden: {y: 20, opacity: 0},
+        show: {y: 0, opacity: 1}
+    };
 
     if (isLoading) {
         return (
-            <div
-                className="flex items-center justify-center h-screen bg-blue-50 text-blue-700 p-4 rounded-lg shadow-md">
-                <span className="font-semibold">Loading...</span>
+            <div className="flex items-center justify-center p-6">
+                <motion.div
+                    initial={{opacity: 0}}
+                    animate={{opacity: 1}}
+                    className="text-primary font-semibold"
+                >
+                    Loading...
+                </motion.div>
             </div>
         );
     }
 
-    if (error) {
+    if (error || !parkingSpot) {
         return (
-            <div className="flex items-center justify-center h-screen bg-red-50 text-red-700 p-4 rounded-lg shadow-md">
-                <AlertCircle className="w-6 h-6 mr-2 text-red-600"/>
-                <span className="font-semibold">Error:</span>
-                <span className="ml-1">{error.message || "An unexpected error occurred."}</span>
-            </div>
-        );
-    }
-
-    if (!parkingSpot) {
-        return (
-            <div
-                className="flex items-center justify-center h-screen bg-yellow-50 text-yellow-700 p-4 rounded-lg shadow-md">
-                <Info className="w-6 h-6 mr-2 text-yellow-600"/>
-                <span className="font-semibold">Notice:</span>
-                <span className="ml-1">No parking spot found.</span>
-            </div>
+            <motion.div
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                className="p-6"
+            >
+                <Card className="p-6 bg-destructive/10">
+                    <div className="flex items-center gap-3">
+                        <AlertCircle className="w-6 h-6 text-destructive"/>
+                        <p className="font-semibold text-destructive">
+                            {error?.message || "No parking spot found."}
+                        </p>
+                    </div>
+                </Card>
+            </motion.div>
         );
     }
 
     const handleGoogleMapNav = () => {
-        setShowNavigationDialog(false);
         window.open(`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(parkingSpot.address)}`, "_blank");
     };
 
     const handleWazeNav = () => {
-        if (!parkingSpot.address) {
-            console.error("Parking spot address is missing.");
-            return;
-        }
-        setShowNavigationDialog(false);
-        const latitude = parkingSpot.latitude;
-        const longitude = parkingSpot.longitude;
+        const {latitude, longitude} = parkingSpot;
         window.open(`https://waze.com/ul?ll=${latitude},${longitude}&navigate=yes`, "_blank");
     };
 
     const handleLeaveParking = async () => {
-        await endRenting()
-        await queryClient.invalidateQueries({ queryKey: ["activeRent"] })
-        footerStore.setState({ mode: {mode: "search"}, size: "open" })
-    }
+        await endRenting();
+        await queryClient.invalidateQueries({queryKey: ["activeRent"]});
+        footerStore.setState({mode: {mode: "search"}, size: "open"});
+    };
 
     return (
-        <div className="flex flex-col space-y-4 p-5 pt-2 h-full bg-[var(--rented-background)] rounded-2xl shadow-xl">
-            {/* Rental Confirmation (First thing user sees) */}
-            <div className="flex flex-row items-center justify-start mx-auto">
-                <CheckCircle className="w-12 h-12 mx-6 text-primary animate-pulse"/>
+        <div className="w-full h-full shadow-lg flex flex-col">
+            <motion.div
+                initial="hidden"
+                animate="show"
+                variants={container}
+                className="max-w-2xl mx-auto"
+            >
+                {/* Header Section */}
+                <motion.div variants={item} className="flex-shrink-0">
+                    <div className="flex items-center gap-6 pb-4">
+                        <CheckCircle className="w-12 h-12 text-primary animate-pulse"/>
+                        <div>
+                            <h3 className="text-2xl font-bold tracking-tight">Parking Spot Rented!</h3>
+                            <Badge variant="secondary" className="mt-2">
+                                Active Rental
+                            </Badge>
+                        </div>
+                    </div>
+                </motion.div>
+            </motion.div>
+
+            <div className="grid grid-cols-2 md:grid-cols-2">
+                {/* Left Side: Existing Content */}
                 <div>
-                    <h3 className="text-3xl font-semibold mb-2">Parking Spot Rented!</h3>
-                    <span
-                        className="text-lg">Your spot is now reserved. You’re all set!</span>
+                    <motion.div
+                        initial="hidden"
+                        animate="show"
+                        variants={container}
+                        className="p-3 space-y-3"
+                    >
+                        {/* Location Section */}
+                        <motion.div variants={item}>
+                            <Card className="relative overflow-hidden group">
+                                <div
+                                    className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent group-hover:opacity-75 transition-opacity"
+                                />
+                                <div className="relative p-4">
+                                    <div className="flex items-center gap-3 mb-3">
+                                        <MapPin className="w-5 h-5 text-primary"/>
+                                        <h4 className="font-semibold">Location</h4>
+                                    </div>
+                                    <p className="text-lg font-medium">{parkingSpot.address}</p>
+                                </div>
+                            </Card>
+                        </motion.div>
+
+                        {/* Rental Details */}
+                        <div className="grid grid-cols-2 gap-2 md:grid-cols-2">
+                            <motion.div variants={item}>
+                                <Card className="relative overflow-hidden group">
+                                    <div
+                                        className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent group-hover:opacity-75 transition-opacity"
+                                    />
+                                    <div className="relative p-4">
+                                        <div className="flex items-center gap-3 mb-3">
+                                            <Clock className="w-5 h-5 text-primary"/>
+                                            <h4 className="font-semibold">Duration</h4>
+                                        </div>
+                                        <p className="text-lg font-medium">{rentalDurationText}</p>
+                                    </div>
+                                </Card>
+                            </motion.div>
+
+                            <motion.div variants={item}>
+                                <Card className="relative overflow-hidden group">
+                                    <div
+                                        className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent group-hover:opacity-75 transition-opacity"
+                                    />
+                                    <div className="relative p-4">
+                                        <div className="flex items-center gap-3 mb-3">
+                                            <AlertCircle className="w-5 h-5 text-primary"/>
+                                            <h4 className="font-semibold">Total Cost</h4>
+                                        </div>
+                                        <p className="text-lg font-medium">
+                                            $<AnimatedNumber value={totalCost} precision={2} stiffness={75}
+                                                             damping={15}/>
+                                        </p>
+                                    </div>
+                                </Card>
+                            </motion.div>
+                        </div>
+                    </motion.div>
+                </div>
+
+                {/* Right Side Placeholder */}
+                <div className="p-3">
+                    {/* Add your desired content for the right side here */}
+                    <Card className="relative p-4">
+                        <h4 className="font-semibold">Right Side Content</h4>
+                        <p>This is a placeholder for the right column content.</p>
+                    </Card>
                 </div>
             </div>
 
-            <Separator/>
+            <div className="flex-grow "/>
 
-            <div className="space-y-4 ps-5 pe-5">
-                {/* Parking Spot Address */}
-                <h3 className="text-2xl font-semibold">{parkingSpot.address}</h3>
+            {/* Action Buttons */}
+            <motion.div variants={item} className="grid gap-4 p-4">
+                <div className="grid grid-cols-3 gap-2">
+                    <ConfirmationButton
+                        variant="outline"
+                        className="flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
+                        onClick={handleLeaveParking}
+                    >
+                        <XCircle className="w-6 h-6"/>
+                        <span className="text-lg">Leave Parking</span>
+                    </ConfirmationButton>
 
-                {/* Rental Duration and Cost */}
-                <div className="flex justify-between">
-                    <span className="text-md font-medium">Rental Duration</span>
-                    <span
-                        className="text-lg font-semibold">{rentalDurationText}</span>
+                    <Button
+                        variant="outline"
+                        className="flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
+                        onClick={handleGoogleMapNav}
+                    >
+                        <span className="text-lg">Google Maps</span>
+                    </Button>
+
+                    <Button
+                        variant="outline"
+                        className="flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
+                        onClick={handleWazeNav}
+                    >
+                        <span className="text-lg">Waze</span>
+                    </Button>
                 </div>
-                <div className="flex">
-                    <span className="text-md font-medium">Total Cost </span>
-                    <span className="text-lg font-semibold"><AnimatedNumber value={totalCost} precision={2} stiffness={75} damping={15} /></span>
-                </div>
-            </div>
-
-            <div className="flex-grow"/>
-
-            {/* Buttons */}
-            <div className="flex space-x-2">
-                {/* Stop Rental Button */}
-                <ConfirmationButton
-                    variant="outline"
-                    className="w-full flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
-                    onClick={handleLeaveParking}
-                >
-                    <XCircle className="w-6 h-6"/>
-                    <span className="text-lg">Leave Parking</span>
-                </ConfirmationButton>
-
-                {/* Navigate Button */}
-                <Button
-                    variant="outline"
-                    className="w-full flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
-                    onClick={handleGoogleMapNav}
-                >
-                    <span className="text-lg">Google Maps</span>
-                </Button>
-                <Button
-                    variant="outline"
-                    className="w-full flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
-                    onClick={handleWazeNav}
-                >
-                    <span className="text-lg">Waze</span>
-                </Button>
-            </div>
+            </motion.div>
         </div>
+
     );
 };
+
+export default RentalFooter;
