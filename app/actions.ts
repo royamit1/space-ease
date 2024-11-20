@@ -7,7 +7,7 @@ import { calculateTotalCost } from "@/lib/rent";
 
 const supabase = createClient();
 
-const createParkingSpot = async (parkingFormData: ParkingFormSchema & { imageUrls: string[] }) => {
+export const createParkingSpot = async (parkingFormData: ParkingFormSchema & { imageUrls: string[] }) => {
     const { data, error } = await supabase.auth.getUser();
     if (error) throw new Error("User not authenticated");
 
@@ -43,7 +43,7 @@ const createParkingSpot = async (parkingFormData: ParkingFormSchema & { imageUrl
 };
 
 
-const fetchAvailableParkingSpots = async (filters?: { priceRange?: string; userId?: string }) => {
+export const fetchAvailableParkingSpots = async (filters?: { priceRange?: string; userId?: string }) => {
     try {
         // filter by available parking spots
         const now = new Date();
@@ -81,7 +81,7 @@ const fetchAvailableParkingSpots = async (filters?: { priceRange?: string; userI
 };
 
 
-const fetchHistoryParkingSpots = async () => {
+export const fetchHistoryParkingSpots = async () => {
     try {
         const historyParkingSpots: RentalHistory[] = await db.rentalHistory.findMany({
             orderBy: {
@@ -95,7 +95,7 @@ const fetchHistoryParkingSpots = async () => {
     }
 };
 
-const fetchParkingSpotById = async (id: number) => {
+export const fetchParkingSpotById = async (id: number) => {
     try {
         const singleParking = await db.parkingSpot.findUnique({
             where: {
@@ -109,7 +109,19 @@ const fetchParkingSpotById = async (id: number) => {
     }
 }
 
-export { createParkingSpot, fetchAvailableParkingSpots, fetchParkingSpotById, fetchHistoryParkingSpots }
+export const fetchParkingImagesById = async (id: number) => {
+    try {
+        const parkingImages = await db.parkingImage.findMany({
+            where: {
+                parkingSpotId: id
+            },
+        })
+        return parkingImages;
+    } catch (error) {
+        console.error("error fetching parking spot images by id", error);
+        throw error;
+    }
+}
 
 export const startRenting = async (parkingSpotId: number) => {
     const { data, error } = await supabase.auth.getUser();
