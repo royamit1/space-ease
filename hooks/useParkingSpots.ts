@@ -39,20 +39,16 @@ const useParkingSpotById = (id: number | null) => {
 
 const useParkingMutation = () => {
     const queryClient = useQueryClient();
-    const newParkingMutation = useMutation({
-        mutationFn: (parkingFormData: ParkingFormSchema) => {
-            return createParkingSpot(parkingFormData);
-        },
+    return useMutation({
+        mutationFn: (parkingFormData: ParkingFormSchema & { imageUrls: string[] }) => createParkingSpot(parkingFormData),
         onSuccess: () => {
-            console.log("created parking with react query !");
             queryClient.invalidateQueries({ queryKey: ["parkingSpots"] });
         },
         onError: (error) => {
-            console.error("Error creating parking spot: ", error)
-        }
-    })
+            console.error("Error creating parking spot:", error);
+        },
+    });
+};
 
-    return newParkingMutation;
-}
 
 export { useParkingSpots, useParkingMutation, useParkingSpotById, useHistoryParkingSpots };
