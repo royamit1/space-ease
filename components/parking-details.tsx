@@ -1,16 +1,17 @@
 import React from 'react';
-import {ParkingSpot} from "@/prisma/generated/client";
 import {Clock, DollarSign, Info, MapPin} from 'lucide-react';
 import {motion} from 'framer-motion';
-import {cn} from "@/lib/utils";
 import {Card} from "@/components/ui/card";
 import {Badge} from "@/components/ui/badge";
+import { ParkingImage, ParkingSpot } from "@/prisma/generated/client";
+import Image from "next/image";
 
 interface ParkingDetailsProps {
     parkingSpot: ParkingSpot;
+    parkingImages: ParkingImage[] | undefined;
 }
 
-const ParkingDetails: React.FC<ParkingDetailsProps> = ({parkingSpot}) => {
+const ParkingDetails: React.FC<ParkingDetailsProps> = ({parkingSpot, parkingImages}) => {
     const formatTime = (date: Date) => {
         return new Date(date).toLocaleTimeString([], {
             hour: '2-digit',
@@ -109,6 +110,30 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({parkingSpot}) => {
                     </div>
                 </Card>
             </motion.div>
+
+            <div className="mt-4">
+                <h4 className="text-lg font-semibold text-[var(--foreground)] mb-2">Parking Spot Images</h4>
+                <div className="flex gap-4 overflow-auto">
+                    {Array.isArray(parkingImages) && parkingImages.length > 0 ? (
+                        parkingImages.map((image) => (
+                            <Image
+                                key={image.id}
+                                src={image.url}
+                                alt="Parking Spot"
+                                width={120}
+                                height={120}
+                                className="rounded object-cover"
+                            />
+                        ))
+                    ) : (
+                        <p className="text-sm text-[var(--muted-foreground)]">
+                            No images available for this parking spot.
+                        </p>
+                    )}
+                </div>
+            </div>
+
+
         </motion.div>
 
 

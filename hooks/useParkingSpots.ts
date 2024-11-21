@@ -3,7 +3,8 @@ import {
     createParkingSpot,
     fetchAvailableParkingSpots,
     fetchHistoryParkingSpots,
-    fetchParkingSpotById
+    fetchParkingSpotById,
+    fetchParkingImagesById
 } from "@/app/actions";
 import { ParkingFormSchema } from "@/schemas/parking-form-schema";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
@@ -36,23 +37,27 @@ const useParkingSpotById = (id: number | null) => {
     });
 };
 
+const useParkingImagesById = (id: number | null) => {
+    return useQuery({
+        queryKey: ['parkingSpotImages', id],
+        queryFn: () => fetchParkingImagesById(id!),
+        enabled: !!id,
+    });
+};
+
 
 const useParkingMutation = () => {
     const queryClient = useQueryClient();
-    const newParkingMutation = useMutation({
-        mutationFn: (parkingFormData: ParkingFormSchema) => {
-            return createParkingSpot(parkingFormData);
-        },
+    return useMutation({
+        mutationFn: (parkingFormData: ParkingFormSchema & { imageUrls: string[] }) => createParkingSpot(parkingFormData),
         onSuccess: () => {
-            console.log("created parking with react query !");
             queryClient.invalidateQueries({ queryKey: ["parkingSpots"] });
         },
         onError: (error) => {
-            console.error("Error creating parking spot: ", error)
-        }
-    })
+            console.error("Error creating parking spot:", error);
+        },
+    });
+};
 
-    return newParkingMutation;
-}
 
-export { useParkingSpots, useParkingMutation, useParkingSpotById, useHistoryParkingSpots };
+export { useParkingSpots, useParkingMutation, useParkingSpotById, useHistoryParkingSpots, useParkingImagesById };

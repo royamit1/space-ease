@@ -16,17 +16,26 @@ generator client {
 }
 
 model ParkingSpot {
-  id          Int      @id @default(autoincrement())
-  userId      String // insert the userId with supabase.auth
-  latitude    Float
-  longitude   Float
-  address     String
-  description String
-  hourlyRate  Float
-  startTime   DateTime
-  endTime     DateTime
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           Int            @id @default(autoincrement())
+  userId       String // insert the userId with supabase.auth
+  latitude     Float
+  longitude    Float
+  address      String
+  description  String
+  hourlyRate   Float
+  startTime    DateTime
+  endTime      DateTime
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  ParkingImage ParkingImage[]
+}
+
+model ParkingImage {
+  id            Int      @id @default(autoincrement())
+  parkingSpotId Int
+  url           String // URL of the image
+  createdAt     DateTime @default(now())
+  parkingSpot ParkingSpot @relation(fields: [parkingSpotId], references: [id], onDelete: Cascade)
 }
 
 model ActiveRent {

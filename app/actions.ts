@@ -5,37 +5,44 @@ import { createClient } from "@/utils/supabase/server";
 import { ActiveRent, ParkingSpot, RentalHistory } from "@/prisma/generated/client";
 import { calculateTotalCost } from "@/lib/rent";
 
-const createParkingSpot = async (parkingFormData: ParkingFormSchema) => {
+export const createParkingSpot = async (parkingFormData: ParkingFormSchema & { imageUrls: string[] }) => {
     const supabase = createClient();
     const { data, error } = await supabase.auth.getUser();
-    if (error) {
-        console.error(error)
-    } else {
+    if (error) throw new Error("User not authenticated");
 
-        try {
-            const parkingSpot = await db.parkingSpot.create({
-                data: {
-                    userId: data.user.id,
-                    latitude: parkingFormData.latitude,
-                    longitude: parkingFormData.longitude,
-                    address: parkingFormData.address,
-                    description: parkingFormData.description,
-                    hourlyRate: parkingFormData.price,
-                    startTime: new Date(parkingFormData.availableFrom),
-                    endTime: new Date(parkingFormData.availableUntil),
-                },
+    try {
+        const parkingSpot = await db.parkingSpot.create({
+            data: {
+                userId: data.user.id,
+                latitude: parkingFormData.latitude,
+                longitude: parkingFormData.longitude,
+                address: parkingFormData.address,
+                description: parkingFormData.description,
+                hourlyRate: parkingFormData.price,
+                startTime: new Date(parkingFormData.availableFrom),
+                endTime: new Date(parkingFormData.availableUntil),
+            },
+        });
+
+        // Add parking images
+        if (parkingFormData.imageUrls?.length) {
+            await db.parkingImage.createMany({
+                data: parkingFormData.imageUrls.map((url) => ({
+                    parkingSpotId: parkingSpot.id,
+                    url,
+                })),
             });
-            //     // Return the parking spot data to the front-end
-            console.log(parkingSpot)
-            return { parkingSpot };
-        } catch (err) {
-            console.error("Error creating parking spot:", err);
-            return { error: "Failed to create parking spot" };
         }
-    }
-}
 
-const fetchAvailableParkingSpots = async (filters?: { priceRange?: string; userId?: string }) => {
+        return { parkingSpot };
+    } catch (err) {
+        console.error("Error creating parking spot:", err);
+        throw new Error("Failed to create parking spot");
+    }
+};
+
+
+export const fetchAvailableParkingSpots = async (filters?: { priceRange?: string; userId?: string }) => {
     try {
         // filter by available parking spots
         const now = new Date();
@@ -73,7 +80,7 @@ const fetchAvailableParkingSpots = async (filters?: { priceRange?: string; userI
 };
 
 
-const fetchHistoryParkingSpots = async () => {
+export const fetchHistoryParkingSpots = async () => {
     try {
         const historyParkingSpots: RentalHistory[] = await db.rentalHistory.findMany({
             orderBy: {
@@ -87,7 +94,7 @@ const fetchHistoryParkingSpots = async () => {
     }
 };
 
-const fetchParkingSpotById = async (id: number) => {
+export const fetchParkingSpotById = async (id: number) => {
     try {
         const singleParking = await db.parkingSpot.findUnique({
             where: {
@@ -101,7 +108,19 @@ const fetchParkingSpotById = async (id: number) => {
     }
 }
 
-export { createParkingSpot, fetchAvailableParkingSpots, fetchParkingSpotById, fetchHistoryParkingSpots }
+export const fetchParkingImagesById = async (id: number) => {
+    try {
+        const parkingImages = await db.parkingImage.findMany({
+            where: {
+                parkingSpotId: id
+            },
+        })
+        return parkingImages;
+    } catch (error) {
+        console.error("error fetching parking spot images by id", error);
+        throw error;
+    }
+}
 
 export const startRenting = async (parkingSpotId: number) => {
     const supabase = createClient();
@@ -156,12 +175,12 @@ export const getActiveRent = async () => {
 
     if (!data || !data.user)
         return null
-  
+
     return db.activeRent.findUnique({ where: { userId: data.user.id } });
 }
 
 export const fetchUser = async () => {
-    const supabase = createClient(); // Use your Supabase server client
+    const supabase = createClient();
     const { data, error } = await supabase.auth.getUser();
 
     if (error) {
