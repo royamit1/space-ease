@@ -5,9 +5,8 @@ import { createClient } from "@/utils/supabase/server";
 import { ActiveRent, ParkingSpot, RentalHistory } from "@/prisma/generated/client";
 import { calculateTotalCost } from "@/lib/rent";
 
-const supabase = createClient();
-
 export const createParkingSpot = async (parkingFormData: ParkingFormSchema & { imageUrls: string[] }) => {
+    const supabase = createClient();
     const { data, error } = await supabase.auth.getUser();
     if (error) throw new Error("User not authenticated");
 
@@ -124,6 +123,7 @@ export const fetchParkingImagesById = async (id: number) => {
 }
 
 export const startRenting = async (parkingSpotId: number) => {
+    const supabase = createClient();
     const { data, error } = await supabase.auth.getUser();
     if (error)
         throw error;
@@ -146,6 +146,7 @@ export const startRenting = async (parkingSpotId: number) => {
 
 
 export const endRenting = async () => {
+    const supabase = createClient();
     const { data, error } = await supabase.auth.getUser();
     if (error)
         throw error;
@@ -167,6 +168,7 @@ export const endRenting = async () => {
 }
 
 export const getActiveRent = async () => {
+    const supabase = createClient();
     const { data, error } = await supabase.auth.getUser();
     if (error)
         return null
@@ -178,6 +180,7 @@ export const getActiveRent = async () => {
 }
 
 export const fetchUser = async () => {
+    const supabase = createClient();
     const { data, error } = await supabase.auth.getUser();
 
     if (error) {
