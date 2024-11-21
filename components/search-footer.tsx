@@ -30,7 +30,7 @@ export const SearchFooter: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col w-full h-full">
+        <div className="w-full h-full">
             <FilterSelection
                 onPriceChange={handlePriceFilterChange}
                 onMyParkingToggle={handleMyParkingToggle}
