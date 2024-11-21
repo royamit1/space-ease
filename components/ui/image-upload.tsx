@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 
-const supabase = createClient();
 
 interface ImageUploadProps {
     onUpload: (url: string) => void; // Callback to pass the uploaded image URL
@@ -11,6 +10,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUpload }) => {
     const [uploading, setUploading] = useState(false);
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const supabase = createClient();
         const file = event.target.files?.[0];
         if (!file) return;
 
