@@ -184,7 +184,9 @@ export const CreateParkingForm: React.FC = () => {
                                         key={index}
                                         src={url}
                                         alt="Uploaded"
-                                        className="w-32 h-32 object-cover rounded"
+                                        className="object-cover rounded"
+                                        height={60}
+                                        width={60}
                                     />
                                 ))}
                             </div>
