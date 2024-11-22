@@ -17,7 +17,7 @@ export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({spot}) => {
 
     return (
         <li
-            className="group relative flex items-center p-3 bg-card rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer hover:ring-2 hover:ring-primary/50"
+            className="group relative h-24 flex items-center p-3 bg-card rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer hover:ring-2 hover:ring-primary/50"
             onClick={handleItemClick}
         >
             {/* Map Icon */}

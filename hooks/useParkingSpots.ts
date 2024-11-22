@@ -4,13 +4,13 @@ import {
     fetchAvailableParkingSpots,
     fetchHistoryParkingSpots,
     fetchParkingSpotById,
-    fetchParkingImagesById
+    fetchParkingImagesById, ParkingSpotFilters
 } from "@/app/actions";
 import { ParkingFormSchema } from "@/schemas/parking-form-schema";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 
-const useParkingSpots = (filters?: { priceRange?: string; userId?: string }) => {
+const useParkingSpots = (filters?: ParkingSpotFilters) => {
     const parkingSpotsQuery = useQuery({
         queryKey: ['parkingSpots', filters],
         queryFn: () => fetchAvailableParkingSpots(filters || {}),

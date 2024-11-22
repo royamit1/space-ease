@@ -42,7 +42,12 @@ export const createParkingSpot = async (parkingFormData: ParkingFormSchema & { i
 };
 
 
-export const fetchAvailableParkingSpots = async (filters?: { priceRange?: string; userId?: string }) => {
+export interface ParkingSpotFilters {
+    priceRange?: string;
+    userId?: string;
+}
+
+export const fetchAvailableParkingSpots = async (filters?: ParkingSpotFilters) => {
     try {
         // filter by available parking spots
         const now = new Date();

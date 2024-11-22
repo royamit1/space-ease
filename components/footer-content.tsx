@@ -8,7 +8,7 @@ import {HistoryFooter} from "@/components/history-footer";
 import {useActiveRent} from "@/hooks/useActiveRent";
 
 export const FooterContent: React.FC = () => {
-    const [footerMode, setFooterState] = useFooterState(state => state.mode.mode)
+    const [footerMode, setFooterState] = useFooterState(state => state.mode)
     const activeRent = useActiveRent()
 
     useEffect(
@@ -22,11 +22,11 @@ export const FooterContent: React.FC = () => {
         return <RentalFooter activeRent={activeRent.data}/>;
     }
 
-    switch (footerMode) {
+    switch (footerMode.mode) {
         case "create":
             return <CreateFooter/>;
         case "detail":
-            return <DetailFooter/>;
+            return <DetailFooter selectedParkingSpot={footerMode.id} />;
         case "search":
             return <SearchFooter/>;
         case "history":
