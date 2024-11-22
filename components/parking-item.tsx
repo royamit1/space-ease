@@ -1,19 +1,19 @@
-import React from "react";
-import {ParkingSpot} from "@/prisma/generated/client";
-import {useFooterState} from "@/hooks/useFooterState";
-import {ChevronRightIcon, MapPinIcon} from "lucide-react";
-import {Button} from "@/components/ui/button";
+import React from "react"
+import { ParkingSpot } from "@/prisma/generated/client"
+import { useFooterState } from "@/hooks/useFooterState"
+import { ChevronRightIcon, MapPinIcon } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 interface ParkingSpotItemProps {
-    spot: ParkingSpot;
+    spot: ParkingSpot
 }
 
-export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({spot}) => {
-    const [_, setFooterState] = useFooterState(state => null);
+export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({ spot }) => {
+    const [_, setFooterState] = useFooterState((state) => null)
 
     const handleItemClick = () => {
-        setFooterState({mode: {mode: "detail", id: spot.id}, size: "open"})
-    };
+        setFooterState({ mode: { mode: "detail", id: spot.id }, size: "open" })
+    }
 
     return (
         <li
@@ -31,9 +31,7 @@ export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({spot}) => {
                     {spot.address}
                 </h3>
                 <div className="text-sm text-muted-foreground mt-1">
-                    <span className="block font-medium">
-                        ${spot.hourlyRate.toFixed(2)} per hour
-                    </span>
+                    <span className="block font-medium">${spot.hourlyRate.toFixed(2)} per hour</span>
                     <span className="text-xs">
                         {new Date(spot.startTime).toLocaleTimeString([], {
                             hour: "2-digit",
@@ -66,5 +64,5 @@ export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({spot}) => {
             {/* Ripple Effect */}
             <span className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-transparent opacity-0 group-hover:opacity-100 rounded-lg transition-opacity duration-500" />
         </li>
-    );
-};
+    )
+}

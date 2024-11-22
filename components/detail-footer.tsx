@@ -1,29 +1,29 @@
-import React from "react";
-import ParkingDetails from "@/components/parking-details";
-import { useFooterState } from "@/hooks/useFooterState";
-import { useParkingSpotById } from "@/hooks/useParkingSpots";
-import { useParkingImagesById } from "@/hooks/useParkingSpots"; // Custom hook for fetching images
-import { AlertCircle, Info } from "lucide-react";
-import { ConfirmationButton } from "@/components/common/confirmation-button";
-import { startRenting } from "@/app/actions";
-import { useQueryClient } from "@tanstack/react-query";
+import React from "react"
+import ParkingDetails from "@/components/parking-details"
+import { useFooterState } from "@/hooks/useFooterState"
+import { useParkingSpotById } from "@/hooks/useParkingSpots"
+import { useParkingImagesById } from "@/hooks/useParkingSpots" // Custom hook for fetching images
+import { AlertCircle, Info } from "lucide-react"
+import { ConfirmationButton } from "@/components/common/confirmation-button"
+import { startRenting } from "@/app/actions"
+import { useQueryClient } from "@tanstack/react-query"
 
 interface DetailFooterProps {
-    selectedParkingSpot: number;
+    selectedParkingSpot: number
 }
 
-export const DetailFooter: React.FC<DetailFooterProps> = ({selectedParkingSpot}) => {
-    const queryClient = useQueryClient();
+export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot }) => {
+    const queryClient = useQueryClient()
 
     const handleRent = async () => {
         try {
-            await startRenting(selectedParkingSpot);
+            await startRenting(selectedParkingSpot)
         } catch (err) {
-            console.error(err);
-            return;
+            console.error(err)
+            return
         }
-        await queryClient.invalidateQueries({ queryKey: ["activeRent"] });
-    };
+        await queryClient.invalidateQueries({ queryKey: ["activeRent"] })
+    }
 
     return (
         <div className="flex flex-col space-y-2 h-full p-4">
@@ -33,5 +33,5 @@ export const DetailFooter: React.FC<DetailFooterProps> = ({selectedParkingSpot})
                 Rent Now
             </ConfirmationButton>
         </div>
-    );
-};
+    )
+}

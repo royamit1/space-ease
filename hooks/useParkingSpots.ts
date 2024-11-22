@@ -1,63 +1,61 @@
-'use client';
+"use client"
 import {
     createParkingSpot,
     fetchAvailableParkingSpots,
     fetchHistoryParkingSpots,
     fetchParkingSpotById,
-    fetchParkingImagesById, ParkingSpotFilters
-} from "@/app/actions";
-import { ParkingFormSchema } from "@/schemas/parking-form-schema";
+    fetchParkingImagesById,
+    ParkingSpotFilters,
+} from "@/app/actions"
+import { ParkingFormSchema } from "@/schemas/parking-form-schema"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-
 
 const useParkingSpots = (filters?: ParkingSpotFilters) => {
     const parkingSpotsQuery = useQuery({
-        queryKey: ['parkingSpots', filters],
+        queryKey: ["parkingSpots", filters],
         queryFn: () => fetchAvailableParkingSpots(filters || {}),
         refetchOnWindowFocus: false,
-    });
-    return parkingSpotsQuery;
-};
-
+    })
+    return parkingSpotsQuery
+}
 
 const useHistoryParkingSpots = () => {
     const historyParkingSpotsQuery = useQuery({
-        queryKey: ['historyParkingSpots'],
+        queryKey: ["historyParkingSpots"],
         queryFn: () => fetchHistoryParkingSpots(),
         refetchOnWindowFocus: false,
     })
-    return historyParkingSpotsQuery;
+    return historyParkingSpotsQuery
 }
 
 const useParkingSpotById = (id: number | null) => {
     return useQuery({
-        queryKey: ['parkingSpots', id],
+        queryKey: ["parkingSpots", id],
         queryFn: () => fetchParkingSpotById(id!),
-        enabled: !!id,  // Only run if `id` is not null or undefined
-    });
-};
+        enabled: !!id, // Only run if `id` is not null or undefined
+    })
+}
 
 const useParkingImagesById = (id: number | null) => {
     return useQuery({
-        queryKey: ['parkingSpotImages', id],
+        queryKey: ["parkingSpotImages", id],
         queryFn: () => fetchParkingImagesById(id!),
         enabled: !!id,
-    });
-};
-
+    })
+}
 
 const useParkingMutation = () => {
-    const queryClient = useQueryClient();
+    const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: (parkingFormData: ParkingFormSchema & { imageUrls: string[] }) => createParkingSpot(parkingFormData),
+        mutationFn: (parkingFormData: ParkingFormSchema & { imageUrls: string[] }) =>
+            createParkingSpot(parkingFormData),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["parkingSpots"] });
+            queryClient.invalidateQueries({ queryKey: ["parkingSpots"] })
         },
         onError: (error) => {
-            console.error("Error creating parking spot:", error);
+            console.error("Error creating parking spot:", error)
         },
-    });
-};
+    })
+}
 
-
-export { useParkingSpots, useParkingMutation, useParkingSpotById, useHistoryParkingSpots, useParkingImagesById };
+export { useParkingSpots, useParkingMutation, useParkingSpotById, useHistoryParkingSpots, useParkingImagesById }

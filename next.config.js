@@ -1,13 +1,13 @@
-const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin');
+const { PrismaPlugin } = require("@prisma/nextjs-monorepo-workaround-plugin")
 
 module.exports = {
     webpack: (config, { isServer }) => {
         if (isServer) {
-            config.plugins = [...config.plugins, new PrismaPlugin()];
+            config.plugins = [...config.plugins, new PrismaPlugin()]
         }
-        return config;
+        return config
     },
     images: {
-        domains: ['vjvpqjcvudsnzjezwnwn.supabase.co'], // Add your Supabase domain here
+        domains: ["vjvpqjcvudsnzjezwnwn.supabase.co"], // Add your Supabase domain here
     },
-};
+}

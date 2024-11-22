@@ -1,26 +1,26 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { createClient } from "@/utils/supabase/client"; // Adjust the path to your supabase client
+import { useState } from "react"
+import { createClient } from "@/utils/supabase/client" // Adjust the path to your supabase client
 
 export default function GoogleSignInButton() {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false)
 
     const signInWithGoogle = async () => {
-        const supabase = createClient();
+        const supabase = createClient()
         const { data, error } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
+            provider: "google",
             options: {
                 redirectTo: `${window.location.origin}/auth/callback`, // Redirect to your callback route
             },
-        });
+        })
 
         if (error) {
-            console.error('Error signing in:', error.message);
+            console.error("Error signing in:", error.message)
         } else if (data.url) {
-            window.location.href = data.url; // Redirect to the OAuth provider's login page
+            window.location.href = data.url // Redirect to the OAuth provider's login page
         }
-    };
+    }
 
     return (
         <button
@@ -60,5 +60,5 @@ export default function GoogleSignInButton() {
                 </>
             )}
         </button>
-    );
+    )
 }

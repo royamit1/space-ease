@@ -1,17 +1,17 @@
-import {useQuery} from "@tanstack/react-query";
-import {createClient} from "@/utils/supabase/client";
+import { useQuery } from "@tanstack/react-query"
+import { createClient } from "@/utils/supabase/client"
 
-async function getProfilePicture() : Promise<string | undefined> {
+async function getProfilePicture(): Promise<string | undefined> {
     const supabase = createClient()
-    const {data} = await supabase.auth.getSession();
+    const { data } = await supabase.auth.getSession()
     const session = data.session
-    return session?.user?.user_metadata.avatar_url;
+    return session?.user?.user_metadata.avatar_url
 }
 
 export const useProfilePicture = () => {
     const result = useQuery({
-        queryKey: ['profilePicture'],
-        queryFn: getProfilePicture
+        queryKey: ["profilePicture"],
+        queryFn: getProfilePicture,
     })
-    return result.data;
+    return result.data
 }

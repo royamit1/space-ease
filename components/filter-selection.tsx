@@ -1,30 +1,26 @@
-import React, { useState } from "react";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { DollarSignIcon } from "lucide-react";
-import { Toggle } from "@/components/ui/toggle";
-import { Separator } from "@/components/ui/separator";
+import React, { useState } from "react"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { DollarSignIcon } from "lucide-react"
+import { Toggle } from "@/components/ui/toggle"
+import { Separator } from "@/components/ui/separator"
 
 interface FilterSelectionProps {
-    onPriceChange: (priceRange: string | null) => void;
-    onMyParkingToggle: (isToggled: boolean) => void;
+    onPriceChange: (priceRange: string | null) => void
+    onMyParkingToggle: (isToggled: boolean) => void
 }
 
-const FilterSelection: React.FC<FilterSelectionProps> = ({
-    onPriceChange,
-    onMyParkingToggle,
-}) => {
-    const [myParkingToggled, setMyParkingToggled] = useState(false);
+const FilterSelection: React.FC<FilterSelectionProps> = ({ onPriceChange, onMyParkingToggle }) => {
+    const [myParkingToggled, setMyParkingToggled] = useState(false)
 
     const handlePriceToggle = (value: string | null | undefined) => {
-        onPriceChange(value || null); // Ensures `null` is passed instead of `undefined`
-    };
-    
+        onPriceChange(value || null) // Ensures `null` is passed instead of `undefined`
+    }
 
     const handleMyParkingToggle = () => {
-        const newToggleState = !myParkingToggled;
-        setMyParkingToggled(newToggleState);
-        onMyParkingToggle(newToggleState);
-    };
+        const newToggleState = !myParkingToggled
+        setMyParkingToggled(newToggleState)
+        onMyParkingToggle(newToggleState)
+    }
 
     return (
         <div className="w-full flex flex-row space-x-4 justify-center p-3 overflow-x-auto hide-scrollbar">
@@ -43,14 +39,11 @@ const FilterSelection: React.FC<FilterSelectionProps> = ({
                 </ToggleGroupItem>
             </ToggleGroup>
             <Separator orientation="vertical" className="mx-8" />
-            <Toggle
-                pressed={myParkingToggled}
-                onClick={handleMyParkingToggle}
-            >
+            <Toggle pressed={myParkingToggled} onClick={handleMyParkingToggle}>
                 <span>My Parkings</span>
             </Toggle>
         </div>
-    );
-};
+    )
+}
 
-export default FilterSelection;
+export default FilterSelection

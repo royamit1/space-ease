@@ -1,0 +1,30 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-toml
+      - id: check-yaml
+      - id: check-xml
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+        args: [ --fix=lf ]
+
+  - repo: local
+    hooks:
+      - id: eslint
+        name: ESLint
+        files: \.[jt]sx?$  # *.js, *.jsx, *.ts and *.tsx
+        language: system
+        entry: npx eslint --fix
+        pass_filenames: false
+      - id: prettier
+        name: Prettier
+        files: \.[jt]sx?$  # *.js, *.jsx, *.ts and *.tsx
+        language: system
+        entry: npx prettier --write
