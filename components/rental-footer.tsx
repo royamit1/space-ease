@@ -15,6 +15,7 @@ import {Button} from "@/components/ui/button";
 import {motion} from "framer-motion";
 import {Card} from "@/components/ui/card";
 import {Badge} from "@/components/ui/badge";
+import {ParkingSpotImages} from "@/components/parking-spot-images";
 
 export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent}) => {
     const footerStore = useFooterStore();
@@ -178,11 +179,7 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({activeRent})
 
                 {/* Right Side Placeholder */}
                 <div className="p-3">
-                    {/* Add your desired content for the right side here */}
-                    <Card className="relative p-4">
-                        <h4 className="font-semibold">Right Side Content</h4>
-                        <p>This is a placeholder for the right column content.</p>
-                    </Card>
+                    <ParkingSpotImages parkingSpotId={parkingSpot.id} />
                 </div>
             </div>
 
