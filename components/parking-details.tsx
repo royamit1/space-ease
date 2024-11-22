@@ -8,6 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { ParkingSpotImages, ParkingSpotImagesSkeleton } from "@/components/parking-spot-images"
 import { Skeleton } from "@/components/ui/skeleton"
 
+
 interface ParkingDetailsProps {
     parkingSpotId: number
 }
@@ -78,6 +79,7 @@ const LoadingSkeleton = () => (
 const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
     const { data: parkingSpot, error } = useParkingSpotById(parkingSpotId)
 
+
     const formatTime = (date: Date) => {
         return new Date(date).toLocaleTimeString([], {
             hour: "2-digit",
@@ -135,6 +137,7 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
                             <div className="relative p-6">
                                 <div className="flex items-center gap-3 mb-3">
                                     <Clock className="w-5 h-5 text-primary" />
+
                                     <h4 className="font-semibold">Available Hours</h4>
                                 </div>
                                 <p className="text-lg font-medium">
@@ -166,6 +169,7 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
                         <div className="relative p-6">
                             <div className="flex items-center gap-3 mb-4">
                                 <Info className="w-5 h-5 text-primary" />
+
                                 <h4 className="font-semibold">Spot Details</h4>
                             </div>
                             <div className="prose prose-sm max-w-none">
@@ -177,6 +181,7 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
                     </Card>
                 </motion.div>
                 <ParkingSpotImages parkingSpotId={parkingSpotId} />
+
             </motion.div>
         )
     }

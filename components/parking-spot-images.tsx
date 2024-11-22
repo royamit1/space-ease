@@ -18,6 +18,7 @@ export const ParkingSpotImagesSkeleton = () => {
             <div className="flex justify-between overflow-auto">
                 {Array.from({ length: 3 }).map(() => (
                     <Skeleton style={{ height: 120, width: 120 }} />
+
                 ))}
             </div>
         </div>

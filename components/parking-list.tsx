@@ -7,6 +7,7 @@ import { AlertCircle } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Skeleton } from "@/components/ui/skeleton"
 
+
 interface ParkingListProps {
     filters: ParkingSpotFilters
 }
@@ -36,6 +37,7 @@ export const ParkingList: React.FC<ParkingListProps> = ({ filters }) => {
                 </AlertDescription>
             </Alert>
         )
+
     }
     if (parkingSpots) {
         return (

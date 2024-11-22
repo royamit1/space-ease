@@ -46,6 +46,11 @@ export interface ParkingSpotFilters {
     userId?: string
 }
 
+export interface ParkingSpotFilters {
+    priceRange?: string;
+    userId?: string;
+}
+
 export const fetchAvailableParkingSpots = async (filters?: ParkingSpotFilters) => {
     try {
         // filter by available parking spots
