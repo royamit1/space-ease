@@ -1,8 +1,8 @@
 // google-maps.d.ts
-export {};
+export {}
 
 declare global {
     interface Window {
-        google: typeof google;
+        google: typeof google
     }
 }

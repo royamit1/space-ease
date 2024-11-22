@@ -1,40 +1,40 @@
-import React from "react";
-import {useParkingImagesById} from "@/hooks/useParkingSpots";
-import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
-import {AlertCircle} from "lucide-react";
-import Image from "next/image";
-import {Skeleton} from "@/components/ui/skeleton";
+import React from "react"
+import { useParkingImagesById } from "@/hooks/useParkingSpots"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { AlertCircle } from "lucide-react"
+import Image from "next/image"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface ParkingSpotImagesProps {
-    parkingSpotId: number;
+    parkingSpotId: number
 }
 
 export const ParkingSpotImagesSkeleton = () => {
     return (
         <div className="mt-4">
             <h4 className="mb-2">
-                <Skeleton className="w-48 h-6 max-w-full"/>
+                <Skeleton className="w-48 h-6 max-w-full" />
             </h4>
             <div className="flex justify-between overflow-auto">
-                {Array.from({length: 3}).map(() => (
-                    <Skeleton style={{height: 120, width: 120}} />
+                {Array.from({ length: 3 }).map(() => (
+                    <Skeleton style={{ height: 120, width: 120 }} />
                 ))}
             </div>
         </div>
     )
 }
 
-export const ParkingSpotImages: React.FC<ParkingSpotImagesProps> = ({parkingSpotId}) => {
-    const {data: images, error} = useParkingImagesById(parkingSpotId);
+export const ParkingSpotImages: React.FC<ParkingSpotImagesProps> = ({ parkingSpotId }) => {
+    const { data: images, error } = useParkingImagesById(parkingSpotId)
 
     if (error) {
-        return <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4"/>
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>
-                An error occurred while fetching images. Please try again later.
-            </AlertDescription>
-        </Alert>
+        return (
+            <Alert variant="destructive">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>An error occurred while fetching images. Please try again later.</AlertDescription>
+            </Alert>
+        )
     }
 
     if (images) {
@@ -64,4 +64,4 @@ export const ParkingSpotImages: React.FC<ParkingSpotImagesProps> = ({parkingSpot
     }
 
     return <ParkingSpotImagesSkeleton />
-};
+}

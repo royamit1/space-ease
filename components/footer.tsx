@@ -1,8 +1,8 @@
-'use client';
+"use client"
 
-import React, {useRef} from "react";
-import {motion, PanInfo} from "framer-motion";
-import {useFooterState} from "@/hooks/useFooterState";
+import React, { useRef } from "react"
+import { motion, PanInfo } from "framer-motion"
+import { useFooterState } from "@/hooks/useFooterState"
 
 const initialHeight = {
     collapsed: "auto",
@@ -10,23 +10,23 @@ const initialHeight = {
     full: "100vh",
 }
 
-export const Footer: React.FC<{ children: React.ReactNode }> = ({children}) => {
-    const [footerSize, setFooterState] = useFooterState((state) => state.size);
-    const constraintsRef = useRef(null);
+export const Footer: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [footerSize, setFooterState] = useFooterState((state) => state.size)
+    const constraintsRef = useRef(null)
 
     // Handle drag event and change state when drag ends
     const handleDragEnd = (_: any, info: PanInfo) => {
-        const yOffset = info.offset.y;
-        const isUp = yOffset < -50;
-        const isDown = yOffset > 50;
+        const yOffset = info.offset.y
+        const isUp = yOffset < -50
+        const isDown = yOffset > 50
 
         if (footerSize === "collapsed" && isUp) {
-            setFooterState({size: "open"});
+            setFooterState({ size: "open" })
         } else if (footerSize === "open") {
-            if (isUp) setFooterState({size: "full"});
-            else if (isDown) setFooterState({size: "collapsed"});
+            if (isUp) setFooterState({ size: "full" })
+            else if (isDown) setFooterState({ size: "collapsed" })
         } else if (footerSize === "full" && isDown) {
-            setFooterState({size: "collapsed"});
+            setFooterState({ size: "collapsed" })
         }
     }
 
@@ -36,20 +36,21 @@ export const Footer: React.FC<{ children: React.ReactNode }> = ({children}) => {
                 drag="y"
                 dragConstraints={constraintsRef}
                 onDragEnd={handleDragEnd}
-                transition={{type: 'spring', stiffness: 200, damping: 20}}
+                transition={{ type: "spring", stiffness: 200, damping: 20 }}
                 className="bg-background min-h-12 rounded-3xl overflow-hidden flex flex-col"
-                style={{maxHeight: "calc(100vh - 7rem)"}}
-                animate={{height: initialHeight[footerSize]}}
+                style={{ maxHeight: "calc(100vh - 7rem)" }}
+                animate={{ height: initialHeight[footerSize] }}
             >
-                <div
-                    className="h-1.5 p-0.5 w-24 md:w-48 xl:w-96 my-3 mx-auto rounded-full cursor-grab bg-gray-200 dark:bg-gray-700 flex-shrink-0"/>
+                <div className="h-1.5 p-0.5 w-24 md:w-48 xl:w-96 my-3 mx-auto rounded-full cursor-grab bg-gray-200 dark:bg-gray-700 flex-shrink-0" />
                 <div className="w-full flex-grow">
-                    <motion.div animate={{height: footerSize === "collapsed" ? "1px" : "100%"}}
-                                className="overflow-hidden w-full">
+                    <motion.div
+                        animate={{ height: footerSize === "collapsed" ? "1px" : "100%" }}
+                        className="overflow-hidden w-full"
+                    >
                         {children}
                     </motion.div>
                 </div>
             </motion.div>
         </div>
-    );
+    )
 }

@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { parkingFormSchema, ParkingFormSchema } from "@/schemas/parking-form-schema";
-import { useParkingMutation } from "@/hooks/useParkingSpots";
-import { Textarea } from "@/components/ui/textarea";
-import { CalendarIcon } from "@radix-ui/react-icons";
-import { DollarSignIcon, MapPinIcon } from "lucide-react";
-import { CreateParkingDialog } from "@/components/create-parking-dialog";
-import GradualSpacing from "@/components/ui/gradual-spacing";
-import { Separator } from "@/components/ui/separator";
-import ImageUpload from "./ui/image-upload";
+import React, { useEffect, useRef, useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { parkingFormSchema, ParkingFormSchema } from "@/schemas/parking-form-schema"
+import { useParkingMutation } from "@/hooks/useParkingSpots"
+import { Textarea } from "@/components/ui/textarea"
+import { CalendarIcon } from "@radix-ui/react-icons"
+import { DollarSignIcon, MapPinIcon } from "lucide-react"
+import { CreateParkingDialog } from "@/components/create-parking-dialog"
+import GradualSpacing from "@/components/ui/gradual-spacing"
+import { Separator } from "@/components/ui/separator"
+import ImageUpload from "./ui/image-upload"
 
 export const CreateParkingForm: React.FC = () => {
     const form = useForm<ParkingFormSchema>({
@@ -26,44 +26,44 @@ export const CreateParkingForm: React.FC = () => {
             description: "",
             address: "",
         },
-    });
+    })
 
-    const [step, setStep] = useState(1);
-    const addressInputRef = useRef<HTMLInputElement>(null);
-    const parkingMutation = useParkingMutation();
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [imageUrls, setImageUrls] = useState<string[]>([]);
+    const [step, setStep] = useState(1)
+    const addressInputRef = useRef<HTMLInputElement>(null)
+    const parkingMutation = useParkingMutation()
+    const [isDialogOpen, setIsDialogOpen] = useState(false)
+    const [imageUrls, setImageUrls] = useState<string[]>([])
 
     useEffect(() => {
         if (typeof window !== "undefined" && window.google) {
             const autocomplete = new window.google.maps.places.Autocomplete(
                 addressInputRef.current as HTMLInputElement,
-                { types: ["address"] }
-            );
+                { types: ["address"] },
+            )
 
             autocomplete.addListener("place_changed", () => {
-                const place = autocomplete.getPlace();
+                const place = autocomplete.getPlace()
                 if (place.geometry && place.geometry.location) {
-                    form.setValue("latitude", place.geometry.location.lat());
-                    form.setValue("longitude", place.geometry.location.lng());
+                    form.setValue("latitude", place.geometry.location.lat())
+                    form.setValue("longitude", place.geometry.location.lng())
                 }
-                form.setValue("address", place.formatted_address || "");
-            });
+                form.setValue("address", place.formatted_address || "")
+            })
         }
-    }, [form]);
+    }, [form])
 
     const handleImageUpload = (url: string) => {
-        setImageUrls((prev) => [...prev, url]);
-    };
+        setImageUrls((prev) => [...prev, url])
+    }
 
     const onSubmit = (data: ParkingFormSchema) => {
-        parkingMutation.mutate({ ...data, imageUrls });
-    };
+        parkingMutation.mutate({ ...data, imageUrls })
+    }
 
     const handleConfirm = () => {
-        setIsDialogOpen(false);
-        form.handleSubmit(onSubmit)();
-    };
+        setIsDialogOpen(false)
+        form.handleSubmit(onSubmit)()
+    }
 
     return (
         <Form {...form}>
@@ -147,13 +147,7 @@ export const CreateParkingForm: React.FC = () => {
                                 <FormControl>
                                     <div className="relative">
                                         <DollarSignIcon className="absolute left-2 top-1/2 transform -translate-y-1/2 text-primary" />
-                                        <Input
-                                            {...field}
-                                            type="number"
-                                            step="0.01"
-                                            min="0"
-                                            className="pl-10 py-2"
-                                        />
+                                        <Input {...field} type="number" step="0.01" min="0" className="pl-10 py-2" />
                                     </div>
                                 </FormControl>
                                 <FormMessage />
@@ -185,7 +179,12 @@ export const CreateParkingForm: React.FC = () => {
                             <ImageUpload onUpload={handleImageUpload} />
                             <div className="flex flex-wrap gap-4 mt-4">
                                 {imageUrls.map((url, index) => (
-                                    <img key={index} src={url} alt="Uploaded" className="w-32 h-32 object-cover rounded" />
+                                    <img
+                                        key={index}
+                                        src={url}
+                                        alt="Uploaded"
+                                        className="w-32 h-32 object-cover rounded"
+                                    />
                                 ))}
                             </div>
                         </div>
@@ -204,5 +203,5 @@ export const CreateParkingForm: React.FC = () => {
                 </div>
             </form>
         </Form>
-    );
-};
+    )
+}

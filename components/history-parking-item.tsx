@@ -1,19 +1,22 @@
-import React from "react";
-import {RentalHistory} from "@/prisma/generated/client";
-import {useFooterState} from "@/hooks/useFooterState";
-import {ChevronRightIcon, MapPinIcon} from "lucide-react";
-import {Button} from "@/components/ui/button";
+import React from "react"
+import { RentalHistory } from "@/prisma/generated/client"
+import { useFooterState } from "@/hooks/useFooterState"
+import { ChevronRightIcon, MapPinIcon } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 interface HistoryParkingSpotItemProps {
-    historyParkingSpot: RentalHistory;
+    historyParkingSpot: RentalHistory
 }
 
-export const HistoryParkingSpotItem: React.FC<HistoryParkingSpotItemProps> = ({historyParkingSpot}) => {
-    const [_, setFooterState] = useFooterState(state => null);
+export const HistoryParkingSpotItem: React.FC<HistoryParkingSpotItemProps> = ({ historyParkingSpot }) => {
+    const [_, setFooterState] = useFooterState((state) => null)
 
     const handleItemClick = () => {
-        setFooterState({mode: {mode: "detail", id: historyParkingSpot.id}, size: "open"})
-    };
+        setFooterState({
+            mode: { mode: "detail", id: historyParkingSpot.id },
+            size: "open",
+        })
+    }
 
     return (
         <li
@@ -52,5 +55,5 @@ export const HistoryParkingSpotItem: React.FC<HistoryParkingSpotItemProps> = ({h
             {/* Ripple Effect */}
             <span className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-transparent opacity-0 group-hover:opacity-100 rounded-lg transition-opacity duration-500" />
         </li>
-    );
-};
+    )
+}
