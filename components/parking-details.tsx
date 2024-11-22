@@ -5,11 +5,77 @@ import {Card} from "@/components/ui/card";
 import {Badge} from "@/components/ui/badge";
 import {useParkingSpotById} from "@/hooks/useParkingSpots";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
-import {ParkingSpotImages} from "@/components/parking-spot-images";
+import {ParkingSpotImages, ParkingSpotImagesSkeleton} from "@/components/parking-spot-images";
+import {Skeleton} from "@/components/ui/skeleton";
 
 interface ParkingDetailsProps {
     parkingSpotId: number
 }
+
+
+const LoadingSkeleton = () => (
+    <>
+        <div className="max-w-2xl mx-auto p-6">
+            <div className="flex-shrink-0 mb-4">
+                <div className="flex items-center gap-3 mb-2">
+                    <Skeleton className="w-8 h-8"/>
+                    <h3>
+                        <Skeleton className="w-96 h-6"/>
+                    </h3>
+                </div>
+                <div className="inline-flex items-center px-2.5 py-0.5 mt-2">
+                    <Skeleton className="w-24 h-4 "/>
+                </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div className="border rounded-lg">
+                    <div className="relative p-6">
+                        <div className="flex items-center gap-3 mb-3">
+                            <Skeleton className="w-6 h-6"/>
+                            <h4>
+                                <Skeleton className="w-24 h-4 max-w-full"/>
+                            </h4>
+                        </div>
+                        <p>
+                            <Skeleton className="w-48 h-4 max-w-full"/>
+                        </p>
+                    </div>
+                </div>
+                <div className="border rounded-lg">
+                    <div className="relative p-6">
+                        <div className="flex items-center gap-3 mb-3">
+                            <Skeleton className="w-6 h-6"/>
+                            <h4>
+                                <Skeleton className="w-24 h-4 max-w-full"/>
+                            </h4>
+                        </div>
+                        <p>
+                            <Skeleton className="w-48 h-4 max-w-full"/>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div className="border shadow-sm relative">
+                <div className="border rounded-lg">
+                    <div className="relative p-6">
+                        <div className="flex items-center gap-3 mb-3">
+                            <Skeleton className="w-6 h-6"/>
+                            <h4>
+                                <Skeleton className="w-32 h-4 max-w-full"/>
+                            </h4>
+                        </div>
+                        <p>
+                            <Skeleton className="w-96 h-4 max-w-full mb-2"/>
+                            <Skeleton className="w-48 h-4 max-w-full"/>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <ParkingSpotImagesSkeleton />
+        </div>
+    </>
+);
+
 
 const ParkingDetails: React.FC<ParkingDetailsProps> = ({parkingSpotId}) => {
     const {data: parkingSpot, error} = useParkingSpotById(parkingSpotId);
@@ -129,7 +195,7 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({parkingSpotId}) => {
     }
 
     return (
-        <div>Loading...</div>
+        <LoadingSkeleton/>
     )
 };
 
