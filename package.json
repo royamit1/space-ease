@@ -6,8 +6,7 @@
         "start": "next start",
         "vercel-build": "prisma generate && prisma migrate deploy && next build",
         "migrate": "prisma migrate deploy ",
-        "create-migrations": "prisma migrate dev && prisma generate",
-        "prepare": "husky install"
+        "create-migrations": "prisma migrate dev && prisma generate"
     },
     "dependencies": {
         "@hookform/resolvers": "^3.9.0",
