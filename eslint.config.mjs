@@ -21,6 +21,7 @@ export default [
     rules: {
       ...pluginNext.configs.recommended.rules,
       ...pluginNext.configs['core-web-vitals'].rules,
+      "@next/next/no-assign-module-variable": "off",
     },
   },
 ];

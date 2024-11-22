@@ -7,7 +7,6 @@ import { AlertCircle } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Skeleton } from "@/components/ui/skeleton"
 
-
 interface ParkingListProps {
     filters: ParkingSpotFilters
 }
@@ -37,7 +36,6 @@ export const ParkingList: React.FC<ParkingListProps> = ({ filters }) => {
                 </AlertDescription>
             </Alert>
         )
-
     }
     if (parkingSpots) {
         return (
@@ -51,8 +49,8 @@ export const ParkingList: React.FC<ParkingListProps> = ({ filters }) => {
 
     return (
         <ul className="flex flex-col w-full overflow-y-hidden my-2">
-            {Array.from({ length: 4 }).map(() => (
-                <LoadingSkeleton />
+            {Array.from({ length: 4 }).map((_, index) => (
+                <LoadingSkeleton key={index} /> // Add a key here
             ))}
         </ul>
     )
