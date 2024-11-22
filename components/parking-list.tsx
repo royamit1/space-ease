@@ -5,12 +5,26 @@ import {useParkingSpots} from "@/hooks/useParkingSpots";
 import {ParkingSpotFilters} from "@/app/actions";
 import {AlertCircle} from "lucide-react";
 import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
+import {Skeleton} from "@/components/ui/skeleton";
 
 interface ParkingListProps {
     filters: ParkingSpotFilters
 }
 
-export const ParkingList: React.FC<ParkingListProps> = ({ filters }) => {
+
+const LoadingSkeleton = () => (
+    <>
+        <li className="h-24 flex items-center mx-7 my-2">
+            <Skeleton className="flex-shrink-0 rounded-lg p-3 h-12 w-12"/>
+            <div className="flex flex-col flex-grow space-y-2 pl-4">
+                <Skeleton className="w-96 h-6"/>
+                <Skeleton className="w-48 h-4"/>
+            </div>
+        </li>
+    </>
+);
+
+export const ParkingList: React.FC<ParkingListProps> = ({filters}) => {
     const {data: parkingSpots, error} = useParkingSpots(filters);
 
     if (error) {
@@ -24,7 +38,7 @@ export const ParkingList: React.FC<ParkingListProps> = ({ filters }) => {
     }
     if (parkingSpots) {
         return (
-            <ul className="flex-grow flex flex-col w-full p-4 overflow-y-auto space-y-3">
+            <ul className="flex flex-col w-full p-4 overflow-y-auto space-y-3">
                 {parkingSpots.map((spot) => (
                     <ParkingSpotItem
                         key={spot.id}
@@ -35,8 +49,9 @@ export const ParkingList: React.FC<ParkingListProps> = ({ filters }) => {
         )
     }
 
-    return <div className="flex items-center justify-center h-full">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-600"></div>
-        <span className="ml-2 text-gray-600 font-medium">Loading, please wait...</span>
-    </div>
+    return <ul className="flex flex-col w-full overflow-y-hidden my-2">
+        {Array.from({ length: 4 }).map(() => (
+            <LoadingSkeleton />
+        ))}
+    </ul>
 };
