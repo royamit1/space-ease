@@ -13,6 +13,7 @@ import { CreateParkingDialog } from "@/components/create-parking-dialog"
 import GradualSpacing from "@/components/ui/gradual-spacing"
 import { Separator } from "@/components/ui/separator"
 import ImageUpload from "./ui/image-upload"
+import Image from "next/image"
 
 export const CreateParkingForm: React.FC = () => {
     const form = useForm<ParkingFormSchema>({
@@ -179,7 +180,7 @@ export const CreateParkingForm: React.FC = () => {
                             <ImageUpload onUpload={handleImageUpload} />
                             <div className="flex flex-wrap gap-4 mt-4">
                                 {imageUrls.map((url, index) => (
-                                    <img
+                                    <Image
                                         key={index}
                                         src={url}
                                         alt="Uploaded"
