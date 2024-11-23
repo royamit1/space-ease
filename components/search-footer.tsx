@@ -1,29 +1,43 @@
 "use client"
 
 import { ParkingList } from "@/components/parking-list"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import FilterSelection from "@/components/filter-selection"
-import { useParkingSpots } from "@/hooks/useParkingSpots"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { AlertCircle } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { ParkingSpotFilters } from "@/utils/types"
 import { fetchUser } from "@/app/actions"
-import { useEffect } from "react"
+
+const LOCATION_STORAGE_KEY = "userLocation"
 
 export const SearchFooter: React.FC = () => {
     const [selectedFilters, setSelectedFilters] = useState<ParkingSpotFilters>({})
 
     useEffect(() => {
+        // Check if location exists in localStorage
+        const savedLocation = localStorage.getItem(LOCATION_STORAGE_KEY)
+        if (savedLocation) {
+            const { latitude, longitude } = JSON.parse(savedLocation)
+            setSelectedFilters((prev) => ({
+                ...prev,
+                latitude,
+                longitude,
+            }))
+            return // Skip fetching if we already have a saved location
+        }
+
+        // Fetch location if not saved
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    console.log("got current position: \n", position)
+                    const { latitude, longitude } = position.coords
                     setSelectedFilters((prev) => ({
                         ...prev,
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
+                        latitude,
+                        longitude,
                     }))
+
+                    // Save location in localStorage
+                    localStorage.setItem(LOCATION_STORAGE_KEY, JSON.stringify({ latitude, longitude }))
                 },
                 (error) => {
                     console.error("Error fetching user location:", error.message)

@@ -38,15 +38,22 @@ export const ParkingList: React.FC<ParkingListProps> = ({ filters }) => {
             </Alert>
         )
     }
+
     if (parkingSpots) {
         const { latitude, longitude, maxDistance } = filters
-        const filteredSpots =
-            latitude && longitude && maxDistance
-                ? parkingSpots.filter((spot) => {
-                      const distance = calculateDistance(latitude, longitude, spot.latitude, spot.longitude)
-                      return distance <= maxDistance
-                  })
-                : parkingSpots
+
+        // Add calculated distance to each spot
+        const enrichedSpots =
+            latitude && longitude
+                ? parkingSpots.map((spot) => ({
+                      ...spot,
+                      distance: calculateDistance(latitude, longitude, spot.latitude, spot.longitude),
+                  }))
+                : parkingSpots.map((spot) => ({ ...spot, distance: null })) // Set distance to null if user's location is unavailable
+
+        const filteredSpots = maxDistance
+            ? enrichedSpots.filter((spot) => spot.distance !== null && spot.distance <= maxDistance)
+            : enrichedSpots
 
         return (
             <ul className="flex flex-col w-full p-4 overflow-y-auto space-y-3">

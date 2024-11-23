@@ -5,3 +5,8 @@ export interface ParkingSpotFilters {
     longitude?: number
     maxDistance?: number
 }
+
+export interface Location {
+    latitude?: number
+    longitude?: number
+}
