@@ -7,9 +7,10 @@ import { Separator } from "@/components/ui/separator"
 interface FilterSelectionProps {
     onPriceChange: (priceRange: string | null) => void
     onMyParkingToggle: (isToggled: boolean) => void
+    onDistanceChange: (maxDistance: number | null) => void
 }
 
-const FilterSelection: React.FC<FilterSelectionProps> = ({ onPriceChange, onMyParkingToggle }) => {
+const FilterSelection: React.FC<FilterSelectionProps> = ({ onPriceChange, onMyParkingToggle, onDistanceChange }) => {
     const [myParkingToggled, setMyParkingToggled] = useState(false)
 
     const handlePriceToggle = (value: string | null | undefined) => {
@@ -42,6 +43,19 @@ const FilterSelection: React.FC<FilterSelectionProps> = ({ onPriceChange, onMyPa
             <Toggle pressed={myParkingToggled} onClick={handleMyParkingToggle}>
                 <span>My Parkings</span>
             </Toggle>
+            <Separator orientation="vertical" className="mx-8" />
+            <div className="flex flex-col space-y-2">
+                <select
+                    id="distance"
+                    onChange={(e) => onDistanceChange(Number(e.target.value))}
+                    className="border p-2 rounded"
+                >
+                    <option value="0">None</option>
+                    <option value="1">1 km</option>
+                    <option value="5">5 km</option>
+                    <option value="10">10 km</option>
+                </select>
+            </div>
         </div>
     )
 }

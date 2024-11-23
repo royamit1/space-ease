@@ -7,10 +7,32 @@ import { useParkingSpots } from "@/hooks/useParkingSpots"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
-import { fetchUser, ParkingSpotFilters } from "@/app/actions"
+import { ParkingSpotFilters } from "@/utils/types"
+import { fetchUser } from "@/app/actions"
+import { useEffect } from "react"
 
 export const SearchFooter: React.FC = () => {
     const [selectedFilters, setSelectedFilters] = useState<ParkingSpotFilters>({})
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    console.log("got current position: \n", position)
+                    setSelectedFilters((prev) => ({
+                        ...prev,
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                    }))
+                },
+                (error) => {
+                    console.error("Error fetching user location:", error.message)
+                },
+            )
+        } else {
+            console.warn("Geolocation is not supported by this browser.")
+        }
+    }, [])
 
     const handlePriceFilterChange = (priceRange: string | null) => {
         setSelectedFilters((prev) => ({
@@ -28,9 +50,22 @@ export const SearchFooter: React.FC = () => {
         }))
     }
 
+    const handleDistanceFilterChange = (distance: number | null) => {
+        if (distance) {
+            setSelectedFilters((prev) => ({
+                ...prev,
+                maxDistance: distance,
+            }))
+        }
+    }
+
     return (
         <div className="w-full h-full">
-            <FilterSelection onPriceChange={handlePriceFilterChange} onMyParkingToggle={handleMyParkingToggle} />
+            <FilterSelection
+                onPriceChange={handlePriceFilterChange}
+                onMyParkingToggle={handleMyParkingToggle}
+                onDistanceChange={handleDistanceFilterChange}
+            />
             <Separator />
             <ParkingList filters={selectedFilters} />
         </div>

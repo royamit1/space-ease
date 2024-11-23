@@ -4,6 +4,7 @@ import { ParkingFormSchema } from "@/schemas/parking-form-schema"
 import { createClient } from "@/utils/supabase/server"
 import { ActiveRent, ParkingSpot, RentalHistory } from "@/prisma/generated/client"
 import { calculateTotalCost } from "@/lib/rent"
+import { ParkingSpotFilters } from "@/utils/types"
 
 export const createParkingSpot = async (parkingFormData: ParkingFormSchema & { imageUrls: string[] }) => {
     const supabase = createClient()
@@ -39,16 +40,6 @@ export const createParkingSpot = async (parkingFormData: ParkingFormSchema & { i
         console.error("Error creating parking spot:", err)
         throw new Error("Failed to create parking spot")
     }
-}
-
-export interface ParkingSpotFilters {
-    priceRange?: string
-    userId?: string
-}
-
-export interface ParkingSpotFilters {
-    priceRange?: string;
-    userId?: string;
 }
 
 export const fetchAvailableParkingSpots = async (filters?: ParkingSpotFilters) => {
