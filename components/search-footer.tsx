@@ -51,12 +51,10 @@ export const SearchFooter: React.FC = () => {
     }
 
     const handleDistanceFilterChange = (distance: number | null) => {
-        if (distance) {
-            setSelectedFilters((prev) => ({
-                ...prev,
-                maxDistance: distance,
-            }))
-        }
+        setSelectedFilters((prev) => ({
+            ...prev,
+            maxDistance: distance || undefined,
+        }))
     }
 
     return (
