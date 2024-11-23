@@ -7,10 +7,12 @@ import { useParkingSpotById } from "@/hooks/useParkingSpots"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { ParkingSpotImages, ParkingSpotImagesSkeleton } from "@/components/parking-spot-images"
 import { Skeleton } from "@/components/ui/skeleton"
-
+import { Location } from "@/utils/types"
+import { calculateDistance } from "@/utils/utils"
 
 interface ParkingDetailsProps {
     parkingSpotId: number
+    userLocation: Location | null
 }
 
 const LoadingSkeleton = () => (
@@ -76,9 +78,8 @@ const LoadingSkeleton = () => (
     </>
 )
 
-const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
+const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId, userLocation }) => {
     const { data: parkingSpot, error } = useParkingSpotById(parkingSpotId)
-
 
     const formatTime = (date: Date) => {
         return new Date(date).toLocaleTimeString([], {
@@ -115,6 +116,16 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
     }
 
     if (parkingSpot) {
+        // Calculate the distance if userLocation is available
+        const distance =
+            userLocation?.latitude && userLocation?.longitude
+                ? calculateDistance(
+                      userLocation.latitude,
+                      userLocation.longitude,
+                      parkingSpot.latitude,
+                      parkingSpot.longitude,
+                  )
+                : null
         return (
             <motion.div initial="hidden" animate="show" variants={container} className="max-w-2xl mx-auto p-6">
                 {/* Header Section */}
@@ -125,6 +136,9 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
                     </div>
                     <Badge variant="secondary" className="mt-2">
                         Available Now
+                    </Badge>
+                    <Badge variant="secondary" className="mt-2">
+                        {distance !== null ? `${distance.toFixed(2)} km` : "..."}
                     </Badge>
                 </motion.div>
 
@@ -181,7 +195,6 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
                     </Card>
                 </motion.div>
                 <ParkingSpotImages parkingSpotId={parkingSpotId} />
-
             </motion.div>
         )
     }

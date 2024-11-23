@@ -5,7 +5,7 @@ import { ChevronRightIcon, MapPinIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface ParkingSpotItemProps {
-    spot: ParkingSpot
+    spot: ParkingSpot & { distance?: number | null } // Include the optional distance property
 }
 
 export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({ spot }) => {
@@ -46,6 +46,10 @@ export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({ spot }) => {
                         })}
                     </span>
                 </div>
+                {/* Display distance */}
+                {spot.distance && (
+                    <span className="text-xs text-muted-foreground mt-1">{spot.distance.toFixed(2)} km away</span>
+                )}
             </div>
 
             {/* Action Button */}

@@ -2,10 +2,11 @@
 import React from "react"
 import { ParkingSpotItem } from "@/components/parking-item"
 import { useParkingSpots } from "@/hooks/useParkingSpots"
-import { ParkingSpotFilters } from "@/app/actions"
+import { ParkingSpotFilters } from "@/utils/types"
 import { AlertCircle } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Skeleton } from "@/components/ui/skeleton"
+import { calculateDistance } from "@/utils/utils"
 
 interface ParkingListProps {
     filters: ParkingSpotFilters
@@ -37,10 +38,26 @@ export const ParkingList: React.FC<ParkingListProps> = ({ filters }) => {
             </Alert>
         )
     }
+
     if (parkingSpots) {
+        const { latitude, longitude, maxDistance } = filters
+
+        // Add calculated distance to each spot
+        const enrichedSpots =
+            latitude && longitude
+                ? parkingSpots.map((spot) => ({
+                      ...spot,
+                      distance: calculateDistance(latitude, longitude, spot.latitude, spot.longitude),
+                  }))
+                : parkingSpots.map((spot) => ({ ...spot, distance: null })) // Set distance to null if user's location is unavailable
+
+        const filteredSpots = maxDistance
+            ? enrichedSpots.filter((spot) => spot.distance !== null && spot.distance <= maxDistance)
+            : enrichedSpots
+
         return (
             <ul className="flex flex-col w-full p-4 overflow-y-auto space-y-3">
-                {parkingSpots.map((spot) => (
+                {filteredSpots.map((spot) => (
                     <ParkingSpotItem key={spot.id} spot={spot} />
                 ))}
             </ul>
