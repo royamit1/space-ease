@@ -8,77 +8,77 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { ParkingSpotImages, ParkingSpotImagesSkeleton } from "@/components/parking-spot-images"
 import { Skeleton } from "@/components/ui/skeleton"
 
-
 interface ParkingDetailsProps {
     parkingSpotId: number
 }
 
 const LoadingSkeleton = () => (
-    <>
-        <div className="max-w-2xl mx-auto p-6">
-            <div className="flex-shrink-0 mb-4">
+    <div className="w-full h-full shadow-lg flex flex-col">
+        <div className="max-w-2xl md:max-w-4xl lg:max-w-6xl xl:max-w-full">
+            <div className="flex-shrink-0 mb-4 ps-4">
                 <div className="flex items-center gap-3 mb-2">
-                    <Skeleton className="w-8 h-8" />
+                    <Skeleton className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8" />
                     <h3>
-                        <Skeleton className="w-96 h-6" />
+                        <Skeleton className="w-48 h-4 sm:w-64 sm:h-5 lg:w-96 lg:h-6" />
                     </h3>
                 </div>
                 <div className="inline-flex items-center px-2.5 py-0.5 mt-2">
-                    <Skeleton className="w-24 h-4 " />
+                    <Skeleton className="w-16 h-4 sm:w-24 lg:w-32" />
                 </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                <div className="border rounded-lg">
-                    <div className="relative p-6">
-                        <div className="flex items-center gap-3 mb-3">
-                            <Skeleton className="w-6 h-6" />
-                            <h4>
-                                <Skeleton className="w-24 h-4 max-w-full" />
-                            </h4>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3 p-3 mb-4">
+                <div className="sm:col-span-1 md:col-span-2">
+                    <div className="border rounded-lg">
+                        <div className="relative p-4 sm:p-5 lg:p-6">
+                            <div className="flex items-center gap-3 mb-3">
+                                <Skeleton className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-primary" />
+                                <h4>
+                                    <Skeleton className="w-24 h-4 sm:w-32 lg:w-40" />
+                                </h4>
+                            </div>
+                            <div>
+                                <Skeleton className="w-36 h-4 sm:w-48 lg:w-64" />
+                            </div>
                         </div>
-                        <p>
-                            <Skeleton className="w-48 h-4 max-w-full" />
-                        </p>
+                    </div>
+                    <div className="border rounded-lg">
+                        <div className="relative p-5">
+                            <div className="flex items-center gap-3 mb-3">
+                                <Skeleton className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-primary" />
+                                <h4>
+                                    <Skeleton className="w-24 h-4 sm:w-32 lg:w-40" />
+                                </h4>
+                            </div>
+                            <div>
+                                <Skeleton className="w-36 h-4 sm:w-48 lg:w-64" />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="border rounded-lg">
+                        <div className="relative p-4 sm:p-5 lg:p-6">
+                            <div className="flex items-center gap-3 mb-3">
+                                <Skeleton className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
+                                <h4>
+                                    <Skeleton className="w-48 h-4 sm:w-32 lg:w-64" />
+                                </h4>
+                            </div>
+                            <div>
+                                <Skeleton className="w-36 h-4 sm:w-48 lg:w-64 mb-2" />
+                                <Skeleton className="w-24 h-4 sm:w-36 lg:w-48" />
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className="border rounded-lg">
-                    <div className="relative p-6">
-                        <div className="flex items-center gap-3 mb-3">
-                            <Skeleton className="w-6 h-6" />
-                            <h4>
-                                <Skeleton className="w-24 h-4 max-w-full" />
-                            </h4>
-                        </div>
-                        <p>
-                            <Skeleton className="w-48 h-4 max-w-full" />
-                        </p>
-                    </div>
+                <div className="sm:col-span-1 md:col-span-1">
+                    <ParkingSpotImagesSkeleton />
                 </div>
             </div>
-            <div className="border shadow-sm relative">
-                <div className="border rounded-lg">
-                    <div className="relative p-6">
-                        <div className="flex items-center gap-3 mb-3">
-                            <Skeleton className="w-6 h-6" />
-                            <h4>
-                                <Skeleton className="w-32 h-4 max-w-full" />
-                            </h4>
-                        </div>
-                        <p>
-                            <Skeleton className="w-96 h-4 max-w-full mb-2" />
-                            <Skeleton className="w-48 h-4 max-w-full" />
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <ParkingSpotImagesSkeleton />
         </div>
-    </>
+    </div>
 )
 
 const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
     const { data: parkingSpot, error } = useParkingSpotById(parkingSpotId)
-
 
     const formatTime = (date: Date) => {
         return new Date(date).toLocaleTimeString([], {
@@ -116,76 +116,89 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
 
     if (parkingSpot) {
         return (
-            <motion.div initial="hidden" animate="show" variants={container} className="max-w-2xl mx-auto p-6">
-                {/* Header Section */}
-                <motion.div variants={item} className="flex-shrink-0 mb-4">
-                    <div className="flex items-center gap-3 mb-2">
-                        <MapPin className="w-6 h-6 text-primary" />
-                        <h3 className="text-2xl font-bold tracking-tight">{parkingSpot.address}</h3>
-                    </div>
-                    <Badge variant="secondary" className="mt-2">
-                        Available Now
-                    </Badge>
-                </motion.div>
-
-                {/* Two-column Grid for Parking Spot Details */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                    {/* Left Column: Available Hours */}
-                    <motion.div variants={item}>
-                        <Card className="relative overflow-hidden group">
-                            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent group-hover:opacity-75 transition-opacity" />
-                            <div className="relative p-6">
-                                <div className="flex items-center gap-3 mb-3">
-                                    <Clock className="w-5 h-5 text-primary" />
-
-                                    <h4 className="font-semibold">Available Hours</h4>
-                                </div>
-                                <p className="text-lg font-medium">
-                                    {formatTime(parkingSpot.startTime)} - {formatTime(parkingSpot.endTime)}
-                                </p>
-                            </div>
-                        </Card>
-                    </motion.div>
-
-                    {/* Right Column: Hourly Rate */}
-                    <motion.div variants={item}>
-                        <Card className="relative overflow-hidden group">
-                            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent group-hover:opacity-75 transition-opacity" />
-                            <div className="relative p-6">
-                                <div className="flex items-center gap-3 mb-3">
-                                    <DollarSign className="w-5 h-5 text-primary" />
-                                    <h4 className="font-semibold">Hourly Rate</h4>
-                                </div>
-                                <p className="text-lg font-medium">${parkingSpot.hourlyRate.toFixed(2)}/hour</p>
-                            </div>
-                        </Card>
-                    </motion.div>
-                </div>
-
-                {/* Full-width Spot Details Section */}
-                <motion.div variants={item}>
-                    <Card className="relative overflow-hidden group">
-                        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent group-hover:opacity-75 transition-opacity" />
-                        <div className="relative p-6">
-                            <div className="flex items-center gap-3 mb-4">
-                                <Info className="w-5 h-5 text-primary" />
-
-                                <h4 className="font-semibold">Spot Details</h4>
-                            </div>
-                            <div className="prose prose-sm max-w-none">
-                                <p className="text-muted-foreground leading-relaxed">
-                                    {parkingSpot.description || "No description provided."}
-                                </p>
-                            </div>
+            <div className="w-full h-full shadow-lg flex flex-col">
+                <motion.div
+                    initial="hidden"
+                    animate="show"
+                    variants={container}
+                    className="max-w-2xl md:max-w-4xl lg:max-w-6xl xl:max-w-full"
+                >
+                    <motion.div variants={item} className="flex-shrink-0 mb-4 px-4">
+                        <div className="flex items-center gap-3 mb-2">
+                            <MapPin className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-primary" />
+                            <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight">
+                                {parkingSpot.address}
+                            </h3>
                         </div>
-                    </Card>
+                        <Badge variant="secondary" className="mt-2 text-sm sm:text-sm lg:text-lg">
+                            Available Now
+                        </Badge>
+                    </motion.div>
+                    <div className="grid sm:grid-cols-2 md:grid-cols-3 ">
+                        <div className="sm:col-span-1 md:col-span-2">
+                            <motion.div initial="hidden" animate="show" variants={container} className="p-3 space-y-2">
+                                <motion.div variants={item}>
+                                    <Card className="relative overflow-hidden group">
+                                        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent group-hover:opacity-75 transition-opacity" />
+                                        <div className="relative p-4 sm:p-5 lg:p-6">
+                                            <div className="flex items-center gap-3 mb-3">
+                                                <Clock className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
+                                                <h4 className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl">
+                                                    Available Hours
+                                                </h4>
+                                            </div>
+                                            <p className="text-sm sm:text-base lg:text-lg font-medium">
+                                                {formatTime(parkingSpot.startTime)} - {formatTime(parkingSpot.endTime)}
+                                            </p>
+                                        </div>
+                                    </Card>
+                                </motion.div>
+                                <div className="grid grid-cols-1 gap-2 md:grid-cols-1">
+                                    <motion.div variants={item}>
+                                        <Card className="relative overflow-hidden group">
+                                            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent group-hover:opacity-75 transition-opacity" />
+                                            <div className="relative p-4 sm:p-5 lg:p-6">
+                                                <div className="flex items-center gap-3 mb-3">
+                                                    <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
+                                                    <h4 className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl">
+                                                        Hourly Rate
+                                                    </h4>
+                                                </div>
+                                                <p className="text-sm sm:text-base lg:text-lg font-medium">
+                                                    ${parkingSpot.hourlyRate.toFixed(2)}/hour
+                                                </p>
+                                            </div>
+                                        </Card>
+                                    </motion.div>
+                                    <motion.div variants={item}>
+                                        <Card className="relative overflow-hidden group">
+                                            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent group-hover:opacity-75 transition-opacity" />
+                                            <div className="relative p-4 sm:p-5 lg:p-6">
+                                                <div className="flex items-center gap-3 mb-3">
+                                                    <Info className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
+                                                    <h4 className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl">
+                                                        Spot Details
+                                                    </h4>
+                                                </div>
+                                                <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none">
+                                                    <p className="text-muted-foreground leading-relaxed">
+                                                        {parkingSpot.description || "No description provided."}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </Card>
+                                    </motion.div>
+                                </div>
+                            </motion.div>
+                        </div>
+                        <div className="p-3 sm:col-span-1 md:col-span-1">
+                            <ParkingSpotImages parkingSpotId={parkingSpot.id} />
+                        </div>
+                    </div>
                 </motion.div>
-                <ParkingSpotImages parkingSpotId={parkingSpotId} />
-
-            </motion.div>
+            </div>
         )
     }
-
     return <LoadingSkeleton />
 }
 

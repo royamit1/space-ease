@@ -23,7 +23,7 @@ export const CreateParkingForm: React.FC = () => {
             latitude: 0,
             availableFrom: new Date().toISOString(),
             availableUntil: new Date().toISOString(),
-            price: 10,
+            price: undefined,
             description: "",
             address: "",
         },
@@ -68,68 +68,56 @@ export const CreateParkingForm: React.FC = () => {
 
     return (
         <Form {...form}>
-            <form>
-                <div className="p-3">
-                    <GradualSpacing
-                        className="text-lg font-bold -tracking-widest text-black dark:text-white md:text-2xl"
-                        text="Create A Parking Spot"
-                        delayMultiple={0.03}
-                    />
+            <form className="flex flex-col h-screen">
+                {/* Fixed Header */}
+                <div className="p-6 shadow-md">
+                    <h1 className="text-xl sm:text-2xl font-bold text-center tracking-wide">Create A Parking Spot</h1>
                 </div>
 
-                <Separator />
+                <Separator className="my-4" />
 
-                <div className="flex flex-col w-full space-y-3 ps-8 pe-8 pt-5 shadow-md bg-background">
-                    {/* Address Field */}
-                    <FormField
-                        control={form.control}
-                        name="address"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Address</FormLabel>
-                                <FormControl>
-                                    <div className="relative">
-                                        <MapPinIcon className="absolute left-2 top-1/2 transform -translate-y-1/2 text-primary" />
-                                        <Input
-                                            {...field}
-                                            ref={addressInputRef}
-                                            placeholder="Search for an address"
-                                            className="pl-10 py-2"
-                                        />
-                                    </div>
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
-
-                    {/* Available From and Until */}
-                    <div className="grid grid-cols-2 gap-4">
+                {/* Scrollable Form Content */}
+                <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                    {/* First Row */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <FormField
                             control={form.control}
-                            name="availableFrom"
+                            name="address"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Available From</FormLabel>
+                                    <FormLabel>Address</FormLabel>
                                     <FormControl>
                                         <div className="relative">
-                                            <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary" />
-                                            <Input {...field} className="pl-10 py-2" />
+                                            <MapPinIcon className="absolute left-3 top-1/2 transform -translate-y-1/2" />
+                                            <Input
+                                                {...field}
+                                                ref={addressInputRef}
+                                                placeholder="Search for an address"
+                                                className="pl-10 py-2 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+                                            />
                                         </div>
                                     </FormControl>
-                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
+
                         <FormField
                             control={form.control}
-                            name="availableUntil"
+                            name="price"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Available Until</FormLabel>
+                                    <FormLabel>Price (per hour)</FormLabel>
                                     <FormControl>
                                         <div className="relative">
-                                            <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary" />
-                                            <Input {...field} className="pl-10 py-2" />
+                                            <DollarSignIcon className="absolute left-3 top-1/2 transform -translate-y-1/2" />
+                                            <Input
+                                                {...field}
+                                                type="number"
+                                                step="0.01"
+                                                min="0"
+                                                placeholder="Enter price per hour"
+                                                className="pl-10 py-2 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+                                            />
                                         </div>
                                     </FormControl>
                                     <FormMessage />
@@ -138,26 +126,53 @@ export const CreateParkingForm: React.FC = () => {
                         />
                     </div>
 
-                    {/* Price Field */}
-                    <FormField
-                        control={form.control}
-                        name="price"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Price (per hour)</FormLabel>
-                                <FormControl>
-                                    <div className="relative">
-                                        <DollarSignIcon className="absolute left-2 top-1/2 transform -translate-y-1/2 text-primary" />
-                                        <Input {...field} type="number" step="0.01" min="0" className="pl-10 py-2" />
-                                    </div>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                    {/* Second Row */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <FormField
+                            control={form.control}
+                            name="availableFrom"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Available From</FormLabel>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2" />
+                                            <Input
+                                                {...field}
+                                                type="datetime-local"
+                                                className="pl-10 py-2 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+                                            />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-                    {/* Description and Image Upload */}
-                    <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                            control={form.control}
+                            name="availableUntil"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Available Until</FormLabel>
+                                    <FormControl>
+                                        <div className="relative">
+                                            <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2" />
+                                            <Input
+                                                {...field}
+                                                type="datetime-local"
+                                                className="pl-10 py-2 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+                                            />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+
+                    {/* Third Row */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <FormField
                             control={form.control}
                             name="description"
@@ -168,15 +183,16 @@ export const CreateParkingForm: React.FC = () => {
                                         <Textarea
                                             {...field}
                                             placeholder="Describe your parking spot..."
-                                            className="min-h-[80px]"
+                                            className="min-h-[120px] rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
                                         />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
+
                         <div>
-                            <h4 className="text-lg font-semibold">Upload Images</h4>
+                            <FormLabel>Upload Images</FormLabel>
                             <ImageUpload onUpload={handleImageUpload} />
                             <div className="flex flex-wrap gap-4 mt-4">
                                 {imageUrls.map((url, index) => (
@@ -184,9 +200,9 @@ export const CreateParkingForm: React.FC = () => {
                                         key={index}
                                         src={url}
                                         alt="Uploaded"
-                                        className="object-cover rounded"
-                                        height={60}
-                                        width={60}
+                                        className="object-cover rounded-lg border border-gray-300 shadow-md"
+                                        height={80}
+                                        width={80}
                                     />
                                 ))}
                             </div>
@@ -194,16 +210,19 @@ export const CreateParkingForm: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="p-4 pt-6 bg-background">
-                    <Button type="button" onClick={() => setIsDialogOpen(true)} className="w-full">
+                {/* Fixed Submit Button */}
+                <div className="p-6 shadow-md">
+                    <Button
+                        type="button"
+                        onClick={() => setIsDialogOpen(true)}
+                        className="w-full py-3 text-lg font-semibold rounded-lg focus:ring-2 focus:ring-gray-500"
+                    >
                         Create Parking Spot
                     </Button>
-                    <CreateParkingDialog
-                        isOpen={isDialogOpen}
-                        onOpenChange={setIsDialogOpen}
-                        onConfirm={handleConfirm}
-                    />
                 </div>
+
+                {/* Dialog */}
+                <CreateParkingDialog isOpen={isDialogOpen} onOpenChange={setIsDialogOpen} onConfirm={handleConfirm} />
             </form>
         </Form>
     )

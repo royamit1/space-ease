@@ -4,6 +4,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 import Image from "next/image"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 
 interface ParkingSpotImagesProps {
     parkingSpotId: number
@@ -11,14 +12,13 @@ interface ParkingSpotImagesProps {
 
 export const ParkingSpotImagesSkeleton = () => {
     return (
-        <div className="mt-4">
+        <div>
             <h4 className="mb-2">
                 <Skeleton className="w-48 h-6 max-w-full" />
             </h4>
             <div className="flex justify-between overflow-auto">
-                {Array.from({ length: 3 }).map(() => (
-                    <Skeleton style={{ height: 120, width: 120 }} />
-
+                {Array.from({ length: 1 }).map((_, index) => (
+                    <Skeleton key={index} style={{ height: 180, width: 220 }} />
                 ))}
             </div>
         </div>
@@ -40,25 +40,36 @@ export const ParkingSpotImages: React.FC<ParkingSpotImagesProps> = ({ parkingSpo
 
     if (images) {
         return (
-            <div className="mt-4">
-                <h4 className="text-lg font-semibold text-[var(--foreground)] mb-2">Parking Spot Images</h4>
-                <div className="flex justify-between overflow-auto">
-                    {images.length <= 0 ? (
-                        <p className="text-sm text-[var(--muted-foreground)]">
-                            No images available for this parking spot.
-                        </p>
-                    ) : (
-                        images.map((image) => (
-                            <Image
-                                key={image.id}
-                                src={image.url}
-                                alt="Parking Spot"
-                                width={120}
-                                height={120}
-                                className="rounded object-cover"
-                            />
-                        ))
-                    )}
+            <div className="w-full flex justify-center items-center relative">
+                <div className="w-full">
+                    <Carousel
+                        opts={{
+                            align: "start",
+                            loop: true,
+                        }}
+                        className="w-full"
+                    >
+                        <CarouselContent className="-ml-2 md:-ml-4">
+                            {images.map((image) => (
+                                <CarouselItem key={image.id} className="pl-2 md:pl-4 basis-full">
+                                    <div className="relative aspect-square overflow-hidden rounded-xl">
+                                        <Image
+                                            src={image.url}
+                                            alt="Parking Spot"
+                                            fill
+                                            className="object-cover transition-transform duration-300 hover:scale-105"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                        />
+                                    </div>
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                        <CarouselPrevious className="absolute top-1/2 -translate-y-1/2 -left-4 z-10" />
+                        <CarouselNext className="absolute top-1/2 -translate-y-1/2 -right-4 z-10" />
+                    </Carousel>
+
+                    {/* Mobile Indicator */}
+                    <p className="text-xs text-muted-foreground text-center mt-2">Swipe to view more images</p>
                 </div>
             </div>
         )
