@@ -3,9 +3,8 @@
 import { useState, useEffect } from "react"
 import { createClient } from "@/utils/supabase/client"
 
-const supabase = createClient()
-
 export const useAuthStatus = () => {
+    const supabase = createClient()
     const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     const checkAuthStatus = async () => {
