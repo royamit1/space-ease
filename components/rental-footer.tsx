@@ -1,7 +1,6 @@
-import React, { useState, useMemo } from "react"
+import React, { useMemo } from "react"
 import { useParkingSpotById } from "@/hooks/useParkingSpots"
-import { AlertCircle, CheckCircle, Clock, MapPin, XCircle, Navigation } from "lucide-react"
-import { NavigationDialog } from "@/components/navigation-dialog"
+import { AlertCircle, CheckCircle, Clock, MapPin, XCircle } from "lucide-react"
 import { ConfirmationButton } from "@/components/common/confirmation-button"
 import { ActiveRent } from "@/prisma/generated/client"
 import { formatDistance } from "date-fns"
@@ -82,19 +81,20 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({ activeRent 
     const handleLeaveParking = async () => {
         await endRenting()
         await queryClient.invalidateQueries({ queryKey: ["activeRent"] })
-        footerStore.setState({ mode: { mode: "search" }, size: "open" })
+        footerStore.setState({ mode: { mode: "search" }, size: "collapsed" })
     }
 
     return (
-        <div className="w-full h-full shadow-lg flex flex-col">
+        <div className="w-full h-full shadow-lg flex flex-col p-4">
             <motion.div initial="hidden" animate="show" variants={container} className="max-w-2xl mx-auto">
-                {/* Header Section */}
                 <motion.div variants={item} className="flex-shrink-0">
-                    <div className="flex items-center gap-6 pb-4">
-                        <CheckCircle className="w-12 h-12 text-primary animate-pulse" />
+                    <div className="flex items-center gap-3 pb-2">
+                        <CheckCircle className="w-12 h-12 mx-4 text-primary animate-pulse" />
                         <div>
-                            <h3 className="text-2xl font-bold tracking-tight">Parking Spot Rented!</h3>
-                            <Badge variant="secondary" className="mt-2">
+                            <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight">
+                                Parking Spot Rented!
+                            </h3>
+                            <Badge variant="secondary" className="mt-2 text-sm sm:text-sm lg:text-lg">
                                 Active Rental
                             </Badge>
                         </div>
@@ -102,48 +102,53 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({ activeRent 
                 </motion.div>
             </motion.div>
 
-            <div className="grid grid-cols-2 md:grid-cols-2">
-                {/* Left Side: Existing Content */}
-                <div>
-                    <motion.div initial="hidden" animate="show" variants={container} className="p-3 space-y-3">
-                        {/* Location Section */}
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 ">
+                <div className="sm:col-span-1 md:col-span-2">
+                    <motion.div initial="hidden" animate="show" variants={container} className="p-3 space-y-2">
                         <motion.div variants={item}>
                             <Card className="relative overflow-hidden group">
                                 <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent group-hover:opacity-75 transition-opacity" />
-                                <div className="relative p-4">
+                                <div className="relative p-4 sm:p-5 md:p-6 lg:p-7">
                                     <div className="flex items-center gap-3 mb-3">
-                                        <MapPin className="w-5 h-5 text-primary" />
-                                        <h4 className="font-semibold">Location</h4>
+                                        <MapPin className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
+                                        <h4 className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl">
+                                            Location
+                                        </h4>
                                     </div>
-                                    <p className="text-lg font-medium">{parkingSpot.address}</p>
+                                    <p className="text-sm sm:text-base lg:text-lg font-medium">{parkingSpot.address}</p>
                                 </div>
                             </Card>
                         </motion.div>
 
-                        {/* Rental Details */}
-                        <div className="grid grid-cols-2 gap-2 md:grid-cols-2">
+                        <div className="grid grid-cols-1 gap-2 md:grid-cols-1">
                             <motion.div variants={item}>
                                 <Card className="relative overflow-hidden group">
                                     <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent group-hover:opacity-75 transition-opacity" />
-                                    <div className="relative p-4">
+                                    <div className="relative p-4 sm:p-5 md:p-6 lg:p-7">
                                         <div className="flex items-center gap-3 mb-3">
-                                            <Clock className="w-5 h-5 text-primary" />
-                                            <h4 className="font-semibold">Duration</h4>
+                                            <Clock className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
+                                            <h4 className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl">
+                                                Duration
+                                            </h4>
                                         </div>
-                                        <p className="text-lg font-medium">{rentalDurationText}</p>
+                                        <p className="text-sm sm:text-base lg:text-lg font-medium">
+                                            {rentalDurationText}
+                                        </p>
                                     </div>
                                 </Card>
                             </motion.div>
 
                             <motion.div variants={item}>
                                 <Card className="relative overflow-hidden group">
-                                    <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent group-hover:opacity-75 transition-opacity" />
-                                    <div className="relative p-4">
+                                    <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent group-hover:opacity-75 transition-opacity" />
+                                    <div className="relative p-4 sm:p-5 md:p-6 lg:p-7">
                                         <div className="flex items-center gap-3 mb-3">
-                                            <AlertCircle className="w-5 h-5 text-primary" />
-                                            <h4 className="font-semibold">Total Cost</h4>
+                                            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
+                                            <h4 className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl">
+                                                Total Cost
+                                            </h4>
                                         </div>
-                                        <p className="text-lg font-medium">
+                                        <p className="text-sm sm:text-base lg:text-lg font-medium">
                                             $
                                             <AnimatedNumber
                                                 value={totalCost}
@@ -159,16 +164,14 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({ activeRent 
                     </motion.div>
                 </div>
 
-                {/* Right Side Placeholder */}
-                <div className="p-3">
+                <div className="p-3 sm:col-span-1 md:col-span-1">
                     <ParkingSpotImages parkingSpotId={parkingSpot.id} />
                 </div>
             </div>
 
             <div className="flex-grow " />
 
-            {/* Action Buttons */}
-            <motion.div variants={item} className="grid gap-4 p-4">
+            <motion.div variants={item} className="grid gap-4">
                 <div className="grid grid-cols-3 gap-2">
                     <ConfirmationButton
                         variant="outline"
