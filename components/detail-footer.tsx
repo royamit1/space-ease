@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react"
 import ParkingDetails from "@/components/parking-details"
+import { ConfirmationButton } from "@/components/common/confirmation-button"
+import { startRenting } from "@/app/actions"
 import { useQueryClient } from "@tanstack/react-query"
 import { startRenting } from "@/app/actions"
 import { ConfirmationButton } from "@/components/common/confirmation-button"
@@ -50,7 +52,7 @@ export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot 
     }
 
     return (
-        <div className="flex flex-col space-y-2 h-full p-4">
+        <div className="flex flex-col h-full p-4">
             {currentLocation ? (
                 <ParkingDetails parkingSpotId={selectedParkingSpot} userLocation={currentLocation} />
             ) : (

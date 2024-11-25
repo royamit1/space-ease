@@ -8,6 +8,6 @@ module.exports = {
         return config
     },
     images: {
-        domains: ["vjvpqjcvudsnzjezwnwn.supabase.co"], // Add your Supabase domain here
+        domains: ["wlxykqpmsmyogdpagpov.supabase.co"], // Add your Supabase domain here
     },
 }
