@@ -6,41 +6,18 @@ import { useQueryClient } from "@tanstack/react-query"
 import { startRenting } from "@/app/actions"
 import { ConfirmationButton } from "@/components/common/confirmation-button"
 import { Location } from "@/utils/types"
-import { createClient } from "@/utils/supabase/client"
+import { useAuthStatus } from "@/hooks/useAuthStatus"
 
 interface DetailFooterProps {
     selectedParkingSpot: number
 }
 
 const LOCATION_STORAGE_KEY = "userLocation"
-const supabase = createClient() // Initialize Supabase instance outside of the component
 
 export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot }) => {
     const [currentLocation, setCurrentLocation] = useState<Location | null>(null)
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
     const queryClient = useQueryClient()
-
-    // Function to check authentication status
-    const checkAuthStatus = async () => {
-        const {
-            data: { user },
-        } = await supabase.auth.getUser()
-        setIsLoggedIn(!!user) // Update login state
-    }
-
-    useEffect(() => {
-        // Run authentication check on mount
-        checkAuthStatus()
-
-        // Subscribe to auth state changes
-        const { data: subscription } = supabase.auth.onAuthStateChange(() => {
-            checkAuthStatus()
-        })
-
-        return () => {
-            subscription?.subscription.unsubscribe()
-        }
-    }, []) // Empty dependency array to run once on mount
+    const isLoggedIn = useAuthStatus() // Use custom hook
 
     useEffect(() => {
         // Check if location is saved in localStorage
