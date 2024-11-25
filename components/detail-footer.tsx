@@ -51,7 +51,7 @@ export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot 
     }
 
     return (
-        <div className="flex flex-col space-y-2 h-full p-4">
+        <div className="flex flex-col h-full p-4">
             {currentLocation ? (
                 <ParkingDetails parkingSpotId={selectedParkingSpot} userLocation={currentLocation} />
             ) : (
