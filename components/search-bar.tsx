@@ -14,8 +14,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ placeholder = "Search...", onSear
     const inputRef = useRef<HTMLInputElement | null>(null)
 
     useEffect(() => {
-        if (inputRef.current) {
-            const autocomplete = new google.maps.places.Autocomplete(inputRef.current, {
+        if (window.google && window.google.maps && window.google.maps.places) {
+            const autocomplete = new google.maps.places.Autocomplete(inputRef.current!, {
                 types: ["geocode"], // Restrict autocomplete to address-like results
             })
 

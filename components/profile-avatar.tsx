@@ -1,18 +1,20 @@
+import React, { useEffect, useState } from "react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ThemeSwitcher } from "@/components/theme-switcher"
-import React, { useEffect, useState } from "react"
 import { Button } from "./ui/button"
 import { Dialog, DialogTrigger } from "@/components/ui/dialog"
 import { useFooterState } from "@/hooks/useFooterState"
 import { useProfilePicture } from "@/hooks/useProfilePicture"
 import LogoutButton from "@/components/ui/google_logout_btn"
+import GoogleSignInButton from "./ui/google_btn"
 import { createClient } from "@/utils/supabase/client"
+import LoginButton from "./ui/google_signin_btn"
 
 export function ProfileAvatar() {
     const [, setFooterState] = useFooterState()
-    const profilePicture = useProfilePicture()
     const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const profilePicture = useProfilePicture(isLoggedIn)
     const supabase = createClient()
 
     // Check login status on component mount
@@ -66,33 +68,41 @@ export function ProfileAvatar() {
                     <DropdownMenuItem className="flex justify-center">
                         <ThemeSwitcher />
                     </DropdownMenuItem>
-                    <DialogTrigger asChild>
+                    {isLoggedIn ? (
+                        <>
+                            <DialogTrigger asChild>
+                                <DropdownMenuItem className="flex justify-center">
+                                    <Button
+                                        className="w-full"
+                                        onClick={handleCreateParking}
+                                        disabled={!isLoggedIn} // Make button unclickable
+                                        style={{
+                                            opacity: !isLoggedIn ? 0.5 : 1, // Optional: Dim the button to indicate it's disabled
+                                            cursor: !isLoggedIn ? "not-allowed" : "pointer", // Optional: Show a "not-allowed" cursor
+                                        }}
+                                    >
+                                        Create Parking Spot
+                                    </Button>
+                                </DropdownMenuItem>
+                            </DialogTrigger>
+                            <DialogTrigger asChild>
+                                <DropdownMenuItem className="flex justify-center">
+                                    <Button className="w-full" onClick={handleHistoryParking}>
+                                        My History
+                                    </Button>
+                                </DropdownMenuItem>
+                            </DialogTrigger>
+                            <DialogTrigger asChild>
+                                <DropdownMenuItem className="flex justify-center">
+                                    <LogoutButton />
+                                </DropdownMenuItem>
+                            </DialogTrigger>
+                        </>
+                    ) : (
                         <DropdownMenuItem className="flex justify-center">
-                            <Button
-                                className="w-full"
-                                onClick={handleCreateParking}
-                                disabled={!isLoggedIn} // Make button unclickable
-                                style={{
-                                    opacity: !isLoggedIn ? 0.5 : 1, // Optional: Dim the button to indicate it's disabled
-                                    cursor: !isLoggedIn ? "not-allowed" : "pointer", // Optional: Show a "not-allowed" cursor
-                                }}
-                            >
-                                Create Parking Spot
-                            </Button>
+                            <LoginButton />
                         </DropdownMenuItem>
-                    </DialogTrigger>
-                    <DialogTrigger asChild>
-                        <DropdownMenuItem className="flex justify-center">
-                            <Button className="w-full" onClick={handleHistoryParking}>
-                                My History
-                            </Button>
-                        </DropdownMenuItem>
-                    </DialogTrigger>
-                    <DialogTrigger asChild>
-                        <DropdownMenuItem className="flex justify-center">
-                            <LogoutButton />
-                        </DropdownMenuItem>
-                    </DialogTrigger>
+                    )}
                 </DropdownMenuContent>
             </DropdownMenu>
         </Dialog>
