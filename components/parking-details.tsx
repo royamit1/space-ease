@@ -38,9 +38,9 @@ const LoadingSkeleton = () => (
                                 <Skeleton className="w-24 h-4 max-w-full" />
                             </h4>
                         </div>
-                        <p>
+                        <div>
                             <Skeleton className="w-48 h-4 max-w-full" />
-                        </p>
+                        </div>
                     </div>
                 </div>
                 <div className="border rounded-lg">
@@ -51,9 +51,9 @@ const LoadingSkeleton = () => (
                                 <Skeleton className="w-24 h-4 max-w-full" />
                             </h4>
                         </div>
-                        <p>
+                        <div>
                             <Skeleton className="w-48 h-4 max-w-full" />
-                        </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,10 +66,10 @@ const LoadingSkeleton = () => (
                                 <Skeleton className="w-32 h-4 max-w-full" />
                             </h4>
                         </div>
-                        <p>
+                        <div>
                             <Skeleton className="w-96 h-4 max-w-full mb-2" />
                             <Skeleton className="w-48 h-4 max-w-full" />
-                        </p>
+                        </div>
                     </div>
                 </div>
             </div>

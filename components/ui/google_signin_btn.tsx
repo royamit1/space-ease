@@ -5,6 +5,7 @@ import GoogleButton from "react-google-button"
 export default function LoginButton() {
     const handleLogin = async () => {
         const supabase = createClient()
+        console.log("redirect: \n", window.location.origin)
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: "google",
             options: {
