@@ -1,8 +1,11 @@
+"use client"
+
 import React, { useState } from "react"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { DollarSignIcon } from "lucide-react"
 import { Toggle } from "@/components/ui/toggle"
 import { Separator } from "@/components/ui/separator"
+import { useAuthStatus } from "@/hooks/useAuthStatus"
 
 interface FilterSelectionProps {
     onPriceChange: (priceRange: string | null) => void
@@ -12,12 +15,15 @@ interface FilterSelectionProps {
 
 const FilterSelection: React.FC<FilterSelectionProps> = ({ onPriceChange, onMyParkingToggle, onDistanceChange }) => {
     const [myParkingToggled, setMyParkingToggled] = useState(false)
+    const isLoggedIn = useAuthStatus() // Use the custom hook
 
     const handlePriceToggle = (value: string | null | undefined) => {
         onPriceChange(value || null) // Ensures `null` is passed instead of `undefined`
     }
 
     const handleMyParkingToggle = () => {
+        if (!isLoggedIn) return // Prevent toggling if the user is not logged in
+
         const newToggleState = !myParkingToggled
         setMyParkingToggled(newToggleState)
         onMyParkingToggle(newToggleState)
@@ -40,9 +46,10 @@ const FilterSelection: React.FC<FilterSelectionProps> = ({ onPriceChange, onMyPa
                 </ToggleGroupItem>
             </ToggleGroup>
             <Separator orientation="vertical" className="mx-8" />
-            <Toggle pressed={myParkingToggled} onClick={handleMyParkingToggle}>
+            <Toggle pressed={myParkingToggled} onClick={handleMyParkingToggle} disabled={!isLoggedIn}>
                 <span>My Parkings</span>
             </Toggle>
+            {!isLoggedIn && <p className="text-sm text-red-500"></p>}
             <Separator orientation="vertical" className="mx-8" />
             <div className="flex flex-col space-y-2">
                 <select

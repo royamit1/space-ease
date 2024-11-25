@@ -6,6 +6,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import { startRenting } from "@/app/actions"
 import { ConfirmationButton } from "@/components/common/confirmation-button"
 import { Location } from "@/utils/types"
+import { useAuthStatus } from "@/hooks/useAuthStatus"
 
 interface DetailFooterProps {
     selectedParkingSpot: number
@@ -16,6 +17,7 @@ const LOCATION_STORAGE_KEY = "userLocation"
 export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot }) => {
     const [currentLocation, setCurrentLocation] = useState<Location | null>(null)
     const queryClient = useQueryClient()
+    const isLoggedIn = useAuthStatus() // Use custom hook
 
     useEffect(() => {
         // Check if location is saved in localStorage
@@ -56,9 +58,10 @@ export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot 
                 <div className="text-center text-muted-foreground">Loading location to calculate distance...</div>
             )}
             <div className="flex-grow" />
-            <ConfirmationButton className="w-full" onClick={handleRent}>
+            <ConfirmationButton className="w-full" onClick={handleRent} disabled={!isLoggedIn}>
                 Rent Now
             </ConfirmationButton>
+            {!isLoggedIn && <p className="text-center text-red-500">Please log in to rent a parking spot.</p>}
         </div>
     )
 }

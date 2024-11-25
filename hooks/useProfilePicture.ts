@@ -8,10 +8,11 @@ async function getProfilePicture(): Promise<string | undefined> {
     return session?.user?.user_metadata.avatar_url
 }
 
-export const useProfilePicture = () => {
+export const useProfilePicture = (isLoggedIn: Boolean) => {
     const result = useQuery({
         queryKey: ["profilePicture"],
-        queryFn: getProfilePicture,
+        queryFn: () => getProfilePicture(),
+        enabled: !!isLoggedIn,
     })
     return result.data
 }
