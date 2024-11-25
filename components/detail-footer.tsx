@@ -2,13 +2,10 @@
 
 import React, { useEffect, useState } from "react"
 import ParkingDetails from "@/components/parking-details"
-import { ConfirmationButton } from "@/components/common/confirmation-button"
-import { startRenting } from "@/app/actions"
 import { useQueryClient } from "@tanstack/react-query"
 import { startRenting } from "@/app/actions"
 import { ConfirmationButton } from "@/components/common/confirmation-button"
 import { Location } from "@/utils/types"
-import { calculateDistance } from "@/utils/utils"
 
 interface DetailFooterProps {
     selectedParkingSpot: number
