@@ -7,7 +7,6 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog"
 import { useFooterState } from "@/hooks/useFooterState"
 import { useProfilePicture } from "@/hooks/useProfilePicture"
 import LogoutButton from "@/components/ui/google_logout_btn"
-import GoogleSignInButton from "./ui/google_btn"
 import { createClient } from "@/utils/supabase/client"
 import LoginButton from "./ui/google_signin_btn"
 

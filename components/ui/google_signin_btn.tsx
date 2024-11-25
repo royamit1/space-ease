@@ -1,5 +1,4 @@
 import { createClient } from "@/utils/supabase/client"
-import { Button } from "@/components/ui/button"
 import GoogleButton from "react-google-button"
 
 export default function LoginButton() {
