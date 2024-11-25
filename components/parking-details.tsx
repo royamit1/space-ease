@@ -7,9 +7,12 @@ import { useParkingSpotById } from "@/hooks/useParkingSpots"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { ParkingSpotImages, ParkingSpotImagesSkeleton } from "@/components/parking-spot-images"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Location } from "@/utils/types"
+import { calculateDistance } from "@/utils/utils"
 
 interface ParkingDetailsProps {
     parkingSpotId: number
+    userLocation: Location | null
 }
 
 const LoadingSkeleton = () => (
@@ -77,7 +80,7 @@ const LoadingSkeleton = () => (
     </div>
 )
 
-const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
+const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId, userLocation }) => {
     const { data: parkingSpot, error } = useParkingSpotById(parkingSpotId)
 
     const formatTime = (date: Date) => {
@@ -115,6 +118,16 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
     }
 
     if (parkingSpot) {
+        // Calculate the distance if userLocation is available
+        const distance =
+            userLocation?.latitude && userLocation?.longitude
+                ? calculateDistance(
+                      userLocation.latitude,
+                      userLocation.longitude,
+                      parkingSpot.latitude,
+                      parkingSpot.longitude,
+                  )
+                : null
         return (
             <div className="w-full h-full shadow-lg flex flex-col">
                 <motion.div
@@ -133,6 +146,9 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
                         <Badge variant="secondary" className="mt-2 text-sm sm:text-sm lg:text-lg">
                             Available Now
                         </Badge>
+                      <Badge variant="secondary" className="mt-2">
+                        {distance !== null ? `${distance.toFixed(2)} km` : "..."}
+                      </Badge>
                     </motion.div>
                     <div className="grid sm:grid-cols-2 md:grid-cols-3 ">
                         <div className="sm:col-span-1 md:col-span-2">

@@ -5,8 +5,8 @@ import {
     fetchHistoryParkingSpots,
     fetchParkingSpotById,
     fetchParkingImagesById,
-    ParkingSpotFilters,
 } from "@/app/actions"
+import { ParkingSpotFilters } from "@/utils/types"
 import { ParkingFormSchema } from "@/schemas/parking-form-schema"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
