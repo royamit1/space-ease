@@ -81,7 +81,7 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({ activeRent 
     const handleLeaveParking = async () => {
         await endRenting()
         await queryClient.invalidateQueries({ queryKey: ["activeRent"] })
-        footerStore.setState({ mode: { mode: "search" }, size: "open" })
+        footerStore.setState({ mode: { mode: "search" }, size: "collapsed" })
     }
 
     return (

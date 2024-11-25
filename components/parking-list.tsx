@@ -50,7 +50,7 @@ export const ParkingList: React.FC<ParkingListProps> = ({ filters }) => {
     return (
         <ul className="flex flex-col w-full overflow-y-hidden my-2">
             {Array.from({ length: 4 }).map((_, index) => (
-                <LoadingSkeleton key={index} /> // Add a key here
+                <LoadingSkeleton key={index} />
             ))}
         </ul>
     )

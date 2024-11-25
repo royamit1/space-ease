@@ -29,7 +29,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUpload }) => {
     }
 
     return (
-        <div className="flex flex-col items-center space-y-4">
+        <div className="flex flex-col space-y-4">
             <label
                 htmlFor="file-upload"
                 className={`flex items-center justify-center px-6 py-3 text-sm font-medium text-white bg-primary rounded-lg shadow-lg cursor-pointer ${
@@ -47,7 +47,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onUpload }) => {
                 )}
             </label>
             <input id="file-upload" type="file" className="hidden" onChange={handleFileChange} disabled={uploading} />
-            {uploading && <p className="text-sm text-muted-foreground">Uploading...</p>}
         </div>
     )
 }
