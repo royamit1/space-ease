@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import ParkingDetails from "@/components/parking-details"
 import { useQueryClient } from "@tanstack/react-query"
 import { startRenting } from "@/app/actions"
@@ -15,15 +15,21 @@ interface DetailFooterProps {
 export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot }) => {
     const queryClient = useQueryClient()
     const isLoggedIn = useAuthStatus() // Use custom hook
+    const [err, setErr] = useState(false)
 
     const handleRent = async () => {
         try {
             await startRenting(selectedParkingSpot)
-        } catch (err) {
-            console.error(err)
-            return
+            await queryClient.invalidateQueries({ queryKey: ["activeRent"] })
+            setErr(false) // Reset error if successful
+        } catch (err: any) {
+            if (err.message === "unavailable") {
+                setErr(true)
+            } else {
+                console.error("An unexpected error occurred:", err)
+                alert("An unexpected error occurred. Please try again later.")
+            }
         }
-        await queryClient.invalidateQueries({ queryKey: ["activeRent"] })
     }
 
     return (
@@ -34,16 +40,17 @@ export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot 
                 <Tooltip>
                     <TooltipTrigger asChild>
                         <div className="w-full">
-                            <ConfirmationButton className="w-full" onClick={handleRent} disabled={!isLoggedIn}>
+                            {err && (
+                                <div className="mb-4 text-center text-sm text-red-600 border border-red-500 rounded p-2 bg-red-50">
+                                    Sorry, this parking spot is currently being rented. Please choose a different spot.
+                                </div>
+                            )}
+                            <ConfirmationButton className="w-full" onClick={handleRent} disabled={!isLoggedIn || err}>
                                 Rent Now
                             </ConfirmationButton>
                         </div>
                     </TooltipTrigger>
-                    {!isLoggedIn && (
-                        <TooltipContent>
-                            <p>Please log in to rent a parking spot.</p>
-                        </TooltipContent>
-                    )}
+                    {!isLoggedIn && <TooltipContent>Please log in to rent a parking spot</TooltipContent>}
                 </Tooltip>
             </TooltipProvider>
         </div>

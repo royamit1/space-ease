@@ -13,11 +13,12 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
   output   = "./generated/client"
+  previewFeatures = ["relationJoins"]
 }
 
 model ParkingSpot {
   id           Int            @id @default(autoincrement())
-  userId       String // insert the userId with supabase.auth
+  userId       String
   latitude     Float
   longitude    Float
   address      String
@@ -28,22 +29,24 @@ model ParkingSpot {
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   ParkingImage ParkingImage[]
+  ActiveRent   ActiveRent[]
 }
 
 model ParkingImage {
-  id            Int      @id @default(autoincrement())
+  id            Int         @id @default(autoincrement())
   parkingSpotId Int
   url           String // URL of the image
-  createdAt     DateTime @default(now())
-  parkingSpot ParkingSpot @relation(fields: [parkingSpotId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now())
+  parkingSpot   ParkingSpot @relation(fields: [parkingSpotId], references: [id], onDelete: Cascade)
 }
 
 model ActiveRent {
-  id            Int      @id @default(autoincrement())
-  userId        String   @unique
-  parkingSpotId Int      @unique
+  id            Int         @id @default(autoincrement())
+  userId        String      @unique
+  parkingSpotId Int         @unique
   hourlyRate    Float
-  createdAt     DateTime @default(now())
+  createdAt     DateTime    @default(now())
+  parkingSpot   ParkingSpot @relation(fields: [parkingSpotId], references: [id], onDelete: Cascade)
 }
 
 model RentalHistory {

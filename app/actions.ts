@@ -44,13 +44,14 @@ export const createParkingSpot = async (parkingFormData: ParkingFormSchema & { i
 
 export const fetchAvailableParkingSpots = async (filters: ParkingSpotFilters) => {
     try {
-        // filter by available parking spots
         const now = new Date()
         const whereClause: any = {
             startTime: { lte: now },
             endTime: { gte: now },
             latitude: { lte: filters.bounds.north, gte: filters.bounds.south },
             longitude: { lte: filters.bounds.east, gte: filters.bounds.west },
+            // Ensure the parking spot is not currently being rented
+            ActiveRent: { none: {} },
         }
 
         // Add price range filter
@@ -73,9 +74,10 @@ export const fetchAvailableParkingSpots = async (filters: ParkingSpotFilters) =>
             whereClause.userId = filters.userId
         }
 
-        const parkingSpots: ParkingSpot[] = await db.parkingSpot.findMany({
+        const parkingSpots = await db.parkingSpot.findMany({
             where: whereClause,
         })
+
         return parkingSpots
     } catch (error) {
         console.error("Error fetching parking spots:", error)
@@ -137,6 +139,16 @@ export const startRenting = async (parkingSpotId: number) => {
     })
     if (!parkingSpot) throw new Error("Parking spot not found")
 
+    // Check if the parking spot is already rented
+    const existingRent = await db.activeRent.findFirst({
+        where: { parkingSpotId },
+    })
+
+    if (existingRent) {
+        throw new Error("unavailable")
+    }
+
+    // Create a new rental if it's not already rented
     await db.activeRent.create({
         data: {
             userId: data.user.id,
