@@ -23,7 +23,8 @@ const initial = {
 
 export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...props }) => {
     const theme = useTheme()
-    const { data: parkingSpots, isLoading, isError, error } = useParkingSpots()
+    const [filters, __] = useFooterState((state) => state.filters)
+    const { data: parkingSpots, isLoading, isError, error } = useParkingSpots(filters)
     const [_, setFooterState] = useFooterState((state) => (state.mode.mode === "detail" ? state.mode.id : null))
     const [activeParkingId, setActiveParkingId] = useState<number | null>(null)
     const [searchKey, setSearchKey] = useState(0)
@@ -64,10 +65,6 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
         })
         setActiveParkingId(null)
     }
-
-    if (isLoading) return <div>Loading...</div>
-
-    if (isError) return <div>Error: {JSON.stringify(error)}</div>
 
     return (
         <Map

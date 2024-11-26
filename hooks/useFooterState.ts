@@ -1,4 +1,5 @@
 import { create } from "@/app/zustand-next"
+import { ParkingSpotFilters } from "@/utils/types"
 
 interface FooterModeCreate {
     mode: "create"
@@ -22,11 +23,13 @@ type FooterMode = FooterModeCreate | FooterModeDetail | FooterModeSearch | Foote
 interface FooterState {
     mode: FooterMode
     size: "collapsed" | "open" | "full"
+    filters: ParkingSpotFilters
 }
 
 const store = create<FooterState>(() => ({
     mode: { mode: "search" },
     size: "collapsed",
+    filters: {},
 }))
 
 export const useFooterStore = store.useStore

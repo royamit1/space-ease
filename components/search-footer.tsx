@@ -6,22 +6,28 @@ import FilterSelection from "@/components/filter-selection"
 import { Separator } from "@/components/ui/separator"
 import { ParkingSpotFilters } from "@/utils/types"
 import { fetchUser } from "@/app/actions"
+import { useFooterState } from "@/hooks/useFooterState"
 
 const LOCATION_STORAGE_KEY = "userLocation"
 
 export const SearchFooter: React.FC = () => {
-    const [selectedFilters, setSelectedFilters] = useState<ParkingSpotFilters>({})
+    const [selectedFilters, setFooterState] = useFooterState((state) => state.filters)
+
+    function setFilters(filters: ParkingSpotFilters) {
+        setFooterState((state) => ({
+            filters: {
+                ...state.filters,
+                ...filters,
+            },
+        }))
+    }
 
     useEffect(() => {
         // Check if location exists in localStorage
         const savedLocation = localStorage.getItem(LOCATION_STORAGE_KEY)
         if (savedLocation) {
             const { latitude, longitude } = JSON.parse(savedLocation)
-            setSelectedFilters((prev) => ({
-                ...prev,
-                latitude,
-                longitude,
-            }))
+            setFilters({ latitude, longitude })
             return // Skip fetching if we already have a saved location
         }
 
@@ -30,11 +36,7 @@ export const SearchFooter: React.FC = () => {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const { latitude, longitude } = position.coords
-                    setSelectedFilters((prev) => ({
-                        ...prev,
-                        latitude,
-                        longitude,
-                    }))
+                    setFilters({ latitude, longitude })
 
                     // Save location in localStorage
                     localStorage.setItem(LOCATION_STORAGE_KEY, JSON.stringify({ latitude, longitude }))
@@ -49,26 +51,21 @@ export const SearchFooter: React.FC = () => {
     }, [])
 
     const handlePriceFilterChange = (priceRange: string | null) => {
-        setSelectedFilters((prev) => ({
-            ...prev,
-            priceRange: priceRange || undefined,
-        }))
+        setFilters({ priceRange: priceRange || undefined })
     }
 
     const handleMyParkingToggle = async (isToggled: boolean) => {
         const user = await fetchUser()
         const userId = isToggled && user ? user.id : undefined
-        setSelectedFilters((prev) => ({
-            ...prev,
+        setFilters({
             userId,
-        }))
+        })
     }
 
     const handleDistanceFilterChange = (distance: number | null) => {
-        setSelectedFilters((prev) => ({
-            ...prev,
+        setFilters({
             maxDistance: distance || undefined,
-        }))
+        })
     }
 
     return (
