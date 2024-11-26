@@ -18,6 +18,7 @@ export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot 
     const [currentLocation, setCurrentLocation] = useState<Location | null>(null)
     const queryClient = useQueryClient()
     const isLoggedIn = useAuthStatus() // Use custom hook
+    const [err, setErr] = useState<Boolean>(false)
 
     useEffect(() => {
         // Check if location is saved in localStorage
@@ -43,11 +44,16 @@ export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot 
     const handleRent = async () => {
         try {
             await startRenting(selectedParkingSpot)
-        } catch (err) {
-            console.error(err)
-            return
+            await queryClient.invalidateQueries({ queryKey: ["activeRent"] })
+            setErr(false) // Reset error if successful
+        } catch (err: any) {
+            if (err.message === "unavailable") {
+                setErr(true)
+            } else {
+                console.error("An unexpected error occurred:", err)
+                alert("An unexpected error occurred. Please try again later.")
+            }
         }
-        await queryClient.invalidateQueries({ queryKey: ["activeRent"] })
     }
 
     return (
@@ -58,9 +64,16 @@ export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot 
                 <div className="text-center text-muted-foreground">Loading location to calculate distance...</div>
             )}
             <div className="flex-grow" />
-            <ConfirmationButton className="w-full" onClick={handleRent} disabled={!isLoggedIn}>
-                Rent Now
-            </ConfirmationButton>
+            {err ? (
+                <div className="mb-4 text-center text-sm text-red-600 border border-red-500 rounded p-2 bg-red-50">
+                    Sorry, this parking spot is currently being rented. Please choose a different spot.
+                </div>
+            ) : (
+                <ConfirmationButton className="w-full" onClick={handleRent} disabled={!isLoggedIn}>
+                    Rent Now
+                </ConfirmationButton>
+            )}
+
             {!isLoggedIn && <p className="text-center text-red-500">Please log in to rent a parking spot.</p>}
         </div>
     )
