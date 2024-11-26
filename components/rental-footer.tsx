@@ -178,8 +178,8 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({ activeRent 
                         className="flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
                         onClick={handleLeaveParking}
                     >
-                        <XCircle className="w-6 h-6" />
-                        <span className="text-lg">Leave Parking</span>
+                        <XCircle className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 " />
+                        <span className="text-sm sm:text-base lg:text-lg">Leave Parking</span>
                     </ConfirmationButton>
 
                     <Button
@@ -187,7 +187,7 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({ activeRent 
                         className="flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
                         onClick={handleGoogleMapNav}
                     >
-                        <span className="text-lg">Google Maps</span>
+                        <span className="text-sm sm:text-base lg:text-lg">Google Maps</span>
                     </Button>
 
                     <Button
@@ -195,7 +195,7 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({ activeRent 
                         className="flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
                         onClick={handleWazeNav}
                     >
-                        <span className="text-lg">Waze</span>
+                        <span className="text-sm sm:text-base lg:text-lg">Waze</span>
                     </Button>
                 </div>
             </motion.div>

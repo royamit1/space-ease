@@ -143,19 +143,19 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId, userLoca
                                 {parkingSpot.address}
                             </h3>
                         </div>
-                        <Badge variant="secondary" className="mt-2 text-sm sm:text-sm lg:text-lg">
+                        <Badge variant="secondary" className="mx-2 mt-2 px-4 text-sm sm:text-sm lg:text-lg">
                             Available Now
                         </Badge>
-                      <Badge variant="secondary" className="mt-2">
-                        {distance !== null ? `${distance.toFixed(2)} km` : "..."}
-                      </Badge>
+                        <Badge variant="secondary" className="mx-2 mt-2 px-4 text-sm sm:text-sm lg:text-lg">
+                            {distance !== null ? `${distance.toFixed(2)} km` : "..."}
+                        </Badge>
                     </motion.div>
                     <div className="grid sm:grid-cols-2 md:grid-cols-3 ">
                         <div className="sm:col-span-1 md:col-span-2">
                             <motion.div initial="hidden" animate="show" variants={container} className="p-3 space-y-2">
                                 <motion.div variants={item}>
                                     <Card className="relative overflow-hidden group">
-                                        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent group-hover:opacity-75 transition-opacity" />
+                                        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent group-hover:opacity-75 transition-opacity" />
                                         <div className="relative p-4 sm:p-5 lg:p-6">
                                             <div className="flex items-center gap-3 mb-3">
                                                 <Clock className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
@@ -172,7 +172,7 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId, userLoca
                                 <div className="grid grid-cols-1 gap-2 md:grid-cols-1">
                                     <motion.div variants={item}>
                                         <Card className="relative overflow-hidden group">
-                                            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent group-hover:opacity-75 transition-opacity" />
+                                            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent group-hover:opacity-75 transition-opacity" />
                                             <div className="relative p-4 sm:p-5 lg:p-6">
                                                 <div className="flex items-center gap-3 mb-3">
                                                     <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
@@ -188,7 +188,7 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId, userLoca
                                     </motion.div>
                                     <motion.div variants={item}>
                                         <Card className="relative overflow-hidden group">
-                                            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent group-hover:opacity-75 transition-opacity" />
+                                            <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent group-hover:opacity-75 transition-opacity" />
                                             <div className="relative p-4 sm:p-5 lg:p-6">
                                                 <div className="flex items-center gap-3 mb-3">
                                                     <Info className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
