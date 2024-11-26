@@ -8,7 +8,7 @@ import { useFooterState } from "@/hooks/useFooterState"
 import { useProfilePicture } from "@/hooks/useProfilePicture"
 import LogoutButton from "@/components/ui/google_logout_btn"
 import { createClient } from "@/utils/supabase/client"
-import LoginButton from "./ui/google_signin_btn"
+import LoginButton from "@/components/ui/google_signin_btn"
 
 export function ProfileAvatar() {
     const [, setFooterState] = useFooterState()
