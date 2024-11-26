@@ -11,7 +11,7 @@ import { useFooterState } from "@/hooks/useFooterState"
 export const SearchFooter: React.FC = () => {
     const [selectedFilters, setFooterState] = useFooterState((state) => state.filters)
 
-    function setFilters(filters: ParkingSpotFilters) {
+    function setFilters(filters: Partial<ParkingSpotFilters>) {
         setFooterState((state) => ({
             filters: {
                 ...state.filters,
