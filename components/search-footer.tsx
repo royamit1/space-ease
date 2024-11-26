@@ -36,7 +36,7 @@ export const SearchFooter: React.FC = () => {
         <div className="w-full h-full">
             <FilterSelection onPriceChange={handlePriceFilterChange} onMyParkingToggle={handleMyParkingToggle} />
             <Separator />
-            <ParkingList filters={selectedFilters} />
+            <ParkingList />
         </div>
     )
 }
