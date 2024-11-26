@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import { Map, MapProps } from "@vis.gl/react-google-maps"
+import { Map, MapCameraChangedEvent, MapProps } from "@vis.gl/react-google-maps"
 import useGeolocation from "react-hook-geolocation"
 import { useTheme } from "next-themes"
 import { useFooterStore } from "@/hooks/useFooterState"
@@ -9,6 +9,7 @@ import { UserMarker } from "@/components/user-marker"
 import { AnimatePresence, motion } from "framer-motion"
 import CurrentLocationMarker from "@/components/current-location-marker"
 import { MapParkingMarkers } from "@/components/map-parking-markers"
+import LatLngBoundsLiteral = google.maps.LatLngBoundsLiteral
 
 interface MyMapProps extends MapProps {
     children: React.ReactNode
@@ -21,9 +22,18 @@ const initial = {
     zoom: 14,
 }
 
+const BOUNCE_CHANGE_DEBOUNCE = 1000
 export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...props }) => {
     const theme = useTheme()
     const store = useFooterStore()
+    const [bounds, setBounds] = useState<LatLngBoundsLiteral | null>(null)
+
+    useEffect(() => {
+        const token = setTimeout(() => {
+            if (bounds) store.setState({ filters: { bounds } })
+        }, BOUNCE_CHANGE_DEBOUNCE)
+        return () => clearTimeout(token)
+    }, [bounds])
 
     const [searchKey, setSearchKey] = useState(0)
 
@@ -32,7 +42,6 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
 
     useEffect(() => {
         if (geolocation && hasSetCurrentLocation) {
-            // setCenter({lat: geolocation.getLatitude(), lng: geolocation.getLongitude() })
             setHasSetCurrentLocation(true)
         }
     }, [geolocation])
@@ -40,26 +49,20 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
     // Update the map center when new search coordinates are provided
     useEffect(() => {
         if (searchCoordinates) {
-            // setCenter(searchCoordinates)
             setSearchKey((prevKey) => prevKey + 1) // Increment the key to force re-render
         }
     }, [searchCoordinates])
 
-    // // Handle center change to allow user interaction
-    // const handleBoundsChanged = (event: MapCameraChangedEvent) => {
-    //     const newCenter = event.detail.center
-    //     if (newCenter) {
-    //         setCenter({ lat: newCenter.lat, lng: newCenter.lng })
-    //     }
-    // }
-    //
-    // // Collapse the footer when the user interacts with the map
+    // Collapse the footer when the user interacts with the map
     const handleMapInteraction = () => {
         store.setState({
             mode: { mode: "search" },
             size: "collapsed",
         })
-        // setActiveParkingId(null)
+    }
+
+    const handleBoundsChange = (change: MapCameraChangedEvent) => {
+        setBounds(change.detail.bounds)
     }
 
     return (
@@ -72,6 +75,7 @@ export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...pr
             colorScheme={theme.resolvedTheme?.toUpperCase()}
             onDragstart={handleMapInteraction}
             onClick={handleMapInteraction}
+            onBoundsChanged={handleBoundsChange}
             {...props}
         >
             <UserMarker />

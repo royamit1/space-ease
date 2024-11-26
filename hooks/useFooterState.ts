@@ -29,7 +29,14 @@ interface FooterState {
 const store = create<FooterState>(() => ({
     mode: { mode: "search" },
     size: "collapsed",
-    filters: {},
+    filters: {
+        bounds: {
+            north: 0,
+            south: 0,
+            east: 0,
+            west: 0,
+        },
+    },
 }))
 
 export const useFooterStore = store.useStore
