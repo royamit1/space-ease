@@ -9,6 +9,8 @@ import { useProfilePicture } from "@/hooks/useProfilePicture"
 import LogoutButton from "@/components/ui/google_logout_btn"
 import { createClient } from "@/utils/supabase/client"
 import LoginButton from "@/components/ui/google_signin_btn"
+import blankPicture from "@/assets/blank-profile.svg"
+import Image from "next/image"
 
 export function ProfileAvatar() {
     const [, setFooterState] = useFooterState()
@@ -59,8 +61,7 @@ export function ProfileAvatar() {
             <DropdownMenu>
                 <DropdownMenuTrigger>
                     <Avatar className="w-12 h-12 lg:w-16 lg:h-16">
-                        <AvatarImage src={profilePicture} />
-                        <AvatarFallback>YOUR PROFILE NAME</AvatarFallback>
+                        {isLoggedIn ? <AvatarImage src={profilePicture} /> : <Image src={blankPicture} alt="" />}
                     </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="flex flex-col">
