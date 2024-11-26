@@ -7,6 +7,7 @@ import { startRenting } from "@/app/actions"
 import { ConfirmationButton } from "@/components/common/confirmation-button"
 import { Location } from "@/utils/types"
 import { useAuthStatus } from "@/hooks/useAuthStatus"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 interface DetailFooterProps {
     selectedParkingSpot: number
@@ -58,10 +59,22 @@ export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot 
                 <div className="text-center text-muted-foreground">Loading location to calculate distance...</div>
             )}
             <div className="flex-grow" />
-            <ConfirmationButton className="w-full" onClick={handleRent} disabled={!isLoggedIn}>
-                Rent Now
-            </ConfirmationButton>
-            {!isLoggedIn && <p className="text-center text-red-500">Please log in to rent a parking spot.</p>}
+            <TooltipProvider>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <div className="w-full">
+                            <ConfirmationButton className="w-full" onClick={handleRent} disabled={!isLoggedIn}>
+                                Rent Now
+                            </ConfirmationButton>
+                        </div>
+                    </TooltipTrigger>
+                    {!isLoggedIn && (
+                        <TooltipContent>
+                            <p>Please log in to rent a parking spot.</p>
+                        </TooltipContent>
+                    )}
+                </Tooltip>
+            </TooltipProvider>
         </div>
     )
 }
