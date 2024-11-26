@@ -10,10 +10,9 @@ import { useAuthStatus } from "@/hooks/useAuthStatus"
 interface FilterSelectionProps {
     onPriceChange: (priceRange: string | null) => void
     onMyParkingToggle: (isToggled: boolean) => void
-    onDistanceChange: (maxDistance: number | null) => void
 }
 
-const FilterSelection: React.FC<FilterSelectionProps> = ({ onPriceChange, onMyParkingToggle, onDistanceChange }) => {
+const FilterSelection: React.FC<FilterSelectionProps> = ({ onPriceChange, onMyParkingToggle }) => {
     const [myParkingToggled, setMyParkingToggled] = useState(false)
     const isLoggedIn = useAuthStatus() // Use the custom hook
 
@@ -51,18 +50,6 @@ const FilterSelection: React.FC<FilterSelectionProps> = ({ onPriceChange, onMyPa
             </Toggle>
             {!isLoggedIn && <p className="text-sm text-red-500"></p>}
             <Separator orientation="vertical" className="mx-8" />
-            <div className="flex flex-col space-y-2">
-                <select
-                    id="distance"
-                    onChange={(e) => onDistanceChange(e.target.value === "0" ? null : Number(e.target.value))}
-                    className="border p-2 rounded"
-                >
-                    <option value="0">None</option>
-                    <option value="1">1 km</option>
-                    <option value="5">5 km</option>
-                    <option value="10">10 km</option>
-                </select>
-            </div>
         </div>
     )
 }
