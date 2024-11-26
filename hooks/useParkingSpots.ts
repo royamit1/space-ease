@@ -15,6 +15,7 @@ const useParkingSpots = (filters?: ParkingSpotFilters) => {
         queryKey: ["parkingSpots", filters],
         queryFn: () => fetchAvailableParkingSpots(filters || {}),
         refetchOnWindowFocus: false,
+        refetchInterval: 10000, // Refetch every 10 seconds
     })
     return parkingSpotsQuery
 }
