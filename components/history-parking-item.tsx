@@ -58,7 +58,7 @@ export const HistoryParkingSpotItem: React.FC<HistoryParkingSpotItemProps> = ({ 
             {/* Information Section */}
             <div className="flex flex-col flex-grow pl-3 sm:pl-4 md:pl-5">
                 <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-card-foreground group-hover:text-primary/90">
-                    ${parkingSpot.address}
+                    {parkingSpot.address}
                 </h3>
                 <div className="text-xs sm:text-sm md:text-base lg:text-lg text-muted-foreground mt-1">
                     <span className="block font-medium">${historyParkingSpot.totalCost.toFixed(2)}</span>

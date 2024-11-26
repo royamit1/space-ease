@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { AlertCircle, Clock, DollarSign, Info, MapPin } from "lucide-react"
 import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
@@ -7,12 +7,11 @@ import { useParkingSpotById } from "@/hooks/useParkingSpots"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { ParkingSpotImages, ParkingSpotImagesSkeleton } from "@/components/parking-spot-images"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Location } from "@/utils/types"
 import { calculateDistance } from "@/utils/utils"
+import useGeolocation from "react-hook-geolocation"
 
 interface ParkingDetailsProps {
     parkingSpotId: number
-    userLocation: Location | null
 }
 
 const LoadingSkeleton = () => (
@@ -80,8 +79,20 @@ const LoadingSkeleton = () => (
     </div>
 )
 
-const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId, userLocation }) => {
+const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
+    const geolocation = useGeolocation()
     const { data: parkingSpot, error } = useParkingSpotById(parkingSpotId)
+
+    const distance = useMemo(() => {
+        if (!geolocation) return null
+        if (!parkingSpot) return null
+        return calculateDistance(
+            geolocation.latitude,
+            geolocation.longitude,
+            parkingSpot.latitude,
+            parkingSpot.longitude,
+        )
+    }, [geolocation, parkingSpot])
 
     const formatTime = (date: Date) => {
         return new Date(date).toLocaleTimeString([], {
@@ -118,16 +129,6 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId, userLoca
     }
 
     if (parkingSpot) {
-        // Calculate the distance if userLocation is available
-        const distance =
-            userLocation?.latitude && userLocation?.longitude
-                ? calculateDistance(
-                      userLocation.latitude,
-                      userLocation.longitude,
-                      parkingSpot.latitude,
-                      parkingSpot.longitude,
-                  )
-                : null
         return (
             <div className="w-full h-full shadow-lg flex flex-col">
                 <motion.div

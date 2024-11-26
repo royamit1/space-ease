@@ -1,9 +1,9 @@
+import LatLngBoundsLiteral = google.maps.LatLngBoundsLiteral
+
 export interface ParkingSpotFilters {
     priceRange?: string
     userId?: string
-    latitude?: number
-    longitude?: number
-    maxDistance?: number
+    bounds: LatLngBoundsLiteral
 }
 
 export interface Location {
