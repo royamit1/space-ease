@@ -1,7 +1,7 @@
 "use server"
 import db from "@/lib/db"
 import { createClient } from "@/utils/supabase/server"
-import { ActiveRent, ParkingSpot, RentalHistory } from "@/prisma/generated/client"
+import { RentalHistory } from "@/prisma/generated/client"
 import { calculateTotalCost } from "@/lib/rent"
 
 export const fetchHistoryParkingSpots = async () => {
@@ -15,20 +15,6 @@ export const fetchHistoryParkingSpots = async () => {
     } catch (error) {
         console.error("Error fetching parking spots:", error)
         throw error // This will allow React Query to handle the error
-    }
-}
-
-export const fetchParkingSpotById = async (id: number) => {
-    try {
-        const singleParking = await db.parkingSpot.findUnique({
-            where: {
-                id: id,
-            },
-        })
-        return singleParking
-    } catch (error) {
-        console.error("Error fetching parking spot by id : ", error)
-        throw error
     }
 }
 

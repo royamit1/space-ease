@@ -1,5 +1,5 @@
 "use client"
-import { fetchHistoryParkingSpots, fetchParkingImagesById, fetchParkingSpotById } from "@/app/actions"
+import { fetchHistoryParkingSpots, fetchParkingImagesById } from "@/app/actions"
 import { ParkingSpotFilters } from "@/utils/types"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useEffect } from "react"
@@ -38,7 +38,7 @@ export async function fetchAvailableParkingSpots(
     }
 }
 
-const useParkingSpots = (filters: ParkingSpotFilters) => {
+export const useParkingSpots = (filters: ParkingSpotFilters) => {
     const queryClient = useQueryClient()
     useEffect(() => {
         queryClient.invalidateQueries({ queryKey: ["parkingSpots"] })
@@ -52,16 +52,24 @@ const useParkingSpots = (filters: ParkingSpotFilters) => {
     return parkingSpotsQuery
 }
 
-const useHistoryParkingSpots = () => {
-    const historyParkingSpotsQuery = useQuery({
-        queryKey: ["historyParkingSpots"],
-        queryFn: async () => await fetchHistoryParkingSpots(),
-        refetchOnWindowFocus: false,
-    })
-    return historyParkingSpotsQuery
+export const fetchParkingSpotById = async (id: number): Promise<ParkingSpot> => {
+    try {
+        const response = await fetch(`/api/parking/${id}`, {
+            method: "GET",
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error fetching parking spot: ${response.statusText}`)
+        }
+
+        return await response.json()
+    } catch (error: any) {
+        console.error("Error in fetchParkingSpotById:", error)
+        throw error
+    }
 }
 
-const useParkingSpotById = (id: number | null) => {
+export const useParkingSpotById = (id: number | null) => {
     return useQuery({
         queryKey: ["parkingSpots", id],
         queryFn: async () => await fetchParkingSpotById(id!),
@@ -69,7 +77,7 @@ const useParkingSpotById = (id: number | null) => {
     })
 }
 
-const useParkingImagesById = (id: number | null) => {
+export const useParkingImagesById = (id: number | null) => {
     return useQuery({
         queryKey: ["parkingSpotImages", id],
         queryFn: async () => await fetchParkingImagesById(id!),
@@ -77,4 +85,11 @@ const useParkingImagesById = (id: number | null) => {
     })
 }
 
-export { useParkingSpots, useParkingSpotById, useHistoryParkingSpots, useParkingImagesById }
+export const useHistoryParkingSpots = () => {
+    const historyParkingSpotsQuery = useQuery({
+        queryKey: ["historyParkingSpots"],
+        queryFn: async () => await fetchHistoryParkingSpots(),
+        refetchOnWindowFocus: false,
+    })
+    return historyParkingSpotsQuery
+}
