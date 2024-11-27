@@ -39,7 +39,7 @@ export const ParkingList: React.FC<ParkingListProps> = () => {
 
     if (parkingSpots) {
         return (
-            <ul className="flex flex-col w-full p-4 overflow-y-auto space-y-3">
+            <ul className="flex flex-col w-full p-4 space-y-3">
                 {parkingSpots.map((spot) => (
                     <ParkingSpotItem key={spot.id} spot={spot} />
                 ))}
