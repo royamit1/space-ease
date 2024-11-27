@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react"
 import FilterSelection from "@/components/filter-selection"
 import { Separator } from "@/components/ui/separator"
 import { ParkingSpotFilters } from "@/utils/types"
-import { fetchUser } from "@/app/actions"
+import { fetchUser } from "@/hooks/useSupabase"
 import { useFooterState } from "@/hooks/useFooterState"
 
 export const SearchFooter: React.FC = () => {

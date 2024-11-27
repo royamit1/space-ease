@@ -1,62 +1,87 @@
 "use client"
-import {
-    createParkingSpot,
-    fetchAvailableParkingSpots,
-    fetchHistoryParkingSpots,
-    fetchParkingSpotById,
-    fetchParkingImagesById,
-} from "@/app/actions"
+import { fetchHistoryParkingSpots } from "./useHistory"
 import { ParkingSpotFilters } from "@/utils/types"
-import { ParkingFormSchema } from "@/schemas/parking-form-schema"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useEffect } from "react"
+import { ParkingSpot } from "@/prisma/generated/client"
 
-const useParkingSpots = (filters: ParkingSpotFilters) => {
+export async function fetchAvailableParkingSpots(
+    filters: ParkingSpotFilters,
+    signal: AbortSignal,
+): Promise<ParkingSpot[]> {
+    try {
+        const queryParams = new URLSearchParams()
+        queryParams.set("north", filters.bounds.north.toString())
+        queryParams.set("south", filters.bounds.south.toString())
+        queryParams.set("east", filters.bounds.east.toString())
+        queryParams.set("west", filters.bounds.west.toString())
+
+        if (filters.priceRange) {
+            queryParams.set("priceRange", filters.priceRange)
+        }
+        if (filters.userId) {
+            queryParams.set("userId", filters.userId.toString())
+        }
+        const response = await fetch(`/api/parking?${queryParams.toString()}`, {
+            method: "GET",
+            signal,
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error fetching parking spots: ${response.statusText}`)
+        }
+
+        return await response.json()
+    } catch (error: any) {
+        console.error("Error in fetchAvailableParkingSpots:", error)
+        throw error
+    }
+}
+
+export const useParkingSpots = (filters: ParkingSpotFilters) => {
+    const queryClient = useQueryClient()
+    useEffect(() => {
+        queryClient.invalidateQueries({ queryKey: ["parkingSpots"] })
+    }, [filters])
     const parkingSpotsQuery = useQuery({
-        queryKey: ["parkingSpots", filters],
-        queryFn: () => fetchAvailableParkingSpots(filters),
+        queryKey: ["parkingSpots"],
+        queryFn: async ({ signal }) => await fetchAvailableParkingSpots(filters, signal),
         refetchOnWindowFocus: false,
         refetchInterval: 10000, // Refetch every 10 seconds
     })
     return parkingSpotsQuery
 }
 
-const useHistoryParkingSpots = () => {
-    const historyParkingSpotsQuery = useQuery({
-        queryKey: ["historyParkingSpots"],
-        queryFn: () => fetchHistoryParkingSpots(),
-        refetchOnWindowFocus: false,
-    })
-    return historyParkingSpotsQuery
+export const fetchParkingSpotById = async (id: number): Promise<ParkingSpot> => {
+    try {
+        const response = await fetch(`/api/parking/${id}`, {
+            method: "GET",
+        })
+
+        if (!response.ok) {
+            throw new Error(`Error fetching parking spot: ${response.statusText}`)
+        }
+
+        return await response.json()
+    } catch (error: any) {
+        console.error("Error in fetchParkingSpotById:", error)
+        throw error
+    }
 }
 
-const useParkingSpotById = (id: number | null) => {
+export const useParkingSpotById = (id: number | null) => {
     return useQuery({
         queryKey: ["parkingSpots", id],
-        queryFn: () => fetchParkingSpotById(id!),
+        queryFn: async () => await fetchParkingSpotById(id!),
         enabled: !!id, // Only run if `id` is not null or undefined
     })
 }
 
-const useParkingImagesById = (id: number | null) => {
-    return useQuery({
-        queryKey: ["parkingSpotImages", id],
-        queryFn: () => fetchParkingImagesById(id!),
-        enabled: !!id,
+export const useHistoryParkingSpots = () => {
+    const historyParkingSpotsQuery = useQuery({
+        queryKey: ["historyParkingSpots"],
+        queryFn: async () => await fetchHistoryParkingSpots(),
+        refetchOnWindowFocus: false,
     })
+    return historyParkingSpotsQuery
 }
-
-const useParkingMutation = () => {
-    const queryClient = useQueryClient()
-    return useMutation({
-        mutationFn: (parkingFormData: ParkingFormSchema & { imageUrls: string[] }) =>
-            createParkingSpot(parkingFormData),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["parkingSpots"] })
-        },
-        onError: (error) => {
-            console.error("Error creating parking spot:", error)
-        },
-    })
-}
-
-export { useParkingSpots, useParkingMutation, useParkingSpotById, useHistoryParkingSpots, useParkingImagesById }
