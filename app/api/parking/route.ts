@@ -44,7 +44,7 @@ export async function GET(req: Request) {
 
         // Add user-owned parking spots filter
         if (userId) {
-            whereClause.userId = parseInt(userId, 10)
+            whereClause.userId = userId
         }
 
         const parkingSpots = await db.parkingSpot.findMany({

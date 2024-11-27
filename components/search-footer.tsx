@@ -33,10 +33,10 @@ export const SearchFooter: React.FC = () => {
     }
 
     return (
-        <>
+        <div className="w-full h-full">
             <FilterSelection onPriceChange={handlePriceFilterChange} onMyParkingToggle={handleMyParkingToggle} />
             <Separator />
             <ParkingList />
-        </>
+        </div>
     )
 }
