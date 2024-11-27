@@ -30,6 +30,10 @@ model ParkingSpot {
   updatedAt    DateTime       @updatedAt
   ParkingImage ParkingImage[]
   ActiveRent   ActiveRent[]
+  @@index([startTime, endTime])
+  @@index([hourlyRate])
+  @@index([userId])
+  @@index([latitude, longitude])
 }
 
 model ParkingImage {
@@ -38,6 +42,7 @@ model ParkingImage {
   url           String // URL of the image
   createdAt     DateTime    @default(now())
   parkingSpot   ParkingSpot @relation(fields: [parkingSpotId], references: [id], onDelete: Cascade)
+  @@index([parkingSpotId])
 }
 
 model ActiveRent {
@@ -47,6 +52,8 @@ model ActiveRent {
   hourlyRate    Float
   createdAt     DateTime    @default(now())
   parkingSpot   ParkingSpot @relation(fields: [parkingSpotId], references: [id], onDelete: Cascade)
+  @@index([userId])
+  @@index([parkingSpotId])
 }
 
 model RentalHistory {
@@ -56,4 +63,5 @@ model RentalHistory {
   startDate     DateTime
   endDate       DateTime @default(now())
   totalCost     Float
+  @@index([userId])
 }

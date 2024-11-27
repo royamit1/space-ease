@@ -22,7 +22,7 @@ const initial = {
     zoom: 14,
 }
 
-const BOUNCE_CHANGE_DEBOUNCE = 1000
+const BOUNCE_CHANGE_DEBOUNCE = 100
 export const MyMap: React.FC<MyMapProps> = ({ children, searchCoordinates, ...props }) => {
     const theme = useTheme()
     const store = useFooterStore()

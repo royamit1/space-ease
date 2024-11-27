@@ -9,10 +9,15 @@ import {
 import { ParkingSpotFilters } from "@/utils/types"
 import { ParkingFormSchema } from "@/schemas/parking-form-schema"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useEffect } from "react"
 
 const useParkingSpots = (filters: ParkingSpotFilters) => {
+    const queryClient = useQueryClient()
+    useEffect(() => {
+        queryClient.invalidateQueries({ queryKey: ["parkingSpots"] })
+    }, [filters])
     const parkingSpotsQuery = useQuery({
-        queryKey: ["parkingSpots", filters],
+        queryKey: ["parkingSpots"],
         queryFn: () => fetchAvailableParkingSpots(filters),
         refetchOnWindowFocus: false,
         refetchInterval: 10000, // Refetch every 10 seconds
