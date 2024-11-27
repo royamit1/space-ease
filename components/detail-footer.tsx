@@ -3,7 +3,7 @@
 import React, { useState } from "react"
 import ParkingDetails from "@/components/parking-details"
 import { useQueryClient } from "@tanstack/react-query"
-import { startRenting } from "@/app/actions"
+import { startRenting } from "@/hooks/useRentals"
 import { ConfirmationButton } from "@/components/common/confirmation-button"
 import { useAuthStatus } from "@/hooks/useAuthStatus"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"

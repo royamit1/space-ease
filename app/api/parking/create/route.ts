@@ -4,9 +4,8 @@ import { createClient } from "@/utils/supabase/server"
 
 // POST request handler for creating a parking spot
 export async function POST(req: Request) {
+    const supabase = createClient()
     try {
-        const supabase = createClient()
-
         // Parse incoming request data
         const parkingFormData = await req.json()
 

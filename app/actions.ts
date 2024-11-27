@@ -18,37 +18,6 @@ export const fetchHistoryParkingSpots = async () => {
     }
 }
 
-export const startRenting = async (parkingSpotId: number) => {
-    const supabase = createClient()
-    const { data, error } = await supabase.auth.getUser()
-    if (error) throw error
-
-    if (!data || !data.user) throw new Error("User not authenticated")
-
-    const parkingSpot = await db.parkingSpot.findUnique({
-        where: { id: parkingSpotId },
-    })
-    if (!parkingSpot) throw new Error("Parking spot not found")
-
-    // Check if the parking spot is already rented
-    const existingRent = await db.activeRent.findFirst({
-        where: { parkingSpotId },
-    })
-
-    if (existingRent) {
-        throw new Error("unavailable")
-    }
-
-    // Create a new rental if it's not already rented
-    await db.activeRent.create({
-        data: {
-            userId: data.user.id,
-            parkingSpotId,
-            hourlyRate: parkingSpot.hourlyRate,
-        },
-    })
-}
-
 export const endRenting = async () => {
     const supabase = createClient()
     const { data, error } = await supabase.auth.getUser()
