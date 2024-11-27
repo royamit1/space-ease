@@ -14,7 +14,7 @@ import ImageUpload from "./ui/image-upload"
 import Image from "next/image"
 import { useFooterStore } from "@/hooks/useFooterState"
 import GradualSpacing from "@/components/ui/gradual-spacing"
-import { createParkingSpot } from "@/app/actions"
+import { createParkingSpot } from "@/hooks/useCreateParking"
 import { useQueryClient } from "@tanstack/react-query"
 
 export const CreateParkingForm: React.FC = () => {
