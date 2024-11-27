@@ -2,7 +2,6 @@
 import db from "@/lib/db"
 import { createClient } from "@/utils/supabase/server"
 import { RentalHistory } from "@/prisma/generated/client"
-import { calculateTotalCost } from "@/lib/rent"
 
 export const fetchHistoryParkingSpots = async () => {
     try {
@@ -16,28 +15,6 @@ export const fetchHistoryParkingSpots = async () => {
         console.error("Error fetching parking spots:", error)
         throw error // This will allow React Query to handle the error
     }
-}
-
-export const endRenting = async () => {
-    const supabase = createClient()
-    const { data, error } = await supabase.auth.getUser()
-    if (error) throw error
-
-    if (!data || !data.user) throw new Error("User not authenticated")
-
-    const activeRent = await db.activeRent.delete({
-        where: { userId: data.user.id },
-    })
-    const totalCost = calculateTotalCost(activeRent, new Date())
-
-    await db.rentalHistory.create({
-        data: {
-            userId: activeRent.userId,
-            parkingSpotId: activeRent.parkingSpotId,
-            startDate: activeRent.createdAt,
-            totalCost: totalCost,
-        },
-    })
 }
 
 export const getActiveRent = async () => {
