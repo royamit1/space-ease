@@ -1,5 +1,5 @@
 "use client"
-import { fetchHistoryParkingSpots } from "@/app/actions"
+import { fetchHistoryParkingSpots } from "./useHistory"
 import { ParkingSpotFilters } from "@/utils/types"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useEffect } from "react"

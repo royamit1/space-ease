@@ -17,16 +17,6 @@ export const fetchHistoryParkingSpots = async () => {
     }
 }
 
-export const getActiveRent = async () => {
-    const supabase = createClient()
-    const { data, error } = await supabase.auth.getUser()
-    if (error) return null
-
-    if (!data || !data.user) return null
-
-    return db.activeRent.findUnique({ where: { userId: data.user.id } })
-}
-
 export const fetchUser = async () => {
     const supabase = createClient()
     const { data, error } = await supabase.auth.getUser()
