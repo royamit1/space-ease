@@ -59,7 +59,9 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({ activeRent 
                 <Card className="p-6 bg-destructive/10">
                     <div className="flex items-center gap-3">
                         <AlertCircle className="w-6 h-6 text-destructive" />
-                        <p className="font-semibold text-destructive">{error?.message || "No parking spot found."}</p>
+                        <p className="font-semibold text-destructive">
+                            {error?.message || "Active parking spot is not found."}
+                        </p>
                     </div>
                 </Card>
             </motion.div>

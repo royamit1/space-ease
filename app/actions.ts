@@ -42,49 +42,6 @@ export const createParkingSpot = async (parkingFormData: ParkingFormSchema & { i
     }
 }
 
-export const fetchAvailableParkingSpots = async (filters: ParkingSpotFilters) => {
-    try {
-        const now = new Date()
-        const whereClause: any = {
-            startTime: { lte: now },
-            endTime: { gte: now },
-            latitude: { lte: filters.bounds.north, gte: filters.bounds.south },
-            longitude: { lte: filters.bounds.east, gte: filters.bounds.west },
-            // Ensure the parking spot is not currently being rented
-            ActiveRent: { none: {} },
-        }
-
-        // Add price range filter
-        if (filters.priceRange) {
-            switch (filters.priceRange) {
-                case "$":
-                    whereClause.hourlyRate = { lt: 20 } // Example: Cheap (< $20)
-                    break
-                case "$$":
-                    whereClause.hourlyRate = { gte: 20, lt: 50 } // Example: Moderate ($20-$50)
-                    break
-                case "$$$":
-                    whereClause.hourlyRate = { gte: 50 } // Example: Expensive (>= $50)
-                    break
-            }
-        }
-
-        // Add user-owned parking spots filter
-        if (filters.userId) {
-            whereClause.userId = filters.userId
-        }
-
-        const parkingSpots = await db.parkingSpot.findMany({
-            where: whereClause,
-        })
-
-        return parkingSpots
-    } catch (error) {
-        console.error("Error fetching parking spots:", error)
-        throw error
-    }
-}
-
 export const fetchHistoryParkingSpots = async () => {
     try {
         const historyParkingSpots: RentalHistory[] = await db.rentalHistory.findMany({
