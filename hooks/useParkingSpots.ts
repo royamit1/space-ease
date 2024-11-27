@@ -1,14 +1,12 @@
 "use client"
 import {
-    createParkingSpot,
     fetchAvailableParkingSpots,
     fetchHistoryParkingSpots,
-    fetchParkingSpotById,
     fetchParkingImagesById,
+    fetchParkingSpotById,
 } from "@/app/actions"
 import { ParkingSpotFilters } from "@/utils/types"
-import { ParkingFormSchema } from "@/schemas/parking-form-schema"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useEffect } from "react"
 
 const useParkingSpots = (filters: ParkingSpotFilters) => {
@@ -50,18 +48,4 @@ const useParkingImagesById = (id: number | null) => {
     })
 }
 
-const useParkingMutation = () => {
-    const queryClient = useQueryClient()
-    return useMutation({
-        mutationFn: (parkingFormData: ParkingFormSchema & { imageUrls: string[] }) =>
-            createParkingSpot(parkingFormData),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["parkingSpots"] })
-        },
-        onError: (error) => {
-            console.error("Error creating parking spot:", error)
-        },
-    })
-}
-
-export { useParkingSpots, useParkingMutation, useParkingSpotById, useHistoryParkingSpots, useParkingImagesById }
+export { useParkingSpots, useParkingSpotById, useHistoryParkingSpots, useParkingImagesById }

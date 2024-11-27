@@ -5,7 +5,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { parkingFormSchema, ParkingFormSchema } from "@/schemas/parking-form-schema"
-import { useParkingMutation } from "@/hooks/useParkingSpots"
 import { Textarea } from "@/components/ui/textarea"
 import { CalendarIcon } from "@radix-ui/react-icons"
 import { DollarSignIcon, MapPinIcon } from "lucide-react"
@@ -15,8 +14,11 @@ import ImageUpload from "./ui/image-upload"
 import Image from "next/image"
 import { useFooterStore } from "@/hooks/useFooterState"
 import GradualSpacing from "@/components/ui/gradual-spacing"
+import { createParkingSpot } from "@/app/actions"
+import { useQueryClient } from "@tanstack/react-query"
 
 export const CreateParkingForm: React.FC = () => {
+    const queryClient = useQueryClient()
     const footerStore = useFooterStore()
     const form = useForm<ParkingFormSchema>({
         resolver: zodResolver(parkingFormSchema),
@@ -32,7 +34,6 @@ export const CreateParkingForm: React.FC = () => {
     })
 
     const addressInputRef = useRef<HTMLInputElement>(null)
-    const parkingMutation = useParkingMutation()
     const [isDialogOpen, setIsDialogOpen] = useState(false)
     const [imageUrls, setImageUrls] = useState<string[]>([])
 
@@ -58,8 +59,9 @@ export const CreateParkingForm: React.FC = () => {
         setImageUrls((prev) => [...prev, url])
     }
 
-    const onSubmit = (data: ParkingFormSchema) => {
-        parkingMutation.mutate({ ...data, imageUrls })
+    const onSubmit = async (data: ParkingFormSchema) => {
+        await createParkingSpot({ ...data, imageUrls })
+        await queryClient.invalidateQueries({ queryKey: ["parkingSpots"] })
     }
 
     const handleConfirm = () => {
