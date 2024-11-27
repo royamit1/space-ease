@@ -77,14 +77,6 @@ export const useParkingSpotById = (id: number | null) => {
     })
 }
 
-export const useParkingImagesById = (id: number | null) => {
-    return useQuery({
-        queryKey: ["parkingSpotImages", id],
-        queryFn: async () => await fetchParkingImagesById(id!),
-        enabled: !!id,
-    })
-}
-
 export const useHistoryParkingSpots = () => {
     const historyParkingSpotsQuery = useQuery({
         queryKey: ["historyParkingSpots"],

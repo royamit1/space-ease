@@ -1,5 +1,5 @@
 import React from "react"
-import { useParkingImagesById } from "@/hooks/useParkingSpots"
+import { useParkingImagesById } from "@/hooks/useImages"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 import Image from "next/image"

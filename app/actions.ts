@@ -18,20 +18,6 @@ export const fetchHistoryParkingSpots = async () => {
     }
 }
 
-export const fetchParkingImagesById = async (id: number) => {
-    try {
-        const parkingImages = await db.parkingImage.findMany({
-            where: {
-                parkingSpotId: id,
-            },
-        })
-        return parkingImages
-    } catch (error) {
-        console.error("error fetching parking spot images by id", error)
-        throw error
-    }
-}
-
 export const startRenting = async (parkingSpotId: number) => {
     const supabase = createClient()
     const { data, error } = await supabase.auth.getUser()
