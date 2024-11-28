@@ -15,6 +15,8 @@ import Image from "next/image"
 import { useFooterStore } from "@/hooks/useFooterState"
 import { createParkingSpot } from "@/hooks/useCreateParking"
 import { useQueryClient } from "@tanstack/react-query"
+import { DatePicker } from "@nextui-org/react"
+import { now, today, getLocalTimeZone } from "@internationalized/date"
 
 export const CreateParkingForm: React.FC = () => {
     const queryClient = useQueryClient()
@@ -112,6 +114,7 @@ export const CreateParkingForm: React.FC = () => {
                                                 <DollarSignIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary" />
                                                 <Input
                                                     {...field}
+                                                    value={field.value ?? ""}
                                                     type="number"
                                                     step="0.01"
                                                     min="0"
@@ -131,14 +134,17 @@ export const CreateParkingForm: React.FC = () => {
                                 name="availableFrom"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Available From</FormLabel>
                                         <FormControl>
-                                            <div className="relative">
-                                                <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary" />
-                                                <Input {...field} className="pl-10 py-2" />
-                                            </div>
+                                            <DatePicker
+                                                label="Available From"
+                                                variant="bordered"
+                                                hideTimeZone
+                                                showMonthAndYearPickers
+                                                defaultValue={now(getLocalTimeZone())}
+                                                minValue={today(getLocalTimeZone())}
+                                                onChange={(value) => field.onChange(value.toDate().toISOString())}
+                                            />
                                         </FormControl>
-                                        <FormMessage />
                                     </FormItem>
                                 )}
                             />
@@ -147,12 +153,17 @@ export const CreateParkingForm: React.FC = () => {
                                 name="availableUntil"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Available Until</FormLabel>
                                         <FormControl>
-                                            <div className="relative">
-                                                <CalendarIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary" />
-                                                <Input {...field} className="pl-10 py-2" />
-                                            </div>
+                                            <DatePicker
+                                                label="Available Until"
+                                                variant="bordered"
+                                                hideTimeZone
+                                                showMonthAndYearPickers
+                                                defaultValue={now(getLocalTimeZone())}
+                                                minValue={today(getLocalTimeZone())}
+                                                maxValue={today(getLocalTimeZone()).add({ days: 30 })}
+                                                onChange={(value) => field.onChange(value.toDate().toISOString())}
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
