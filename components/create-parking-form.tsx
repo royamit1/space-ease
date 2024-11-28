@@ -117,6 +117,7 @@ export const CreateParkingForm: React.FC = () => {
                                                 <DollarSignIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary" />
                                                 <Input
                                                     {...field}
+                                                    value={field.value ?? ""}
                                                     type="number"
                                                     step="0.01"
                                                     min="0"
