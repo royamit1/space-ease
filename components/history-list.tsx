@@ -2,7 +2,7 @@
 import React from "react"
 import { HistoryParkingSpotItem } from "@/components/history-parking-item"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useHistoryParkingSpots, useParkingSpots } from "@/hooks/useParkingSpots"
+import { useRentHistory } from "@/hooks/useRentHistory"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 
@@ -19,7 +19,7 @@ const LoadingSkeleton = () => (
 )
 
 export const HistoryParkingList: React.FC = () => {
-    const { data: parkingSpots, error } = useHistoryParkingSpots()
+    const { data: parkingSpots, error } = useRentHistory()
 
     if (error) {
         return (

@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query"
 import { RentalHistory } from "@/prisma/generated/client"
 
-export const fetchHistoryParkingSpots = async (): Promise<RentalHistory[]> => {
+export const fetchRentHistory = async (): Promise<RentalHistory[]> => {
     try {
-        const response = await fetch("/api/parking/history", {
+        const response = await fetch("/api/rentals/history", {
             method: "GET",
         })
 
@@ -18,10 +18,10 @@ export const fetchHistoryParkingSpots = async (): Promise<RentalHistory[]> => {
     }
 }
 
-export const useHistoryParkingSpots = () => {
+export const useRentHistory = () => {
     return useQuery({
         queryKey: ["historyParkingSpots"],
-        queryFn: () => fetchHistoryParkingSpots(),
+        queryFn: () => fetchRentHistory(),
         refetchOnWindowFocus: false, // Prevent refetching on window focus
     })
 }

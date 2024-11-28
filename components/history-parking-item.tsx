@@ -3,9 +3,9 @@ import { RentalHistory } from "@/prisma/generated/client"
 import { useFooterState } from "@/hooks/useFooterState"
 import { AlertCircle, ChevronRightIcon, MapPinIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useParkingSpotById } from "@/hooks/useParkingSpots"
 import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
+import { useParkingSpotById } from "@/hooks/useParkingSpotById"
 
 interface HistoryParkingSpotItemProps {
     historyParkingSpot: RentalHistory
