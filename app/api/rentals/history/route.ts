@@ -7,12 +7,15 @@ export async function GET() {
         const supabase = createClient()
 
         // Authenticate the user
-        const { data: user, error } = await supabase.auth.getUser()
-        if (error || !user) {
+        const { data, error } = await supabase.auth.getUser()
+        if (error || !data.user) {
             return NextResponse.json({ message: "User not authenticated" }, { status: 401 })
         }
         const historyParkingSpots = await db.rentalHistory.findMany({
-            where: { userId: user.user.id },
+            where: { userId: data.user.id },
+            include: {
+                parkingSpot: true,
+            },
             orderBy: {
                 startDate: "desc",
             },

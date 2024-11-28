@@ -1,7 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
-import { RentalHistory } from "@/prisma/generated/client"
+import { ParkingSpot, RentalHistory } from "@/prisma/generated/client"
 
-export const fetchRentHistory = async (): Promise<RentalHistory[]> => {
+export interface RentalHistoryListItem extends RentalHistory {
+    parkingSpot: ParkingSpot
+}
+
+export const fetchRentHistory = async (): Promise<RentalHistoryListItem[]> => {
     try {
         const response = await fetch("/api/rentals/history", {
             method: "GET",

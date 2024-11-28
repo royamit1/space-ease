@@ -10,15 +10,15 @@ export async function POST(req: Request) {
         const parkingFormData = await req.json()
 
         // Authenticate the user
-        const { data: user, error } = await supabase.auth.getUser()
-        if (error || !user) {
+        const { data, error } = await supabase.auth.getUser()
+        if (error || !data.user) {
             return NextResponse.json({ message: "User not authenticated" }, { status: 401 })
         }
 
         // Create a new parking spot in the database
         const parkingSpot = await db.parkingSpot.create({
             data: {
-                userId: user.user.id,
+                userId: data.user.id,
                 latitude: parkingFormData.latitude,
                 longitude: parkingFormData.longitude,
                 address: parkingFormData.address,

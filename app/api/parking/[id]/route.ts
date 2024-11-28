@@ -11,7 +11,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     try {
         const parkingSpot = await db.parkingSpot.findUnique({
             where: {
-                id: parseInt(id, 10),
+                id: parseInt(id),
             },
         })
 

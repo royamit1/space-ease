@@ -1,6 +1,6 @@
 "use client"
 import React from "react"
-import { HistoryParkingSpotItem } from "@/components/history-parking-item"
+import { RentHistoryListItem } from "@/components/history-parking-item"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useRentHistory } from "@/hooks/useRentHistory"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -19,7 +19,7 @@ const LoadingSkeleton = () => (
 )
 
 export const HistoryParkingList: React.FC = () => {
-    const { data: parkingSpots, error } = useRentHistory()
+    const { data: rentHistory, error } = useRentHistory()
 
     if (error) {
         return (
@@ -32,11 +32,11 @@ export const HistoryParkingList: React.FC = () => {
             </Alert>
         )
     }
-    if (parkingSpots) {
+    if (rentHistory) {
         return (
             <ul className="flex-grow flex flex-col w-full p-4 overflow-y-auto space-y-3">
-                {parkingSpots.map((historyParkingSpot) => (
-                    <HistoryParkingSpotItem key={historyParkingSpot.id} historyParkingSpot={historyParkingSpot} />
+                {rentHistory.map((rentHistory) => (
+                    <RentHistoryListItem key={rentHistory.id} rentHistory={rentHistory} />
                 ))}
             </ul>
         )
