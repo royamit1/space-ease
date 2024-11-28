@@ -13,7 +13,6 @@ import { Separator } from "@/components/ui/separator"
 import ImageUpload from "./ui/image-upload"
 import Image from "next/image"
 import { useFooterStore } from "@/hooks/useFooterState"
-import GradualSpacing from "@/components/ui/gradual-spacing"
 import { createParkingSpot } from "@/hooks/useCreateParking"
 import { useQueryClient } from "@tanstack/react-query"
 import { DatePicker } from "@nextui-org/react"
@@ -77,11 +76,7 @@ export const CreateParkingForm: React.FC = () => {
             <form>
                 <div className="flex flex-col h-full">
                     <div className="p-3">
-                        <GradualSpacing
-                            className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight"
-                            text="Create A Parking Spot"
-                            delayMultiple={0.03}
-                        />
+                        <h1 className="text-center text-3xl font-semibold first:mt-0 p-2">Create a Parking Space</h1>
                     </div>
 
                     <Separator className="my-2" />

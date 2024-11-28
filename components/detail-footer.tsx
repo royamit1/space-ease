@@ -33,7 +33,7 @@ export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot 
     }
 
     return (
-        <div className="flex flex-col h-full p-4">
+        <div className="flex flex-col min-h-full p-4">
             <ParkingDetails parkingSpotId={selectedParkingSpot} />
             <div className="flex-grow" />
             <TooltipProvider>
@@ -45,7 +45,11 @@ export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot 
                                     Sorry, this parking spot is currently being rented. Please choose a different spot.
                                 </div>
                             )}
-                            <ConfirmationButton className="w-full" onClick={handleRent} disabled={!isLoggedIn || err}>
+                            <ConfirmationButton
+                                className="w-full bottom-4 left-4 right-4 z-10"
+                                onClick={handleRent}
+                                disabled={!isLoggedIn || err}
+                            >
                                 Rent Now
                             </ConfirmationButton>
                         </div>

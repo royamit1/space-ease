@@ -3,12 +3,13 @@ import { AlertCircle, Clock, DollarSign, Info, MapPin } from "lucide-react"
 import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { useParkingSpotById } from "@/hooks/useParkingSpots"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { ParkingSpotImages, ParkingSpotImagesSkeleton } from "@/components/parking-spot-images"
+import { ParkingSpotImages } from "@/components/parking-spot-images"
 import { Skeleton } from "@/components/ui/skeleton"
 import { calculateDistance } from "@/utils/utils"
 import useGeolocation from "react-hook-geolocation"
+import { format, isSameDay } from "date-fns"
+import { useParkingSpotById } from "@/hooks/useParkingSpotById"
 
 interface ParkingDetailsProps {
     parkingSpotId: number
@@ -72,7 +73,7 @@ const LoadingSkeleton = () => (
                     </div>
                 </div>
                 <div className="sm:col-span-1 md:col-span-1">
-                    <ParkingSpotImagesSkeleton />
+                    <ParkingSpotImages parkingSpotId={0} />
                 </div>
             </div>
         </div>
@@ -84,7 +85,8 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
     const { data: parkingSpot, error } = useParkingSpotById(parkingSpotId)
 
     const distance = useMemo(() => {
-        if (!geolocation) return null
+        if (!geolocation.longitude) return null
+        if (!geolocation.latitude) return null
         if (!parkingSpot) return null
         return calculateDistance(
             geolocation.latitude,
@@ -130,7 +132,7 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
 
     if (parkingSpot) {
         return (
-            <div className="w-full h-full shadow-lg flex flex-col">
+            <div className="flex flex-col">
                 <motion.div
                     initial="hidden"
                     animate="show"
@@ -153,54 +155,70 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
                     </motion.div>
                     <div className="grid sm:grid-cols-2 md:grid-cols-3 ">
                         <div className="sm:col-span-1 md:col-span-2">
-                            <motion.div initial="hidden" animate="show" variants={container} className="p-3 space-y-2">
+                            <motion.div initial="hidden" animate="show" variants={container} className="p-3 space-y-1">
                                 <motion.div variants={item}>
                                     <Card className="relative overflow-hidden group">
                                         <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent group-hover:opacity-75 transition-opacity" />
-                                        <div className="relative p-4 sm:p-5 lg:p-6">
-                                            <div className="flex items-center gap-3 mb-3">
+                                        <div className="relative p-3 sm:p-4 lg:p-5">
+                                            <div className="flex items-center gap-3">
                                                 <Clock className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
-                                                <h4 className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl">
-                                                    Available Hours
-                                                </h4>
+                                                <span className="text-sm sm:text-base lg:text-lg font-medium">
+                                                    {isSameDay(
+                                                        new Date(parkingSpot.startTime),
+                                                        new Date(parkingSpot.endTime),
+                                                    ) ? (
+                                                        <>
+                                                            {/* Same day: display date once and show time range */}
+                                                            {format(
+                                                                new Date(parkingSpot.startTime),
+                                                                "dd MMM yyyy, HH:mm",
+                                                            )}{" "}
+                                                            - {format(new Date(parkingSpot.endTime), "HH:mm")}
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            {/* Different days: display full date and time for both */}
+                                                            {format(
+                                                                new Date(parkingSpot.startTime),
+                                                                "dd MMM yyyy, HH:mm",
+                                                            )}{" "}
+                                                            -{" "}
+                                                            {format(
+                                                                new Date(parkingSpot.endTime),
+                                                                "dd MMM yyyy, HH:mm",
+                                                            )}
+                                                        </>
+                                                    )}
+                                                </span>
                                             </div>
-                                            <p className="text-sm sm:text-base lg:text-lg font-medium">
-                                                {formatTime(parkingSpot.startTime)} - {formatTime(parkingSpot.endTime)}
-                                            </p>
                                         </div>
                                     </Card>
                                 </motion.div>
-                                <div className="grid grid-cols-1 gap-2 md:grid-cols-1">
+                                <div className="grid grid-cols-1 gap-1 md:grid-cols-1">
                                     <motion.div variants={item}>
                                         <Card className="relative overflow-hidden group">
                                             <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent group-hover:opacity-75 transition-opacity" />
-                                            <div className="relative p-4 sm:p-5 lg:p-6">
-                                                <div className="flex items-center gap-3 mb-3">
+                                            <div className="relative p-3 sm:p-4 lg:p-5">
+                                                <div className="flex items-center gap-3">
                                                     <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
-                                                    <h4 className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl">
-                                                        Hourly Rate
-                                                    </h4>
+                                                    <span className="text-sm sm:text-base lg:text-lg font-medium">
+                                                        {parkingSpot.hourlyRate.toFixed(2)}/hour
+                                                    </span>
                                                 </div>
-                                                <p className="text-sm sm:text-base lg:text-lg font-medium">
-                                                    ${parkingSpot.hourlyRate.toFixed(2)}/hour
-                                                </p>
                                             </div>
                                         </Card>
                                     </motion.div>
                                     <motion.div variants={item}>
                                         <Card className="relative overflow-hidden group">
                                             <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent group-hover:opacity-75 transition-opacity" />
-                                            <div className="relative p-4 sm:p-5 lg:p-6">
-                                                <div className="flex items-center gap-3 mb-3">
+                                            <div className="relative p-3 sm:p-4 lg:p-5">
+                                                <div className="flex items-center gap-3">
                                                     <Info className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
-                                                    <h4 className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl">
-                                                        Spot Details
-                                                    </h4>
-                                                </div>
-                                                <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none">
-                                                    <p className="text-muted-foreground leading-relaxed">
-                                                        {parkingSpot.description || "No description provided."}
-                                                    </p>
+                                                    <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none">
+                                                        <span className="text-sm sm:text-base lg:text-lg font-medium">
+                                                            {parkingSpot.description || "No description provided."}
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </Card>
@@ -208,7 +226,7 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
                                 </div>
                             </motion.div>
                         </div>
-                        <div className="p-3 sm:col-span-1 md:col-span-1">
+                        <div className="px-3 sm:col-span-1 md:col-span-1 w-full h-48 lg:h-64 xl:h-96 mb-4">
                             <ParkingSpotImages parkingSpotId={parkingSpot.id} />
                         </div>
                     </div>
