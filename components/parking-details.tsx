@@ -3,13 +3,13 @@ import { AlertCircle, Clock, DollarSign, Info, MapPin } from "lucide-react"
 import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { useParkingSpotById } from "@/hooks/useParkingSpots"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { ParkingSpotImages, ParkingSpotImagesSkeleton } from "@/components/parking-spot-images"
+import { ParkingSpotImages } from "@/components/parking-spot-images"
 import { Skeleton } from "@/components/ui/skeleton"
 import { calculateDistance } from "@/utils/utils"
 import useGeolocation from "react-hook-geolocation"
 import { format, isSameDay } from "date-fns"
+import { useParkingSpotById } from "@/hooks/useParkingSpotById"
 
 interface ParkingDetailsProps {
     parkingSpotId: number

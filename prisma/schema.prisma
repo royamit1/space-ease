@@ -30,6 +30,7 @@ model ParkingSpot {
   updatedAt    DateTime       @updatedAt
   ParkingImage ParkingImage[]
   ActiveRent   ActiveRent[]
+  RentalHistory RentalHistory[]
   @@index([startTime, endTime])
   @@index([hourlyRate])
   @@index([userId])
@@ -60,6 +61,7 @@ model RentalHistory {
   id            Int      @id @default(autoincrement())
   userId        String
   parkingSpotId Int
+  parkingSpot   ParkingSpot @relation(fields: [parkingSpotId], references: [id], onDelete: Cascade)
   startDate     DateTime
   endDate       DateTime @default(now())
   totalCost     Float

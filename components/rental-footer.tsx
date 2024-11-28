@@ -1,5 +1,4 @@
 import React, { useMemo } from "react"
-import { useParkingSpotById } from "@/hooks/useParkingSpots"
 import { AlertCircle, CheckCircle, Clock, MapPin, XCircle } from "lucide-react"
 import { ConfirmationButton } from "@/components/common/confirmation-button"
 import { ActiveRent } from "@/prisma/generated/client"
@@ -15,6 +14,7 @@ import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ParkingSpotImages } from "@/components/parking-spot-images"
+import { useParkingSpotById } from "@/hooks/useParkingSpotById"
 
 export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({ activeRent }) => {
     const footerStore = useFooterStore()
