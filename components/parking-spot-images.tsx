@@ -5,6 +5,7 @@ import { AlertCircle } from "lucide-react"
 import Image from "next/image"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Card, CardContent } from "@/components/ui/card"
 
 interface ParkingSpotImagesProps {
     parkingSpotId: number
@@ -38,42 +39,44 @@ export const ParkingSpotImages: React.FC<ParkingSpotImagesProps> = ({ parkingSpo
         )
     }
 
-    if (images) {
-        return (
-            <div className="w-full flex justify-center items-center relative">
-                <div className="w-full">
-                    <Carousel
-                        opts={{
-                            align: "start",
-                            loop: true,
-                        }}
-                        className="w-full"
-                    >
-                        <CarouselContent className="-ml-2 md:-ml-4">
-                            {images.map((image) => (
-                                <CarouselItem key={image.id} className="pl-2 md:pl-4 basis-full">
-                                    <div className="relative aspect-square overflow-hidden rounded-xl">
-                                        <Image
-                                            src={image.url}
-                                            alt="Parking Spot"
-                                            fill
-                                            className="object-cover transition-transform duration-300 hover:scale-105"
-                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                        />
-                                    </div>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                        <CarouselPrevious className="absolute top-1/2 -translate-y-1/2 -left-4 z-10" />
-                        <CarouselNext className="absolute top-1/2 -translate-y-1/2 -right-4 z-10" />
-                    </Carousel>
-
-                    {/* Mobile Indicator */}
-                    <p className="text-xs text-muted-foreground text-center mt-2">Swipe to view more images</p>
-                </div>
-            </div>
-        )
-    }
-
-    return <ParkingSpotImagesSkeleton />
+    return (
+        <Carousel
+            opts={{
+                align: "start",
+                loop: true,
+            }}
+            className="w-full h-full"
+        >
+            <CarouselContent>
+                {images ? (
+                    images.map((image) => (
+                        <CarouselItem key={image.id}>
+                            <Image
+                                src={image.url}
+                                alt="Parking Spot"
+                                width={300}
+                                height={300}
+                                className="mx-auto w-48 h-48 lg:w-64 xl:w-96 lg:h-64 xl:h-96 object-cover"
+                            />
+                        </CarouselItem>
+                    ))
+                ) : (
+                    <CarouselItem>
+                        <Skeleton className="mx-auto w-48 h-48 lg:w-64 xl:w-96 lg:h-64 xl:h-96" />
+                    </CarouselItem>
+                )}
+                {images?.length === 0 && (
+                    <CarouselItem>
+                        <Card className="mx-auto w-48 h-48 lg:w-64 xl:w-96 lg:h-64 xl:h-96">
+                            <CardContent className="flex aspect-square items-center justify-center p-6">
+                                <span className="text-4xl font-semibold">No Images</span>
+                            </CardContent>
+                        </Card>
+                    </CarouselItem>
+                )}
+            </CarouselContent>
+            <CarouselPrevious className="absolute top-1/2 left-0 z-10" />
+            <CarouselNext className="absolute top-1/2 right-0 z-10" />
+        </Carousel>
+    )
 }
