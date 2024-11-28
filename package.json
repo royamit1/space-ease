@@ -10,7 +10,9 @@
     },
     "dependencies": {
         "@hookform/resolvers": "^3.9.0",
+        "@internationalized/date": "^3.6.0",
         "@next/eslint-plugin-next": "^15.0.3",
+        "@nextui-org/react": "^2.4.8",
         "@prisma/client": "^5.22.0",
         "@radix-ui/react-avatar": "^1.1.1",
         "@radix-ui/react-checkbox": "^1.1.1",
@@ -39,7 +41,7 @@
         "date-fns": "^3.6.0",
         "embla-carousel": "^8.3.0",
         "embla-carousel-react": "^8.5.1",
-        "framer-motion": "^11.11.17",
+        "framer-motion": "^11.12.0",
         "geist": "^1.2.1",
         "google-one-tap": "^1.0.6",
         "lucide-react": "^0.436.0",
