@@ -14,14 +14,14 @@ interface DetailFooterProps {
 
 export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot }) => {
     const queryClient = useQueryClient()
-    const isLoggedIn = useAuthStatus() // Use custom hook
+    const isLoggedIn = useAuthStatus()
     const [err, setErr] = useState(false)
 
     const handleRent = async () => {
         try {
             await startRenting(selectedParkingSpot)
             await queryClient.invalidateQueries({ queryKey: ["activeRent"] })
-            setErr(false) // Reset error if successful
+            setErr(false)
         } catch (err: any) {
             if (err.message === "unavailable") {
                 setErr(true)
