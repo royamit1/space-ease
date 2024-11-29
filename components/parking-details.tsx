@@ -139,7 +139,7 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
                     variants={container}
                     className="max-w-2xl md:max-w-4xl lg:max-w-6xl xl:max-w-full"
                 >
-                    <motion.div variants={item} className="flex-shrink-0 mb-4 px-4">
+                    <motion.div variants={item} className="flex-shrink-0 mb-2 px-4">
                         <div className="flex items-center gap-3 mb-2">
                             <MapPin className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-primary" />
                             <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight">
@@ -202,7 +202,7 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
                                                 <div className="flex items-center gap-3">
                                                     <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
                                                     <span className="text-sm sm:text-base lg:text-lg font-medium">
-                                                        {parkingSpot.hourlyRate.toFixed(2)}/hour
+                                                        {parkingSpot.hourlyRate.toFixed(2)} per hour
                                                     </span>
                                                 </div>
                                             </div>
@@ -226,7 +226,7 @@ const ParkingDetails: React.FC<ParkingDetailsProps> = ({ parkingSpotId }) => {
                                 </div>
                             </motion.div>
                         </div>
-                        <div className="px-3 sm:col-span-1 md:col-span-1 w-full h-48 lg:h-64 xl:h-96 mb-4">
+                        <div className="sm:col-span-1 md:col-span-1 w-full h-48 lg:h-64 xl:h-96 ">
                             <ParkingSpotImages parkingSpotId={parkingSpot.id} />
                         </div>
                     </div>

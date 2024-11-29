@@ -69,7 +69,7 @@ export const ParkingSpotImages: React.FC<ParkingSpotImagesProps> = ({ parkingSpo
                     <CarouselItem>
                         <Card className="mx-auto w-48 h-48 lg:w-64 xl:w-96 lg:h-64 xl:h-96">
                             <CardContent className="flex aspect-square items-center justify-center p-6">
-                                <span className="text-4xl font-semibold">No Images</span>
+                                <span className="text-2xl font-semibold">No Images</span>
                             </CardContent>
                         </Card>
                     </CarouselItem>

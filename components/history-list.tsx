@@ -7,13 +7,15 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 
 const LoadingSkeleton = () => (
-    <li className="h-24 flex items-center mx-7 my-2">
-        <Skeleton className="flex-shrink-0 rounded-lg p-3 h-12 w-12" />
-        <div className="flex flex-col flex-grow space-y-2 pl-4">
-            <Skeleton className="w-96 h-6" />
-            <Skeleton className="w-48 h-4" />
-        </div>
-    </li>
+    <>
+        <li className="h-24 flex items-center mx-7 my-2">
+            <Skeleton className="flex-shrink-0 rounded-lg p-3 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 " />
+            <div className="flex flex-col flex-grow space-y-2 pl-4">
+                <Skeleton className="w-36 h-4 sm:h-6 lg:h-8 sm:w-64 lg:w-96" />
+                <Skeleton className="w-24 h-4 sm:h-6 lg:h-8 sm:w-48 lg:w-64" />
+            </div>
+        </li>
+    </>
 )
 
 export const HistoryParkingList: React.FC = () => {

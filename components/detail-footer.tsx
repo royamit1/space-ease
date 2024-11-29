@@ -14,14 +14,14 @@ interface DetailFooterProps {
 
 export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot }) => {
     const queryClient = useQueryClient()
-    const isLoggedIn = useAuthStatus() // Use custom hook
+    const isLoggedIn = useAuthStatus()
     const [err, setErr] = useState(false)
 
     const handleRent = async () => {
         try {
             await startRenting(selectedParkingSpot)
             await queryClient.invalidateQueries({ queryKey: ["activeRent"] })
-            setErr(false) // Reset error if successful
+            setErr(false)
         } catch (err: any) {
             if (err.message === "unavailable") {
                 setErr(true)
@@ -35,7 +35,7 @@ export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot 
     return (
         <div className="flex flex-col min-h-full p-4">
             <ParkingDetails parkingSpotId={selectedParkingSpot} />
-            <div className="flex-grow" />
+            <div className="flex-grow p-2" />
             <TooltipProvider>
                 <Tooltip>
                     <TooltipTrigger asChild>
@@ -46,7 +46,7 @@ export const DetailFooter: React.FC<DetailFooterProps> = ({ selectedParkingSpot 
                                 </div>
                             )}
                             <ConfirmationButton
-                                className="w-full bottom-4 left-4 right-4 z-10"
+                                className="w-full text-md z-10"
                                 onClick={handleRent}
                                 disabled={!isLoggedIn || err}
                             >

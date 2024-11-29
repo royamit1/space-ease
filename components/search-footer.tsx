@@ -1,7 +1,7 @@
 "use client"
 
 import { ParkingList } from "@/components/parking-list"
-import React, { useState, useEffect } from "react"
+import React from "react"
 import FilterSelection from "@/components/filter-selection"
 import { Separator } from "@/components/ui/separator"
 import { ParkingSpotFilters } from "@/utils/types"
