@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { parkingFormSchema, ParkingFormSchema } from "@/schemas/parking-form-schema"
 import { Textarea } from "@/components/ui/textarea"
 import { CalendarIcon } from "@radix-ui/react-icons"
-import { DollarSignIcon, MapPinIcon } from "lucide-react"
+import { DollarSignIcon, Info, MapPinIcon } from "lucide-react"
 import { CreateParkingDialog } from "@/components/create-parking-dialog"
 import { Separator } from "@/components/ui/separator"
 import ImageUpload from "./ui/image-upload"
@@ -75,20 +75,17 @@ export const CreateParkingForm: React.FC = () => {
         <Form {...form}>
             <form>
                 <div className="flex flex-col h-full">
-                    <div className="p-3">
-                        <h1 className="text-center text-3xl font-semibold first:mt-0 p-2">Create a Parking Space</h1>
-                    </div>
+                    <h1 className="text-center text-3xl font-semibold first:mt-0 p-2">Create a Parking Spot</h1>
 
-                    <Separator className="my-2" />
+                    <Separator />
 
-                    <div className="flex flex-col overflow-y-auto p-3 mx-4 space-y-3">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex flex-col overflow-y-auto p-4 space-y-3">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <FormField
                                 control={form.control}
                                 name="address"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Address</FormLabel>
                                         <FormControl>
                                             <div className="relative">
                                                 <MapPinIcon className="absolute left-2 top-1/2 transform -translate-y-1/2 text-primary" />
@@ -108,10 +105,9 @@ export const CreateParkingForm: React.FC = () => {
                                 name="price"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Price (per hour)</FormLabel>
                                         <FormControl>
                                             <div className="relative">
-                                                <DollarSignIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary" />
+                                                <DollarSignIcon className="absolute left-2 top-1/2 transform -translate-y-1/2 text-primary" />
                                                 <Input
                                                     {...field}
                                                     value={field.value ?? ""}
@@ -128,7 +124,7 @@ export const CreateParkingForm: React.FC = () => {
                                 )}
                             />
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <FormField
                                 control={form.control}
                                 name="availableFrom"
@@ -170,49 +166,42 @@ export const CreateParkingForm: React.FC = () => {
                                 )}
                             />
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <FormField
                                 control={form.control}
                                 name="description"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Description</FormLabel>
                                         <FormControl>
-                                            <Textarea
-                                                {...field}
-                                                placeholder="Describe your parking spot..."
-                                                className="min-h-[120px] rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
-                                            />
+                                            <div className="relative">
+                                                <Info className="absolute left-2 top-5 -translate-y-1/2 text-primary" />
+                                                <Textarea
+                                                    {...field}
+                                                    placeholder="Describe your parking spot..."
+                                                    className="pl-10"
+                                                />
+                                            </div>
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
-                            <div className="space-y-2">
-                                <FormLabel>Upload Images</FormLabel>
-                                <ImageUpload onUpload={handleImageUpload} />
-                                <div className="flex flex-wrap gap-4 mt-4">
-                                    {imageUrls.map((url, index) => (
-                                        <Image
-                                            key={index}
-                                            src={url}
-                                            alt="Uploaded"
-                                            className="object-cover rounded-lg border shadow-md"
-                                            height={80}
-                                            width={80}
-                                        />
-                                    ))}
-                                </div>
+
+                            <ImageUpload onUpload={handleImageUpload} />
+                            <div className="flex flex-wrap">
+                                {imageUrls.map((url, index) => (
+                                    <Image
+                                        key={index}
+                                        src={url}
+                                        alt="Uploaded"
+                                        width={300}
+                                        height={300}
+                                        className="mx-auto w-36 h-36 lg:w-48 xl:w-64 lg:h-48 xl:h-64 object-cover"
+                                    />
+                                ))}
                             </div>
                         </div>
-                    </div>
-                    <div className="flex-grow" />
-                    <div className="p-6">
-                        <Button
-                            type="button"
-                            onClick={() => setIsDialogOpen(true)}
-                            className="w-full py-3 text-lg font-semibold rounded-lg"
-                        >
+                        <Button type="button" onClick={() => setIsDialogOpen(true)} className="w-full text-md">
                             Create Parking Spot
                         </Button>
                     </div>

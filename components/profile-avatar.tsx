@@ -88,7 +88,7 @@ export function ProfileAvatar() {
                             <DialogTrigger asChild>
                                 <DropdownMenuItem className="flex justify-center">
                                     <Button className="w-full" onClick={handleHistoryParking}>
-                                        My History
+                                        Rental History
                                     </Button>
                                 </DropdownMenuItem>
                             </DialogTrigger>
