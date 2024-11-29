@@ -18,7 +18,11 @@ interface FooterModeHistory {
     mode: "history"
 }
 
-type FooterMode = FooterModeCreate | FooterModeDetail | FooterModeSearch | FooterModeHistory
+interface FooterModeWallet {
+    mode: "wallet"
+}
+
+type FooterMode = FooterModeCreate | FooterModeDetail | FooterModeSearch | FooterModeHistory | FooterModeWallet
 
 interface FooterState {
     mode: FooterMode

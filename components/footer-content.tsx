@@ -6,6 +6,7 @@ import { SearchFooter } from "@/components/search-footer"
 import { RentalFooter } from "@/components/rental-footer"
 import { HistoryFooter } from "@/components/history-footer"
 import { useActiveRent } from "@/hooks/useActiveRent"
+import { WalletFooter } from "./wallet-footer"
 
 export const FooterContent: React.FC = () => {
     const [footerMode, setFooterState] = useFooterState((state) => state.mode)
@@ -31,5 +32,7 @@ export const FooterContent: React.FC = () => {
             return <SearchFooter />
         case "history":
             return <HistoryFooter />
+        case "wallet":
+            return <WalletFooter />
     }
 }
