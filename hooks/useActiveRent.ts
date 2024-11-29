@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
+import { useAuthStatus } from "./useAuthStatus"
 
 export const fetchActiveRent = async () => {
     const response = await fetch("/api/rentals/active", {
@@ -18,9 +19,12 @@ export const fetchActiveRent = async () => {
 }
 
 export const useActiveRent = () => {
+    const isLoggedIn = useAuthStatus()
+
     return useQuery({
         queryKey: ["activeRent"],
         queryFn: () => fetchActiveRent(),
         refetchInterval: 10000,
+        enabled: isLoggedIn,
     })
 }

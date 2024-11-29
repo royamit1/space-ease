@@ -6,8 +6,12 @@ import { AlertCircle } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useFooterState } from "@/hooks/useFooterState"
+import { calculateDistance } from "@/utils/utils"
+import { Location } from "@/utils/types"
 
-interface ParkingListProps {}
+interface ParkingListProps {
+    userLocation: Location
+}
 
 const LoadingSkeleton = () => (
     <>
@@ -21,7 +25,7 @@ const LoadingSkeleton = () => (
     </>
 )
 
-export const ParkingList: React.FC<ParkingListProps> = () => {
+export const ParkingList: React.FC<ParkingListProps> = ({ userLocation }) => {
     const [filters, _] = useFooterState((state) => state.filters)
     const { data: parkingSpots, error } = useParkingSpots(filters)
 
@@ -38,9 +42,22 @@ export const ParkingList: React.FC<ParkingListProps> = () => {
     }
 
     if (parkingSpots) {
+        const { maxDistance } = filters
+        const { latitude, longitude } = userLocation
+        // Add calculated distance to each spot
+        const enrichedSpots =
+            latitude && longitude
+                ? parkingSpots.map((spot) => ({
+                      ...spot,
+                      distance: calculateDistance(latitude, longitude, spot.latitude, spot.longitude),
+                  }))
+                : parkingSpots.map((spot) => ({ ...spot, distance: null })) // Set distance to null if user's location is unavailable
+        const filteredSpots = maxDistance
+            ? enrichedSpots.filter((spot) => spot.distance !== null && spot.distance <= maxDistance)
+            : enrichedSpots
         return (
             <ul className="flex flex-col w-full p-4 overflow-y-auto space-y-3">
-                {parkingSpots.map((spot) => (
+                {filteredSpots.map((spot) => (
                     <ParkingSpotItem key={spot.id} spot={spot} />
                 ))}
             </ul>
