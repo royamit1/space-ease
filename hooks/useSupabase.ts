@@ -25,3 +25,30 @@ export const useUser = () => {
         refetchOnWindowFocus: false, // Prevent refetching on window focus
     })
 }
+
+const fetchAuthUserById = async (userId: string) => {
+    try {
+        const response = await fetch(`/api/auth/user/${userId}`, {
+            method: "GET",
+        })
+
+        if (!response.ok) {
+            const errorData = await response.json()
+            throw new Error(errorData.error || "Failed to fetch user")
+        }
+
+        const { user } = await response.json()
+        return user
+    } catch (error: any) {
+        console.error("Error fetching user:", error.message)
+        throw error
+    }
+}
+
+export const useFetchUserById = (userId: string) => {
+    return useQuery({
+        queryKey: ["fetchUserById", userId],
+        queryFn: () => fetchAuthUserById(userId),
+        enabled: !!userId,
+    })
+}

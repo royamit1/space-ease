@@ -1,17 +1,23 @@
+"use client"
+
 import React from "react"
 import { MapPinIcon } from "lucide-react"
 import { RentalHistoryListItem } from "@/hooks/useRentHistory"
+import { useFetchUserById } from "@/hooks/useSupabase"
 
 interface HistoryParkingSpotItemProps {
     rentHistory: RentalHistoryListItem
 }
 
 export const WalletListItem: React.FC<HistoryParkingSpotItemProps> = ({ rentHistory }) => {
+    // Fetch the user's email based on the userId
+    const { data: user, isLoading, error } = useFetchUserById(rentHistory.userId)
+
     // Convert the string dates to Date objects
     const startDate = new Date(rentHistory.startDate)
     const endDate = new Date(rentHistory.endDate)
 
-    // Optionally, format the dates as strings (e.g., using toLocaleString for readable format)
+    // Optionally, format the dates as strings
     const startDateString = startDate.toLocaleString()
     const endDateString = endDate.toLocaleString()
 
@@ -25,14 +31,20 @@ export const WalletListItem: React.FC<HistoryParkingSpotItemProps> = ({ rentHist
             {/* Information Section */}
             <div className="flex flex-col flex-grow pl-3 sm:pl-4 md:pl-5">
                 <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-card-foreground">
-                    {rentHistory.parkingSpot.address}
+                    {isLoading ? "Loading..." : error ? "Error loading user" : user?.email}
                 </h3>
                 <div className="text-xs sm:text-sm md:text-base lg:text-lg text-muted-foreground mt-1">
                     <span className="block">
                         {startDateString} - {endDateString}
                     </span>
-                    <span className="block">${rentHistory.totalCost.toFixed(2)}</span>
                 </div>
+            </div>
+
+            {/* Price Section */}
+            <div className="flex-shrink-0 pl-3 sm:pl-4 md:pl-5 text-right">
+                <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-card-foreground">
+                    ${rentHistory.totalCost.toFixed(2)}
+                </span>
             </div>
         </li>
     )
