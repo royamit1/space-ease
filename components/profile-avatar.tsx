@@ -56,6 +56,13 @@ export function ProfileAvatar() {
         })
     }
 
+    const handleWallet = () => {
+        setFooterState({
+            mode: { mode: "wallet" },
+            size: "open",
+        })
+    }
+
     return (
         <Dialog>
             <DropdownMenu>
@@ -89,6 +96,13 @@ export function ProfileAvatar() {
                                 <DropdownMenuItem className="flex justify-center">
                                     <Button className="w-full" onClick={handleHistoryParking}>
                                         My History
+                                    </Button>
+                                </DropdownMenuItem>
+                            </DialogTrigger>
+                            <DialogTrigger asChild>
+                                <DropdownMenuItem className="flex justify-center">
+                                    <Button className="w-full" onClick={handleWallet}>
+                                        My Wallet
                                     </Button>
                                 </DropdownMenuItem>
                             </DialogTrigger>
