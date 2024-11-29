@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { AdvancedMarker, useMap } from "@vis.gl/react-google-maps"
 import { useParkingSpots } from "@/hooks/useParkingSpots"
 import { useFooterState } from "@/hooks/useFooterState"
 import { motion } from "framer-motion"
+import { calculateDistance } from "@/utils/utils"
 
 interface MapParkingMarkersProps {}
 
@@ -13,12 +14,37 @@ export const MapParkingMarkers: React.FC<MapParkingMarkersProps> = () => {
     const [selectedParkingId, setFooterState] = useFooterState((state) =>
         state.mode.mode === "detail" ? state.mode.id : null,
     )
+    const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null)
+
+    // Get the user's location and save to local storage
+    useEffect(() => {
+        const storedLocation = localStorage.getItem("userLocation")
+        if (storedLocation) {
+            setUserLocation(JSON.parse(storedLocation))
+        } else {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords
+                    const location = { latitude, longitude }
+                    setUserLocation(location)
+                    localStorage.setItem("userLocation", JSON.stringify(location))
+                },
+                (error) => {
+                    console.error("Error fetching user location:", error)
+                },
+            )
+        }
+    }, [])
+
     const selectedParking = useMemo(() => {
-        if (parkingSpots && selectedParkingId) return parkingSpots.find((spot) => spot.id === selectedParkingId)
+        if (parkingSpots && selectedParkingId) {
+            return parkingSpots.find((spot) => spot.id === selectedParkingId)
+        }
     }, [selectedParkingId, parkingSpots])
 
+    // Move the map to the selected parking spot
     useEffect(() => {
-        if (selectedParking && map)
+        if (selectedParking && map) {
             map.moveCamera({
                 center: {
                     lat: selectedParking.latitude + -0.015,
@@ -26,14 +52,33 @@ export const MapParkingMarkers: React.FC<MapParkingMarkersProps> = () => {
                 },
                 zoom: 14,
             })
+        }
     }, [selectedParking, map])
 
-    // Function to handle pin click and open DetailFooter
+    // Filter parking spots by distance
+    const filteredParkingSpots = useMemo(() => {
+        if (userLocation && filters.maxDistance) {
+            return parkingSpots?.filter((spot) => {
+                const distance = calculateDistance(
+                    userLocation.latitude,
+                    userLocation.longitude,
+                    spot.latitude,
+                    spot.longitude,
+                )
+                if (filters.maxDistance) {
+                    return distance <= filters.maxDistance
+                }
+            })
+        }
+        return parkingSpots
+    }, [parkingSpots, userLocation, filters.maxDistance])
+
+    // Handle pin click to open DetailFooter
     const handlePinClick = (parkingId: number) => {
         setFooterState({ mode: { mode: "detail", id: parkingId }, size: "open" })
     }
 
-    return parkingSpots?.map((parking) => (
+    return filteredParkingSpots?.map((parking) => (
         <AdvancedMarker
             key={parking.id}
             position={{ lat: parking.latitude, lng: parking.longitude }}
