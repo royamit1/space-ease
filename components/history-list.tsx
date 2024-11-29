@@ -7,15 +7,13 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 
 const LoadingSkeleton = () => (
-    <>
-        <li className="h-24 flex items-center mx-7 my-2">
-            <Skeleton className="flex-shrink-0 rounded-lg p-3 h-12 w-12" />
-            <div className="flex flex-col flex-grow space-y-2 pl-4">
-                <Skeleton className="w-96 h-6" />
-                <Skeleton className="w-48 h-4" />
-            </div>
-        </li>
-    </>
+    <li className="h-24 flex items-center mx-7 my-2">
+        <Skeleton className="flex-shrink-0 rounded-lg p-3 h-12 w-12" />
+        <div className="flex flex-col flex-grow space-y-2 pl-4">
+            <Skeleton className="w-96 h-6" />
+            <Skeleton className="w-48 h-4" />
+        </div>
+    </li>
 )
 
 export const HistoryParkingList: React.FC = () => {
@@ -32,15 +30,25 @@ export const HistoryParkingList: React.FC = () => {
             </Alert>
         )
     }
+
     if (rentHistory) {
+        // Calculate the total money balance
+        const totalBalance = rentHistory.reduce((sum, item) => sum + item.totalCost, 0)
+
         return (
-            <ul className="flex-grow flex flex-col w-full p-4 overflow-y-auto space-y-3">
-                {rentHistory.map((rentHistory) => (
-                    <RentHistoryListItem key={rentHistory.id} rentHistory={rentHistory} />
-                ))}
-            </ul>
+            <div className="w-full">
+                <ul className="flex-grow flex flex-col w-full p-4 overflow-y-auto space-y-3">
+                    {rentHistory.map((history) => (
+                        <RentHistoryListItem key={history.id} rentHistory={history} />
+                    ))}
+                </ul>
+                <div className="p-4 border-t border-gray-200 text-lg font-semibold">
+                    Total Balance: ${totalBalance.toFixed(2)}
+                </div>
+            </div>
         )
     }
+
     return (
         <ul className="flex flex-col w-full overflow-y-hidden my-2">
             {Array.from({ length: 4 }).map((_, index) => (
