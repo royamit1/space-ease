@@ -1,5 +1,5 @@
 import React, { useMemo } from "react"
-import { AlertCircle, CheckCircle, Clock, MapPin, XCircle } from "lucide-react"
+import { AlertCircle, CheckCircle, Clock, DollarSign, MapPin, XCircle } from "lucide-react"
 import { ConfirmationButton } from "@/components/common/confirmation-button"
 import { ActiveRent } from "@/prisma/generated/client"
 import { formatDistance } from "date-fns"
@@ -12,9 +12,11 @@ import { AnimatedNumber } from "@/components/ui/animated-number"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import wazeIcon from "@/assets/waze-icon.svg"
+import googleMapsIcon from "@/assets/google-maps-icon.svg"
 import { ParkingSpotImages } from "@/components/parking-spot-images"
 import { useParkingSpotById } from "@/hooks/useParkingSpotById"
+import Image from "next/image"
 
 export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({ activeRent }) => {
     const footerStore = useFooterStore()
@@ -87,21 +89,41 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({ activeRent 
     }
 
     return (
-        <div className="w-full h-full shadow-lg flex flex-col p-4">
-            <motion.div initial="hidden" animate="show" variants={container} className="max-w-2xl mx-auto">
-                <motion.div variants={item} className="flex-shrink-0">
-                    <div className="flex items-center gap-3 pb-2">
-                        <CheckCircle className="w-12 h-12 mx-4 text-primary animate-pulse" />
-                        <div>
-                            <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight">
-                                Parking Spot Rented!
-                            </h3>
-                            <Badge variant="secondary" className="mt-2 text-sm sm:text-sm lg:text-lg">
-                                Active Rental
-                            </Badge>
-                        </div>
+        <div className="w-full h-full flex flex-col px-4">
+            <motion.div initial="hidden" animate="show" variants={container}>
+                <div className="flex w-full mx-auto items-center justify-center gap-3 p-3">
+                    <CheckCircle className="w-12 h-12 text-primary animate-pulse" />
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold">Parking Spot Rented!</h3>
+                    <div className="flex flex-row gap-2">
+                        <Button
+                            className="flex w-12 h-12 sm:w-13 sm:h-13 md:w-14 md:h-14 lg:w-15 lg:h-15 rounded-full"
+                            onClick={handleGoogleMapNav}
+                        >
+                            <span className="sr-only">Google Maps</span>
+                            <Image
+                                src={googleMapsIcon}
+                                alt=""
+                                width={40}
+                                height={40}
+                                className="w-12 h-12 sm:w-13 sm:h-13 md:w-14 md:h-14 lg:w-15 lg:h-15"
+                            />
+                        </Button>
+
+                        <Button
+                            className="flex w-12 h-12 sm:w-13 sm:h-13 md:w-14 md:h-14 lg:w-15 lg:h-15 rounded-full"
+                            onClick={handleWazeNav}
+                        >
+                            <span className="sr-only">Waze</span>
+                            <Image
+                                src={wazeIcon}
+                                alt=""
+                                width={40}
+                                height={40}
+                                className="w-12 h-12 sm:w-13 sm:h-13 md:w-14 md:h-14 lg:w-15 lg:h-15"
+                            />
+                        </Button>
                     </div>
-                </motion.div>
+                </div>
             </motion.div>
 
             <div className="grid sm:grid-cols-2 md:grid-cols-3 ">
@@ -110,14 +132,13 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({ activeRent 
                         <motion.div variants={item}>
                             <Card className="relative overflow-hidden group">
                                 <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent group-hover:opacity-75 transition-opacity" />
-                                <div className="relative p-4 sm:p-5 md:p-6 lg:p-7">
-                                    <div className="flex items-center gap-3 mb-3">
+                                <div className="relative p-3 sm:p-4 lg:p-5">
+                                    <div className="flex items-center gap-3">
                                         <MapPin className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
-                                        <h4 className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl">
-                                            Location
-                                        </h4>
+                                        <span className="text-sm sm:text-base lg:text-lg font-medium">
+                                            {parkingSpot.address}
+                                        </span>
                                     </div>
-                                    <p className="text-sm sm:text-base lg:text-lg font-medium">{parkingSpot.address}</p>
                                 </div>
                             </Card>
                         </motion.div>
@@ -126,16 +147,13 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({ activeRent 
                             <motion.div variants={item}>
                                 <Card className="relative overflow-hidden group">
                                     <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent group-hover:opacity-75 transition-opacity" />
-                                    <div className="relative p-4 sm:p-5 md:p-6 lg:p-7">
-                                        <div className="flex items-center gap-3 mb-3">
+                                    <div className="relative p-3 sm:p-4 lg:p-5">
+                                        <div className="flex items-center gap-3">
                                             <Clock className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
-                                            <h4 className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl">
-                                                Duration
-                                            </h4>
+                                            <span className="text-sm sm:text-base lg:text-lg font-medium">
+                                                {rentalDurationText}
+                                            </span>
                                         </div>
-                                        <p className="text-sm sm:text-base lg:text-lg font-medium">
-                                            {rentalDurationText}
-                                        </p>
                                     </div>
                                 </Card>
                             </motion.div>
@@ -143,22 +161,19 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({ activeRent 
                             <motion.div variants={item}>
                                 <Card className="relative overflow-hidden group">
                                     <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent group-hover:opacity-75 transition-opacity" />
-                                    <div className="relative p-4 sm:p-5 md:p-6 lg:p-7">
-                                        <div className="flex items-center gap-3 mb-3">
-                                            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
-                                            <h4 className="font-semibold text-base sm:text-lg md:text-xl lg:text-2xl">
-                                                Total Cost
-                                            </h4>
+                                    <div className="relative p-3 sm:p-4 lg:p-5">
+                                        <div className="flex items-center gap-3">
+                                            <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />
+                                            <span className="text-sm sm:text-base lg:text-lg font-medium">
+                                                $
+                                                <AnimatedNumber
+                                                    value={totalCost}
+                                                    precision={2}
+                                                    stiffness={75}
+                                                    damping={15}
+                                                />
+                                            </span>
                                         </div>
-                                        <p className="text-sm sm:text-base lg:text-lg font-medium">
-                                            $
-                                            <AnimatedNumber
-                                                value={totalCost}
-                                                precision={2}
-                                                stiffness={75}
-                                                damping={15}
-                                            />
-                                        </p>
                                     </div>
                                 </Card>
                             </motion.div>
@@ -170,37 +185,17 @@ export const RentalFooter: React.FC<{ activeRent: ActiveRent }> = ({ activeRent 
                     <ParkingSpotImages parkingSpotId={parkingSpot.id} />
                 </div>
             </div>
-
-            <div className="flex-grow " />
-
-            <motion.div variants={item} className="grid gap-4">
-                <div className="grid grid-cols-3 gap-2">
-                    <ConfirmationButton
-                        variant="outline"
-                        className="flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
-                        onClick={handleLeaveParking}
-                    >
-                        <XCircle className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 " />
-                        <span className="text-sm sm:text-base lg:text-lg">Leave Parking</span>
-                    </ConfirmationButton>
-
-                    <Button
-                        variant="outline"
-                        className="flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
-                        onClick={handleGoogleMapNav}
-                    >
-                        <span className="text-sm sm:text-base lg:text-lg">Google Maps</span>
-                    </Button>
-
-                    <Button
-                        variant="outline"
-                        className="flex items-center justify-center space-x-3 shadow-md hover:shadow-lg transition-shadow duration-300 p-3 rounded-lg bg-primary text-primary-foreground"
-                        onClick={handleWazeNav}
-                    >
-                        <span className="text-sm sm:text-base lg:text-lg">Waze</span>
-                    </Button>
-                </div>
-            </motion.div>
+            <div className="flex-grow "></div>
+            <div className="flex p-3">
+                <ConfirmationButton
+                    variant="outline"
+                    className="w-full items-center justify-center bg-primary text-primary-foreground"
+                    onClick={handleLeaveParking}
+                >
+                    <XCircle className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 " />
+                    <span className="text-sm sm:text-base lg:text-lg">Leave Parking</span>
+                </ConfirmationButton>
+            </div>
         </div>
     )
 }

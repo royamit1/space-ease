@@ -35,12 +35,8 @@ export const CreateParkingDialog: React.FC<CreateParkingDialogProps> = ({ isOpen
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter className="flex flex-col gap-3 pt-6 justify-center">
-                        <Button
-                            type="button"
-                            onClick={onConfirm}
-                            className="w-full bg-primary hover:bg-primary-foreground text-primary-foreground"
-                        >
-                            Create Parking Spot
+                        <Button type="button" onClick={onConfirm} className="w-full bg-primary text-primary-foreground">
+                            Confirm
                         </Button>
                     </DialogFooter>
                 </div>
