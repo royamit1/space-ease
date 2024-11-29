@@ -29,13 +29,12 @@ export async function GET(req: Request) {
         if (priceRange) {
             switch (priceRange) {
                 case "$":
-                    whereClause.hourlyRate = { lt: 20 }
+                    whereClause.hourlyRate = { lt: 10 }
                     break
                 case "$$":
-                    whereClause.hourlyRate = { gte: 20, lt: 50 }
+                    whereClause.hourlyRate = { lt: 20 }
                     break
                 case "$$$":
-                    whereClause.hourlyRate = { gte: 50 }
                     break
                 default:
                     return NextResponse.json({ message: "Invalid price range" }, { status: 400 })
