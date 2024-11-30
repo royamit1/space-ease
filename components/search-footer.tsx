@@ -62,7 +62,6 @@ export const SearchFooter: React.FC = () => {
     }
 
     const handleDistanceFilterChange = (distance: number | null) => {
-        console.log(distance)
         setFilters({
             maxDistance: distance || undefined,
         })

@@ -4,10 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useEffect } from "react"
 import { ParkingSpot } from "@/prisma/generated/client"
 
-export async function fetchAvailableParkingSpots(
-    filters: ParkingSpotFilters,
-    signal: AbortSignal,
-): Promise<ParkingSpot[]> {
+export async function fetchAvailableParkingSpots(filters: ParkingSpotFilters): Promise<ParkingSpot[]> {
     try {
         const queryParams = new URLSearchParams()
         queryParams.set("north", filters.bounds.north.toString())
@@ -23,7 +20,6 @@ export async function fetchAvailableParkingSpots(
         }
         const response = await fetch(`/api/parking?${queryParams.toString()}`, {
             method: "GET",
-            signal,
         })
 
         if (!response.ok) {
@@ -44,7 +40,7 @@ export const useParkingSpots = (filters: ParkingSpotFilters) => {
     }, [filters])
     const parkingSpotsQuery = useQuery({
         queryKey: ["parkingSpots"],
-        queryFn: async ({ signal }) => await fetchAvailableParkingSpots(filters, signal),
+        queryFn: async () => await fetchAvailableParkingSpots(filters),
         refetchOnWindowFocus: false,
         refetchInterval: 10000, // Refetch every 10 seconds
     })
