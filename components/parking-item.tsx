@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 import { ParkingSpot } from "@/prisma/generated/client"
 import { useFooterState } from "@/hooks/useFooterState"
@@ -18,7 +20,7 @@ export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({ spot }) => {
 
     return (
         <li
-            className="group relative flex items-center p-3 bg-card rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer hover:ring-2 hover:ring-primary/50 "
+            className="group relative flex items-center p-3 bg-card rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer hover:ring-2 hover:ring-primary/50"
             onClick={handleItemClick}
         >
             <div className="flex-shrink-0 bg-primary/80 text-secondary-foreground rounded-lg p-2 sm:p-3 md:p-4">
@@ -33,28 +35,27 @@ export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({ spot }) => {
                     <span className="block">
                         {isSameDay(new Date(spot.startTime), new Date(spot.endTime)) ? (
                             <>
-                                {/* Same day: display date once and show time range */}
                                 {format(new Date(spot.startTime), "dd MMM yyyy, HH:mm")} -{" "}
                                 {format(new Date(spot.endTime), "HH:mm")}
                             </>
                         ) : (
                             <>
-                                {/* Different days: display full date and time for both */}
                                 {format(new Date(spot.startTime), "dd MMM yyyy, HH:mm")} -{" "}
                                 {format(new Date(spot.endTime), "dd MMM yyyy, HH:mm")}
                             </>
                         )}
                     </span>
-                    <div>
-                        <span className="block font-medium">${spot.hourlyRate.toFixed(2)} per hour</span>
-                        {spot.distance && (
-                            <span className="text-xs sm:text-sm md:text-base lg:text-lg text-muted-foreground mt-1">
-                                {spot.distance.toFixed(2)} km away
-                            </span>
-                        )}
-                    </div>
+                    <span className="block font-medium">${spot.hourlyRate.toFixed(2)} per hour</span>
                 </div>
             </div>
+
+            {spot.distance && (
+                <div className="flex-shrink-0 pl-4 sm:pl-6 md:pl-8 text-right">
+                    <span className="text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-muted-foreground">
+                        {spot.distance.toFixed(2)} km
+                    </span>
+                </div>
+            )}
 
             <div className="flex-shrink-0">
                 <Button

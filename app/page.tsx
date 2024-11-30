@@ -28,7 +28,6 @@ export default function Index() {
             <FooterStoreProvider>
                 <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string}>
                     {/* Load the Google Maps JavaScript API with the Places library */}
-                    <ReactQueryDevtools />
                     <Script
                         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY}&libraries=places`}
                         strategy="beforeInteractive"

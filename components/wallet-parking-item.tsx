@@ -2,6 +2,7 @@
 
 import React from "react"
 import { MapPinIcon } from "lucide-react"
+import { format, isSameDay } from "date-fns"
 import { RentalHistoryListItem } from "@/hooks/useRentHistory"
 import { useFetchUserById } from "@/hooks/useSupabase"
 
@@ -17,9 +18,15 @@ export const WalletListItem: React.FC<HistoryParkingSpotItemProps> = ({ rentHist
     const startDate = new Date(rentHistory.startDate)
     const endDate = new Date(rentHistory.endDate)
 
-    // Optionally, format the dates as strings
-    const startDateString = startDate.toLocaleString()
-    const endDateString = endDate.toLocaleString()
+    // Format the dates using date-fns with 24-hour time
+    const dateFormat = "MMM dd, HH:mm" // Example: Dec 01, 15:00
+    const startDateString = format(startDate, dateFormat)
+    const endDateString = format(endDate, dateFormat)
+
+    // Display only time if start and end are on the same day
+    const formattedDates = isSameDay(startDate, endDate)
+        ? `${startDateString} - ${format(endDate, "HH:mm")}`
+        : `${startDateString} - ${endDateString}`
 
     return (
         <li className="relative flex items-center p-2 sm:p-3 md:p-4 bg-card rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 h-20 sm:h-24 md:h-28 lg:h-32">
@@ -34,9 +41,7 @@ export const WalletListItem: React.FC<HistoryParkingSpotItemProps> = ({ rentHist
                     {isLoading ? "Loading..." : error ? "Error loading user" : user?.email}
                 </h3>
                 <div className="text-xs sm:text-sm md:text-base lg:text-lg text-muted-foreground mt-1">
-                    <span className="block">
-                        {startDateString} - {endDateString}
-                    </span>
+                    <span className="block">{formattedDates}</span>
                 </div>
             </div>
 
