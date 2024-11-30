@@ -50,8 +50,7 @@ export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({ spot }) => {
             </div>
 
             {spot.distance && (
-                <div className="flex-shrink-0 pl-4 sm:pl-6 md:pl-8 text-right">
-                    {/* Made distance text smaller for mobile */}
+                <div className="flex-shrink-0 px-3 text-right">
                     <span className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-muted-foreground truncate">
                         {spot.distance.toFixed(2)} km
                     </span>

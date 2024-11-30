@@ -47,7 +47,7 @@ const FilterSelection: React.FC<FilterSelectionProps> = ({ onPriceChange, onMyPa
     }
 
     return (
-        <div className="w-full flex flex-row space-x-4 justify-center p-3 overflow-x-auto hide-scrollbar">
+        <div className="w-full flex flex-row space-x-2 justify-center pt-3 overflow-x-auto hide-scrollbar">
             {/* Price Range Selection */}
             <ToggleGroup type="single" onValueChange={handlePriceToggle}>
                 <ToggleGroupItem value="$" aria-label="Cheap">
