@@ -27,12 +27,12 @@ export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({ spot }) => {
                 <MapPinIcon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-secondary" />
             </div>
 
-            <div className="flex flex-col flex-grow pl-3 sm:pl-4 md:pl-5">
+            <div className="flex flex-col flex-grow min-w-0 pl-3 sm:pl-4 md:pl-5">
                 <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-medium text-card-foreground group-hover:text-primary/90 truncate">
                     {spot.address}
                 </h3>
                 <div className="text-xs sm:text-sm md:text-base lg:text-lg text-muted-foreground mt-1">
-                    <span className="block">
+                    <span className="block truncate">
                         {isSameDay(new Date(spot.startTime), new Date(spot.endTime)) ? (
                             <>
                                 {format(new Date(spot.startTime), "dd MMM yyyy, HH:mm")} -{" "}
@@ -45,13 +45,14 @@ export const ParkingSpotItem: React.FC<ParkingSpotItemProps> = ({ spot }) => {
                             </>
                         )}
                     </span>
-                    <span className="block font-medium">${spot.hourlyRate.toFixed(2)} per hour</span>
+                    <span className="block font-medium truncate">${spot.hourlyRate.toFixed(2)} per hour</span>
                 </div>
             </div>
 
             {spot.distance && (
                 <div className="flex-shrink-0 pl-4 sm:pl-6 md:pl-8 text-right">
-                    <span className="text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-muted-foreground">
+                    {/* Made distance text smaller for mobile */}
+                    <span className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-muted-foreground truncate">
                         {spot.distance.toFixed(2)} km
                     </span>
                 </div>

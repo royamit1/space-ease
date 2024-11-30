@@ -137,7 +137,7 @@ export const CreateParkingForm: React.FC = () => {
                                                 hideTimeZone
                                                 showMonthAndYearPickers
                                                 defaultValue={now(getLocalTimeZone())}
-                                                minValue={today(getLocalTimeZone())}
+                                                minValue={today(getLocalTimeZone()).add({ days: 30 })}
                                                 onChange={(value) => field.onChange(value.toDate().toISOString())}
                                             />
                                         </FormControl>
