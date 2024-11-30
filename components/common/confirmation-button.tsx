@@ -7,6 +7,7 @@ interface ConfirmationButtonProps extends ButtonProps {
     dialogHeader?: ReactNode
     dialogTitle?: ReactNode
     dialogIcon?: ReactNode
+    onClick?: () => void
 }
 
 export const ConfirmationButton: React.FC<ConfirmationButtonProps> = ({
@@ -17,6 +18,14 @@ export const ConfirmationButton: React.FC<ConfirmationButtonProps> = ({
     ...props
 }) => {
     const [open, setOpen] = useState(false)
+    const [loading, setLoading] = useState(false) // State to handle loading
+
+    const handleConfirm = async () => {
+        setLoading(true)
+        if (onClick) {
+            onClick() // Execute the onClick handler if provided
+        }
+    }
 
     return (
         <>
@@ -39,8 +48,8 @@ export const ConfirmationButton: React.FC<ConfirmationButtonProps> = ({
                         <Button className="w-full" variant="outline" onClick={() => setOpen(false)}>
                             Cancel
                         </Button>
-                        <Button className="w-full" onClick={onClick}>
-                            Confirm
+                        <Button className="w-full" onClick={handleConfirm} disabled={loading}>
+                            {loading ? "Loading..." : "Confirm"}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

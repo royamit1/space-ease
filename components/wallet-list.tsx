@@ -38,7 +38,7 @@ export const WalletParkingList: React.FC = () => {
 
         return (
             <div className="w-full">
-                <ul className="flex-grow flex flex-col w-full p-4 overflow-y-auto space-y-3">
+                <ul className="flex-grow flex flex-col w-full p-4 overflow-y-auto space-y-2">
                     {walletHistory.map((walletHistory) => (
                         <WalletListItem key={walletHistory.id} rentHistory={walletHistory} />
                     ))}
