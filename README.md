@@ -19,6 +19,8 @@ Finding parking in urban areas can be a frustrating and time-consuming problem. 
 
 With Space-Ease, users can easily browse, book, and manage parking spots in real time through an interactive map, revolutionizing the way parking is handled in crowded cities.  
 
+**Read more about the development process:** [Space-Ease – Rent Your Space, Park with Ease](https://dev.to/roy_amit/space-ease-rent-your-space-park-with-ease-21bg).  
+
 ---
 
 ## Features
